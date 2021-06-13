@@ -11,19 +11,24 @@ function EVENT:Begin()
             end
         end
     else
+        -- If not TTT2, for all alive players,
         for k, ply in pairs(self:GetAlivePlayers(true)) do
-            if (ply:GetRole() == ROLE_INNOCENT) or (ply:GetRole() == ROLE_DETECTIVE) or (ply:GetRole() == ROLE_MERCENARY) or (ply:GetRole() == ROLE_GLITCH) or (ply:GetRole() == ROLE_KILLER) or (ply:GetRole() == ROLE_JESTER) or (ply:GetRole() == ROLE_SWAPPER) or (ply:GetRole() == ROLE_ZOMBIE) then
+            -- That aren't traitors
+            if not Randomat:IsTraitorTeam() then
+                -- Turn them into phantoms
                 Randomat:SetRole(ply, ROLE_PHANTOM)
             end
         end
     end
 
+    -- Let the end-of-round report know roles have changed
     SendFullStateUpdate()
 end
 
 function EVENT:Condition()
     local isPhantom = false
 
+    -- If the phantom role's enumerator exists and isn't -1, the role exists and this randomat can trigger
     if isnumber(ROLE_PHANTOM) and ROLE_PHANTOM ~= -1 then
         isPhantom = true
     end

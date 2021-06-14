@@ -6,6 +6,27 @@ EVENT.Title = "Infected"
 EVENT.Description = "Innocents and respawning Zombies, survive for " .. GetConVar("randomat_infected_time"):GetInt() .. " seconds!"
 EVENT.id = "infected"
 
+-- Used in removecorpse.
+local function findcorpse(v)
+    for _, ent in pairs(ents.FindByClass("prop_ragdoll")) do
+        if ent.uqid == v:UniqueID() and IsValid(ent) then return ent or false end
+    end
+end
+
+local function removecorpse(corpse)
+    CORPSE.SetFound(corpse, false)
+
+    if string.find(corpse:GetModel(), "zm_", 6, true) then
+        player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+        corpse:Remove()
+        SendFullStateUpdate()
+    elseif corpse.player_ragdoll then
+        player.GetByUniqueID(corpse.uqid):SetNWBool("body_found", false)
+        corpse:Remove()
+        SendFullStateUpdate()
+    end
+end
+
 function EVENT:Begin()
     infectedRandomat = true
     Randomat:SilentTriggerEvent("grave", self.owner)

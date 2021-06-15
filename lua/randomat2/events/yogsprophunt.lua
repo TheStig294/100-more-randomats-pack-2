@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = ""
 EVENT.id = "yogsprophunt"
 EVENT.AltTitle = "Prop Hunt (Yogscast intro)"
+EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 util.AddNetworkString("YogsPropHuntRandomat")
 util.AddNetworkString("YogsPropHuntRandomatEnd")
 

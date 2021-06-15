@@ -27,7 +27,8 @@ function EVENT:Condition()
         end
     end
 
-    if isnumber(ROLE_MERCENARY) and ROLE_MERCENARY ~= -1 then
+    -- Check if the mercenary exists and is enabled
+    if ConVarExists("ttt_mercenary_enabled") and GetConVar("ttt_mercenary_enabled"):GetBool() then
         isMercenary = true
     end
 

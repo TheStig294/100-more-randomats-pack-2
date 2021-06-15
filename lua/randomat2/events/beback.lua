@@ -18,8 +18,8 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    -- If the phantom role's enumerator exists and isn't -1, the role exists and this randomat can trigger
-    return isnumber(ROLE_PHANTOM) and ROLE_PHANTOM ~= -1
+    -- Check if the phantom exists and is enabled
+    return ConVarExists("ttt_phantom_enabled") and GetConVar("ttt_phantom_enabled"):GetBool()
 end
 
 Randomat:register(EVENT)

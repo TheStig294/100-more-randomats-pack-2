@@ -62,8 +62,8 @@ function EVENT:Condition()
         end
     end
 
-    -- Check the killer role exists
-    if isnumber(ROLE_KILLER) and ROLE_KILLER ~= -1 then
+    -- Check if the killer exists and is enabled
+    if ConVarExists("ttt_killer_enabled") and GetConVar("ttt_killer_enabled"):GetBool() then
         isKiller = true
     end
 

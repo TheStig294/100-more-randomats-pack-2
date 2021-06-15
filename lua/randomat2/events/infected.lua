@@ -185,7 +185,8 @@ function EVENT:GetConVars()
 end
 
 function EVENT:Condition()
-    return isnumber(ROLE_ZOMBIE) and ROLE_ZOMBIE ~= -1
+    -- Check if the zombie exists and is enabled
+    return ConVarExists("ttt_zombie_enabled") and GetConVar("ttt_zombie_enabled"):GetBool()
 end
 
 Randomat:register(EVENT)

@@ -1,10 +1,13 @@
 local EVENT = {}
 
-CreateConVar("randomat_infected_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time players must survive in seconds", 5, 180)
+CreateConVar("randomat_infected_time", 90, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time players must survive in seconds", 30, 180)
 
 EVENT.Title = "Infected"
 EVENT.Description = "Innocents and respawning Zombies, survive for " .. GetConVar("randomat_infected_time"):GetInt() .. " seconds!"
 EVENT.id = "infected"
+EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+local infectedRandomat = false
+local initialPrimeOnlyWeapons = true
 
 -- Used in removecorpse.
 local function findcorpse(v)
@@ -13,6 +16,7 @@ local function findcorpse(v)
     end
 end
 
+-- Removes a zombie's corpse when they respawn
 local function removecorpse(corpse)
     CORPSE.SetFound(corpse, false)
 
@@ -28,9 +32,12 @@ local function removecorpse(corpse)
 end
 
 function EVENT:Begin()
+    -- Let the end function know the begin function has run
     infectedRandomat = true
+    -- This randomat won't run if there isn't another mod that adds the 'Rise from your grave' event
     Randomat:SilentTriggerEvent("grave", self.owner)
 
+    -- Let the zombie prime use weapons other than the claws so the throwing knife can be used
     if GetConVar("ttt_zombie_prime_only_weapons"):GetBool() then
         initialPrimeOnlyWeapons = true
     else
@@ -38,24 +45,30 @@ function EVENT:Begin()
         GetConVar("ttt_zombie_prime_only_weapons"):SetBool(true)
     end
 
+    -- Set the round length to what it is in the convar
     SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_infected_time"):GetInt())
-    firstInfectedPlayer = table.Random(self.GetAlivePlayers())
+    local firstInfectedPlayer = table.Random(self.GetAlivePlayers())
 
-    --firstInfectedPlayer = Entity(1)
+    -- For all alive players,
     for i, ply in pairs(self.GetAlivePlayers()) do
+        -- Set the chosen player to be the first zombie,
         if ply == firstInfectedPlayer then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_ZOMBIE)
+            -- And set them to be the zombie prime so they can be given the throwing knife
             ply:SetNWBool("zombie_prime", true)
             ply:Give("weapon_ttt_knife_randomat")
         else
+            -- Else, set everyone else to be innocent
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
     end
 
+    -- Let the end-of-round report know roles have changed
     SendFullStateUpdate()
 
+    -- Respawns any zombies that die after a 5 second delay
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
         if ply:GetRole() == ROLE_ZOMBIE then
             ply:ConCommand("ttt_spectator_mode 0")
@@ -80,9 +93,11 @@ function EVENT:Begin()
         end
     end)
 
-    infectedCount = 0
+    local infectedCount = 0
 
+    -- Whenever a player spawns,
     self:AddHook("PlayerSpawn", function(ply)
+        -- Remove the knife if it was thorwn on the ground or picked up by a player,
         for _, ent in pairs(ents.GetAll()) do
             if ent:GetClass() == "weapon_ttt_knife_randomat" or ent:GetClass() == "ttt_knife_proj_randomat" then
                 ent:Remove()
@@ -91,12 +106,14 @@ function EVENT:Begin()
 
         infectedCount = 0
 
+        -- Count the number of zombies,
         for i, p in pairs(self.GetAlivePlayers()) do
             if p:GetRole() == ROLE_ZOMBIE then
                 infectedCount = infectedCount + 1
             end
         end
 
+        -- And if only the zombie prime is alive, give them the throwing knife again
         if ply:GetNWBool("zombie_prime") and infectedCount < 2 then
             timer.Simple(1, function()
                 ply:Give("weapon_ttt_knife_randomat")
@@ -104,6 +121,7 @@ function EVENT:Begin()
         end
     end)
 
+    -- Remove the throwing knife from everyone once there are 2 zombies
     self:AddHook("Think", function()
         if infectedCount == 2 then
             for _, ent in pairs(ents.GetAll()) do
@@ -118,23 +136,28 @@ function EVENT:Begin()
         local nowin1 = false
         local nowin2 = false
 
+        -- If there is at least one innocent alive,
         for i, ply in pairs(player.GetAll()) do
             if ply:GetRole() == ROLE_INNOCENT then
                 nowin1 = true
             end
         end
 
+        -- Or the round time hasn't run out yet,
         if GetGlobalFloat("ttt_round_end") > CurTime() then
             nowin2 = true
         end
 
+        -- Prevent the round from ending
         if nowin1 and nowin2 then return WIN_NONE end
     end)
 end
 
 function EVENT:End()
+    -- If the begin function has run, set the zombie prime weapons setting to what it was,
     if infectedRandomat then
         GetConVar("ttt_zombie_prime_only_weapons"):SetBool(initialPrimeOnlyWeapons)
+        -- And prevent the end function from being run until this randomat triggers again
         infectedRandomat = false
     end
 end
@@ -162,13 +185,7 @@ function EVENT:GetConVars()
 end
 
 function EVENT:Condition()
-    local isZombie = false
-
-    if isnumber(ROLE_ZOMBIE) and ROLE_ZOMBIE ~= -1 then
-        isZombie = true
-    end
-
-    return isZombie
+    return isnumber(ROLE_ZOMBIE) and ROLE_ZOMBIE ~= -1
 end
 
 Randomat:register(EVENT)

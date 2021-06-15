@@ -5,46 +5,44 @@ EVENT.id = "killerdisguise"
 
 function EVENT:Begin()
     local innocent = {}
-    local killer, jester
+    local killer = nil
     local killerCount = 0
 
-    for i, ply in pairs(self:GetAlivePlayers()) do
+    -- For all alive players,
+    for i, ply in pairs(self:GetAlivePlayers(true)) do
+        -- Add all innocent players to a table, (but not the detective)
+        if Randomat:IsInnocentTeam(ply, true) then
+            table.insert(innocent, ply)
+        elseif ply:GetRole() == ROLE_KILLER then
+            -- And grab the killer if they already exist
+            killer = ply
+        end
+
         timer.Simple(0.1, function()
+            -- Give everyone a knife, unless they're a killer that naturally spawned in the round
             if ply:GetRole() ~= ROLE_KILLER then
                 ply:Give("weapon_ttt_knife")
             end
         end)
     end
 
-    for k, ply in pairs(self:GetAlivePlayers(true)) do
-        if (ply:GetRole() == ROLE_INNOCENT) then
-            table.insert(innocent, ply)
-        elseif (ply:GetRole() == ROLE_KILLER) then
-            killer = ply
-        elseif ((ply:GetRole() == ROLE_JESTER) or (ply:GetRole() == ROLE_SWAPPER)) then
-            jester = ply
-        end
-    end
-
-    if jester ~= nil then
-        killer = jester
+    -- If there isn't already a killer, and the table of innocents isn't empty,
+    if killer == nil and next(innocent) ~= nil then
+        -- Pick a random innocent and set them to the killer
+        killer = table.Random(innocent)
         Randomat:SetRole(killer, ROLE_KILLER)
-        killer:AddCredits(2)
+        killer:SetCredits(2)
+        -- Let the end-of-round scoreboard know roles have changed
         SendFullStateUpdate()
-    elseif killer == nil then
-        if next(innocent) ~= nil then
-            killer = table.Random(innocent)
-            Randomat:SetRole(killer, ROLE_KILLER)
-            killer:AddCredits(2)
-            SendFullStateUpdate()
-        end
     end
 
+    -- As a fail-safe, if for whatever reason there are multiple killers alive,
     timer.Simple(0.1, function()
-        for k, ply in pairs(self:GetAlivePlayers(true)) do
-            if (ply:GetRole() == ROLE_KILLER) then
+        for k, ply in pairs(self:GetAlivePlayers()) do
+            if ply:GetRole() == ROLE_KILLER then
                 killerCount = killerCount + 1
 
+                -- Set all but one to an innocent
                 if killerCount > 1 then
                     Randomat:SetRole(ply, ROLE_INNOCENT)
                 end
@@ -54,24 +52,22 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    local isTarget = false
+    local isInnocent = false
     local isKiller = false
 
+    -- Check there is a least one non-detective innocent alive
     for k, ply in pairs(self:GetAlivePlayers()) do
-        if (ply:GetRole() == ROLE_INNOCENT) or (ply:GetRole() == ROLE_KILLER) or (ply:GetRole() == ROLE_JESTER) or (ply:GetRole() == ROLE_SWAPPER) or isTarget then
-            isTarget = true
+        if Randomat:IsInnocentTeam(ply, true) then
+            isInnocent = true
         end
     end
 
+    -- Check the killer role exists
     if isnumber(ROLE_KILLER) and ROLE_KILLER ~= -1 then
         isKiller = true
     end
 
-    if isTarget and isKiller then
-        return true
-    else
-        return false
-    end
+    return isInnocent and isKiller
 end
 
 Randomat:register(EVENT)

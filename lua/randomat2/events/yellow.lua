@@ -1,19 +1,23 @@
 local EVENT = {}
 
-CreateConVar("randomat_yellow_credits", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many credits the Mercenaries get (def. 1)", 0, 5)
+CreateConVar("randomat_yellow_credits", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many credits the Mercenaries get", 0, 5)
 
 EVENT.Title = "Yellow Is The New Green!"
 EVENT.Description = "Innocents are now mercenaries"
 EVENT.id = "yellow"
 
 function EVENT:Begin()
+    -- For all alive players,
     for k, ply in pairs(self:GetAlivePlayers(true)) do
-        if (ply:GetRole() == ROLE_INNOCENT) then
+        -- If they are a pure innocent,
+        if ply:GetRole() == ROLE_INNOCENT then
+            -- Set them to be a mercenary and give them the set amount of credits
             Randomat:SetRole(ply, ROLE_MERCENARY)
-            ply:AddCredits(GetConVar("randomat_yellow_credits"):GetInt())
+            ply:SetCredits(GetConVar("randomat_yellow_credits"):GetInt())
         end
     end
 
+    -- Let the end-of-round report know roles have changed
     SendFullStateUpdate()
 end
 
@@ -21,8 +25,9 @@ function EVENT:Condition()
     local isInnocent = false
     local isMercenary = false
 
+    -- Check if there is at least one innocent alive
     for k, ply in pairs(self:GetAlivePlayers()) do
-        if (ply:GetRole() == ROLE_INNOCENT) or isInnocent then
+        if ply:GetRole() == ROLE_INNOCENT then
             isInnocent = true
         end
     end
@@ -32,11 +37,7 @@ function EVENT:Condition()
         isMercenary = true
     end
 
-    if isInnocent and isMercenary then
-        return true
-    else
-        return false
-    end
+    return isInnocent and isMercenary
 end
 
 function EVENT:GetConVars()

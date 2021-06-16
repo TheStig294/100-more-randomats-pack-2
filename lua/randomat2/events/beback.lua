@@ -7,7 +7,7 @@ function EVENT:Begin()
     -- For all alive players,
     for k, ply in pairs(self:GetAlivePlayers(true)) do
         -- That aren't traitors
-        if not Randomat:IsTraitorTeam() then
+        if not Randomat:IsTraitorTeam(ply) then
             -- Turn them into phantoms
             Randomat:SetRole(ply, ROLE_PHANTOM)
         end

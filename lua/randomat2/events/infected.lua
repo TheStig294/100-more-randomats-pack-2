@@ -34,8 +34,11 @@ end
 function EVENT:Begin()
     -- Let the end function know the begin function has run
     infectedRandomat = true
-    -- This randomat won't run if there isn't another mod that adds the 'Rise from your grave' event
-    Randomat:SilentTriggerEvent("grave", self.owner)
+
+    -- Trigger the 'Rise from your grave' randomat if another mod adds it
+    if ConVarExists("ttt_randomat_grave") then
+        Randomat:SilentTriggerEvent("grave", self.owner)
+    end
 
     -- Let the zombie prime use weapons other than the claws so the throwing knife can be used
     if GetConVar("ttt_zombie_prime_only_weapons"):GetBool() then

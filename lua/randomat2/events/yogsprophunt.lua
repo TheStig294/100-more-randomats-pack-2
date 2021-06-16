@@ -7,21 +7,26 @@ util.AddNetworkString("YogsPropHuntRandomat")
 util.AddNetworkString("YogsPropHuntRandomatEnd")
 
 function EVENT:Begin()
+    -- Trigger the prop hunt randomat
     Randomat:SilentTriggerEvent("prophunt", self.owner)
 
+    -- Tell all clients to start the prop hunt popup
     timer.Simple(1, function()
         net.Start("YogsPropHuntRandomat")
         net.Broadcast()
 
+        -- Play the prop hunt jingle for all players
         for i, ply in pairs(player.GetAll()) do
             ply:EmitSound(Sound("yogsprophunt/prophunt2.wav"))
         end
     end)
 
+    -- Remove the popup
     timer.Simple(4.8, function()
         net.Start("YogsPropHuntRandomatEnd")
         net.Broadcast()
 
+        -- Print the prop disguiser controls to chat for everyone
         for i, ply in pairs(player.GetAll()) do
             ply:ChatPrint("Press 'R' to choose a prop. \nLeft click to disguise.")
         end
@@ -29,10 +34,8 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    if not ConVarExists("ttt_randomat_prophunt") then return false end
-    if Randomat:CanEventRun("prophunt") then return true end
-
-    return false
+    -- Only triggers if the 'Prop hunt' randomat can
+    return Randomat:CanEventRun("prophunt")
 end
 
 Randomat:register(EVENT)

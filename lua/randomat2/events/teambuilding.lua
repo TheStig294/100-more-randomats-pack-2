@@ -31,7 +31,7 @@ function EVENT:Begin()
             -- And remove any bought weapons or role weapons
             for _, wep in pairs(ply:GetWeapons()) do
                 -- Checking this way instead of wep.Kind ~= WEAPON_ROLE or wep.Kind ~= WEAPON_EQUIP for compatibility with my slot removal mod
-                if wep.Kind ~= WEAPON_PISTOL or wep.Kind ~= WEAPON_HEAVY or wep.Kind ~= WEAPON_NADE or wep.Kind ~= WEAPON_MELEE or wep.Kind ~= WEAPON_CARRY or wep.Kind ~= WEAPON_UNARMED then
+                if wep.Kind ~= WEAPON_PISTOL and wep.Kind ~= WEAPON_HEAVY and wep.Kind ~= WEAPON_NADE and wep.Kind ~= WEAPON_MELEE and wep.Kind ~= WEAPON_CARRY and wep.Kind ~= WEAPON_UNARMED then
                     ply:StripWeapon(wep:GetClass())
                 end
             end

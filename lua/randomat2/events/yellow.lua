@@ -36,6 +36,7 @@ function EVENT:Condition()
     if ConVarExists("ttt_mercenary_enabled") and GetConVar("ttt_mercenary_enabled"):GetBool() then
         isMercenary = true
     end
+    -- Only trigger this randomat if there is an innocent and the mercenary exists
 
     return isInnocent and isMercenary
 end

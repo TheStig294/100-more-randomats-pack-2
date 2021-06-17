@@ -10,8 +10,8 @@ function EVENT:Begin()
 
     -- For all alive players,
     for i, ply in pairs(self:GetAlivePlayers()) do
-        -- Add all innocent players to a table
-        if Randomat:IsInnocentTeam(ply) then
+        -- Add all innocent players to a table, except the detective
+        if Randomat:IsInnocentTeam(ply, true) then
             table.insert(innocent, ply)
         elseif ply:GetRole() == ROLE_KILLER then
             -- If there is already a killer, this will prevent another player from being turned into one
@@ -39,9 +39,9 @@ end
 function EVENT:Condition()
     local has_innocent = false
 
-    -- Check there is an innocent alive
+    -- Check there is a non-detective innocent alive
     for i, ply in pairs(self:GetAlivePlayers()) do
-        if Randomat:IsInnocentTeam(ply) then
+        if Randomat:IsInnocentTeam(ply, true) then
             has_innocent = true
         end
     end

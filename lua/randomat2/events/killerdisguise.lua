@@ -14,12 +14,13 @@ function EVENT:Begin()
         if Randomat:IsInnocentTeam(ply, true) then
             table.insert(innocent, ply)
         elseif ply:GetRole() == ROLE_KILLER then
+            -- If there is already a killer, this will prevent another player from being turned into one
             killer = ply
         end
 
         timer.Simple(0.1, function()
             -- Give everyone a knife, unless they are a killer that naturally spawned in the round
-            if not ply:GetRole() == ROLE_KILLER then
+            if ply:GetRole() ~= ROLE_KILLER then
                 ply:Give("weapon_ttt_knife")
             end
         end)
@@ -36,8 +37,17 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    -- Check if the killer exists and is enabled
-    return ConVarExists("ttt_killer_enabled") and GetConVar("ttt_killer_enabled"):GetBool()
+    local has_innocent = false
+
+    -- Check there is a non-detective innocent alive
+    for i, ply in pairs(self:GetAlivePlayers()) do
+        if Randomat:IsInnocentTeam(ply, true) then
+            has_innocent = true
+        end
+    end
+    -- Check if the killer exists, is enabled, and that there is an alive innocent that isn't the detective
+
+    return ConVarExists("ttt_killer_enabled") and GetConVar("ttt_killer_enabled"):GetBool() and has_innocent
 end
 
 Randomat:register(EVENT)

@@ -25,13 +25,14 @@ function EVENT:Begin()
                 ply:SetMaxHealth(200)
             end
         else
-            -- Set everyone else to beggars
-            Randomat:SetRole(ply, ROLE_BEGGAR)
-
             -- Heal any Old Man back to full when they are converted. From Noxx's custom roles, this role starts with 1 health.
             if ply:GetRole() == ROLE_OLDMAN then
                 ply:SetHealth(100)
+                ply:SetMaxHealth(100)
             end
+
+            -- Set everyone else to beggars
+            Randomat:SetRole(ply, ROLE_BEGGAR)
 
             -- And remove any bought weapons or role weapons
             for _, wep in pairs(ply:GetWeapons()) do

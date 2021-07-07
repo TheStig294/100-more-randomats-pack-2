@@ -42,7 +42,7 @@ _ttt_randomat_beback_ - Default: 1 - Whether this randomat is enabled
 
 
 # Randomats made by "Dem"
-**The mod these randomats come from: [Steam Workshop:: TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)**
+**The mod these randomats come from: [Steam Workshop::TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)**
 ## Team Building Exercise
 1 detective, 1 traitor, everyone else is a 'beggar'. Detective has 200 health and both have 2 credits. Only activates if a custom roles mod adding the beggar is installed and the beggar is enabled.\
 \

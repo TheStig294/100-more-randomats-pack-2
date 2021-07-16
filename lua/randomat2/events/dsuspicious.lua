@@ -1,7 +1,7 @@
 local EVENT = {}
 EVENT.Title = "The detective is acting suspicious..."
 EVENT.Description = "The detective could secretly be a traitor"
-EVENT.id = "detraitor"
+EVENT.id = "dsuspicious"
 local isDetraitor = false
 
 function EVENT:Begin()

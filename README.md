@@ -29,6 +29,11 @@ _ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled
 _ttt_randomat_infected_ - Default: 1 - Whether this randomat is enabled\
 _randomat_infected_time_ - Default: 90 - Time players must survive in seconds
 
+## The detective is acting suspicious...
+The/A detective has a 50% chance to secretly be turned into a traitor.\
+\
+_ttt_randomat_detraitor_ - Default: 1 - Whether this randomat is enabled
+
 
 
 # Randomats made by "nanz"

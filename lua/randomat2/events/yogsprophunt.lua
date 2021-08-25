@@ -28,7 +28,9 @@ function EVENT:Begin()
 
         -- Print the prop disguiser controls to chat for everyone
         for i, ply in pairs(player.GetAll()) do
-            ply:ChatPrint("Press 'R' to choose a prop. \nLeft click to disguise.")
+            if ply:GetRole() == ROLE_INNOCENT then
+                ply:ChatPrint("Press 'R' to choose a prop. \nLeft click to disguise.")
+            end
         end
     end)
 end

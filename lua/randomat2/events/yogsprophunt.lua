@@ -26,8 +26,8 @@ function EVENT:Begin()
         net.Start("YogsPropHuntRandomatEnd")
         net.Broadcast()
 
-        -- Print the prop disguiser controls to chat for everyone
-        for i, ply in pairs(player.GetAll()) do
+        -- Print the prop disguiser controls to chat for props (living innocents)
+        for i, ply in pairs(self:GetAlivePlayers()) do
             if ply:GetRole() == ROLE_INNOCENT then
                 ply:ChatPrint("Press 'R' to choose a prop. \nLeft click to disguise.")
             end

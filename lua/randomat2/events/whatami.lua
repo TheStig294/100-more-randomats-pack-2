@@ -34,6 +34,11 @@ function EVENT:Begin()
     -- The action happens client-side
     net.Start("WhatAmIRandomat")
     net.Broadcast()
+
+    hook.Add("TTTEndRound", "ForceEndWhatAmI", function()
+        net.Start("WhatAmIRandomatEnd")
+        net.Broadcast()
+    end)
 end
 
 function EVENT:End()

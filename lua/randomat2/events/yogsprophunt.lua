@@ -17,7 +17,7 @@ function EVENT:Begin()
 
         -- Play the prop hunt jingle for all players
         for i, ply in pairs(player.GetAll()) do
-            ply:EmitSound(Sound("yogsprophunt/prophunt2.wav"))
+            ply:EmitSound(Sound("yogsprophunt/prophunt2.mp3"))
         end
     end)
 

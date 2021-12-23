@@ -37,13 +37,7 @@ end
 
 function EVENT:Condition()
     -- Only triggers if the 'Prop hunt' randomat can
-    return Randomat:CanEventRun("prophunt")
+    return IsValidRandomat("prophunt") and Randomat:GetEvent("prophunt"):Condition()
 end
 
 Randomat:register(EVENT)
-
-hook.Add("TTTPrepareRound", "YogsPropHuntRandomatConvarCheck", function()
-    if ConVarExists("ttt_randomat_prophunt") and GetConVar("ttt_randomat_yogsprophunt"):GetBool() then
-        GetConVar("ttt_randomat_prophunt"):SetBool(true)
-    end
-end)

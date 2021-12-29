@@ -37,7 +37,10 @@ end
 
 function EVENT:Condition()
     -- Only triggers if the 'Prop hunt' randomat can
-    return IsValidRandomat("prophunt") and Randomat:GetEvent("prophunt"):Condition()
+    print(Randomat.Events["prophunt"] ~= nil)
+    print(Randomat.Events["prophunt"]:Condition())
+
+    return Randomat.Events["prophunt"] ~= nil and Randomat.Events["prophunt"]:Condition()
 end
 
 Randomat:register(EVENT)

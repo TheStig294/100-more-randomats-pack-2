@@ -36,15 +36,15 @@ net.Receive("WhatAmIRandomat", function()
     hook.Add("HUDShouldDraw", "WhoAmIDisableWeaponHistory", function(name)
         if name == "TTTPickupHistory" then return false end
     end)
-end)
 
--- Randomat end
-net.Receive("WhatAmIRandomatEnd", function()
-    -- Resets the role hint popup time
-    GetConVar("ttt_startpopup_duration"):SetInt(popupTime)
-    -- Un-hides the player's role
-    GetConVar("ttt_hide_role"):SetBool(false)
-    -- Re-enables the scoreboard and weapon pickup popups
-    hook.Remove("PlayerBindPress", "WhoAmIDisableScorboard")
-    hook.Remove("HUDShouldDraw", "WhoAmIDisableWeaponHistory")
+    hook.Add("TTTBeginRound", "ForceEndWhatAmI", function()
+        -- Resets the role hint popup time
+        GetConVar("ttt_startpopup_duration"):SetInt(popupTime)
+        -- Un-hides the player's role
+        GetConVar("ttt_hide_role"):SetBool(false)
+        -- Re-enables the scoreboard and weapon pickup popups
+        hook.Remove("PlayerBindPress", "WhoAmIDisableScorboard")
+        hook.Remove("HUDShouldDraw", "WhoAmIDisableWeaponHistory")
+        hook.Remove("TTTBeginRound", "ForceEndWhatAmI")
+    end)
 end)

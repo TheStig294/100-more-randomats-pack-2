@@ -7,9 +7,9 @@ util.AddNetworkString("WhatAmIRandomatEnd")
 util.AddNetworkString("WhatAmIRandomatConVarCheck")
 util.AddNetworkString("WhatAmIRandomatCondition")
 local ConVarCheckDone = false
+local EventRun = false
 -- Variable doesn't work unless it's global
 whatAmIRandomatHideRole = false
-local whatAmIRandomat = false
 
 -- At the start of the first round,
 hook.Add("TTTPrepareRound", "WhatAmIRandomatConVarCheckHook", function()
@@ -29,30 +29,15 @@ net.Receive("WhatAmIRandomatCondition", function()
 end)
 
 function EVENT:Begin()
-    -- Prevent the end function triggering before the begin function
-    whatAmIRandomat = true
     -- The action happens client-side
     net.Start("WhatAmIRandomat")
     net.Broadcast()
-
-    hook.Add("TTTEndRound", "ForceEndWhatAmI", function()
-        net.Start("WhatAmIRandomatEnd")
-        net.Broadcast()
-    end)
-end
-
-function EVENT:End()
-    -- Prevent the end function triggering before the begin function
-    if whatAmIRandomat then
-        net.Start("WhatAmIRandomatEnd")
-        net.Broadcast()
-        whatAmIRandomat = false
-    end
+    EventRun = true
 end
 
 function EVENT:Condition()
-    -- Don't let this randomat run if the convar doesn't exist
-    return whatAmIRandomatHideRole
+    -- Don't let this randomat run if the convar doesn't exist or it has run before for this map
+    return whatAmIRandomatHideRole and not EventRun
 end
 
 Randomat:register(EVENT)

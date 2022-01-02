@@ -28,7 +28,7 @@ local function EndWhatAmI()
     hook.Remove("PlayerBindPress", "WhoAmIDisableScorboard")
     hook.Remove("HUDShouldDraw", "WhoAmIDisableWeaponHistory")
     hook.Remove("TTTBeginRound", "ForceEndWhatAmIBeginRound")
-    hook.Remove("TTTBeginRound", "ForceEndWhatAmIEndRound")
+    hook.Remove("TTTEndRound", "ForceEndWhatAmIEndRound")
 end
 
 -- Randomat start

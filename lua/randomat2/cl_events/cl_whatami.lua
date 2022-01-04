@@ -29,6 +29,7 @@ local function EndWhatAmI()
     hook.Remove("HUDShouldDraw", "WhoAmIDisableWeaponHistory")
     hook.Remove("TTTBeginRound", "ForceEndWhatAmIBeginRound")
     hook.Remove("TTTEndRound", "ForceEndWhatAmIEndRound")
+    hook.Remove("ShutDown", "ForceEndWhatAmIEndRound")
 end
 
 -- Randomat start
@@ -49,6 +50,7 @@ net.Receive("WhatAmIRandomat", function()
         if name == "TTTPickupHistory" then return false end
     end)
 
-    hook.Add("TTTBeginRound", "ForceEndWhatAmIBeginRound", EndWhatAmI())
-    hook.Add("TTTEndRound", "ForceEndWhatAmIEndRound", EndWhatAmI())
+    hook.Add("TTTBeginRound", "ForceEndWhatAmIBeginRound", EndWhatAmI)
+    hook.Add("TTTEndRound", "ForceEndWhatAmIEndRound", EndWhatAmI)
+    hook.Add("ShutDown", "ForceEndWhatAmIShutDown", EndWhatAmI)
 end)

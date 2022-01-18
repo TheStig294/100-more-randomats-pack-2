@@ -33,6 +33,10 @@ _randomat_infected_time_ - Default: 90 - Time players must survive in seconds
 The/A detective has a 50% chance to secretly be turned into a traitor.\
 \
 _ttt_randomat_dsuspicious_ - Default: 1 - Whether this randomat is enabled
+## Yay!
+Turns someone into a clown and someone else into a jester. Whenever someone dies everyone makes a clown activation sound and sprays confetti.\
+\
+_ttt_randomat_yay_ - Default: 1 - Whether this randomat is enabled
 
 
 

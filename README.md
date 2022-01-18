@@ -37,11 +37,6 @@ _ttt_randomat_dsuspicious_ - Default: 1 - Whether this randomat is enabled
 Turns someone into a clown and someone else into a jester. Whenever someone dies everyone makes a clown activation sound and sprays confetti.\
 \
 _ttt_randomat_yay_ - Default: 1 - Whether this randomat is enabled
-## C is for Clown
-A random player is chosen, they turn into a clown if they press the shop button at any point during the round.\
-\
-_ttt_randomat_cforclown_ - Default: 1 - Whether this randomat is enabled
-
 
 
 # Randomats made by "nanz"

@@ -22,7 +22,6 @@ function EVENT:Begin()
         for i, ply in ipairs(self:GetAlivePlayers(true)) do
             if ply:GetRole() ~= ROLE_JESTER then
                 Randomat:SetRole(ply, ROLE_CLOWN)
-                clown = ply
                 break
             end
         end
@@ -32,7 +31,6 @@ function EVENT:Begin()
         for i, ply in ipairs(self:GetAlivePlayers(true)) do
             if ply:GetRole() ~= ROLE_CLOWN then
                 Randomat:SetRole(ply, ROLE_JESTER)
-                jester = ply
                 break
             end
         end

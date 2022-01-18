@@ -47,7 +47,7 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    return CR_VERSION and CRVersion("1.3.1") and ConVarExists("ttt_clown_enabled") and GetConVar("ttt_clown_enabled"):GetBool() and ConVarExists("ttt_jester_enabled") and GetConVar("ttt_jester_enabled"):GetBool()
+    return CR_VERSION and CRVersion("1.3.1") and GetConVar("ttt_clown_enabled"):GetBool() and GetConVar("ttt_jester_enabled"):GetBool()
 end
 
 Randomat:register(EVENT)

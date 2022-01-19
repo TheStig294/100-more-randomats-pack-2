@@ -19,9 +19,14 @@ Hides your role and disables the scoreboard\
 _ttt_randomat_whatami_ - Default: 1 - Whether this randomat is enabled
 
 ## Prop Hunt (Yogscast intro)
-Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat.\
+Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat, if installed.\
 \
 _ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled
+
+## Murder (Yogscast intro)
+Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat, if installed.\
+\
+_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
 
 ## Infected
 1 initial zombie starts with a throwing knife, everyone else is innocent. Zombies respawn after a 5 second delay and innocents win by surviving for a minute and a half.\

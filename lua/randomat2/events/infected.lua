@@ -49,11 +49,6 @@ function EVENT:Begin()
         SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_infected_time"):GetInt())
     end
 
-    -- Trigger the 'Rise from your grave' randomat if another mod adds it
-    if ConVarExists("ttt_randomat_grave") then
-        Randomat:SilentTriggerEvent("grave", self.owner)
-    end
-
     -- Let the zombie prime use weapons other than the claws so the throwing knife can be used
     if GetConVar("ttt_zombie_prime_only_weapons"):GetBool() then
         initialPrimeOnlyWeapons = true
@@ -84,28 +79,23 @@ function EVENT:Begin()
     SendFullStateUpdate()
 
     -- Respawns any zombies that die after a 5 second delay
-    self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
-        if ply:GetRole() == ROLE_ZOMBIE then
-            ply:ConCommand("ttt_spectator_mode 0")
+    self:AddHook("PostPlayerDeath", function(ply)
+        ply:ConCommand("ttt_spectator_mode 0")
 
-            timer.Create("respawndelay", 5, 0, function()
-                local corpse = findcorpse(ply) -- run the normal respawn code now
-                ply:SpawnForRound(true)
-                ply:SetHealth(100)
+        timer.Simple(5, function()
+            local corpse = findcorpse(ply) -- run the normal respawn code now
+            ply:SpawnForRound(true)
+            ply:SetHealth(100)
 
-                if corpse then
-                    removecorpse(corpse)
-                end
+            if corpse then
+                removecorpse(corpse)
+            end
 
+            if ply:GetRole() ~= ROLE_ZOMBIE then
+                Randomat:SetRole(ply, ROLE_ZOMBIE)
                 SendFullStateUpdate()
-
-                if ply:Alive() then
-                    timer.Remove("respawndelay")
-
-                    return
-                end
-            end)
-        end
+            end
+        end)
     end)
 
     local infectedCount = 0
@@ -153,7 +143,7 @@ function EVENT:Begin()
 
         -- If there is at least one innocent alive,
         for i, ply in pairs(player.GetAll()) do
-            if ply:GetRole() == ROLE_INNOCENT then
+            if ply:GetRole() == ROLE_INNOCENT and ply:Alive() and not ply:IsSpec() then
                 nowin1 = true
             end
         end

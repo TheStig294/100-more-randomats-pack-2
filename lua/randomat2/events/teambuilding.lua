@@ -32,6 +32,7 @@ function EVENT:Begin()
             end
 
             -- Set everyone else to beggars
+            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_BEGGAR)
 
             -- And remove any bought weapons or role weapons

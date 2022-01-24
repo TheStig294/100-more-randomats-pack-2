@@ -27,6 +27,7 @@ function EVENT:Begin()
         if detraitorTriggered == false and ply:GetRole() == ROLE_DETECTIVE and math.random() < 0.5 then
             -- If Malivil's custom roles is being used
             if isDetraitor then
+                self:StripRoleWeapons(ply)
                 Randomat:SetRole(ply, ROLE_DETRAITOR)
 
                 timer.Simple(1, function()
@@ -39,6 +40,7 @@ function EVENT:Begin()
                 -- Let the traitor remover function know who the detraitor is and that the effect actually triggered
             elseif detraitorTriggered == false then
                 -- If Noxx's custom roles is being used, set them to an impersonator again
+                self:StripRoleWeapons(ply)
                 Randomat:SetRole(ply, ROLE_IMPERSONATOR)
                 -- And promote them to a detective
                 ply:SetNWBool("HasPromotion", true)

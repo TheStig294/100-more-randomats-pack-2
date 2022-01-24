@@ -26,6 +26,7 @@ function EVENT:Begin()
     -- If there is a clown or jester already then there is no need to turn someone into one
     for k, ply in pairs(self:GetAlivePlayers()) do
         if ply:GetRole() == ROLE_INNOCENT then
+            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_DEPUTY)
 
             if promoteDeputies then
@@ -33,6 +34,7 @@ function EVENT:Begin()
                 ply:AddCredits(GetConVar("ttt_deputy_activation_credits"):GetInt())
             end
         elseif Randomat:IsTraitorTeam(ply) then
+            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_IMPERSONATOR)
 
             if promoteImpersonators then

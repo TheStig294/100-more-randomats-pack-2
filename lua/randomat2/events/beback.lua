@@ -9,6 +9,7 @@ function EVENT:Begin()
         -- That aren't traitors
         if not Randomat:IsTraitorTeam(ply) then
             -- Turn them into phantoms
+            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_PHANTOM)
         end
     end

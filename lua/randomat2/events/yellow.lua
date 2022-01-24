@@ -12,6 +12,7 @@ function EVENT:Begin()
         -- If they are a pure innocent,
         if ply:GetRole() == ROLE_INNOCENT then
             -- Set them to be a mercenary and give them the set amount of credits
+            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_MERCENARY)
             ply:SetCredits(GetConVar("randomat_yellow_credits"):GetInt())
         end

@@ -6,7 +6,6 @@ EVENT.id = "killerdisguise"
 function EVENT:Begin()
     local innocent = {}
     local killer = nil
-    local killerCount = 0
 
     -- For all alive players,
     for i, ply in pairs(self:GetAlivePlayers()) do
@@ -29,6 +28,7 @@ function EVENT:Begin()
     -- Pick a random innocent and set them to the killer, if there isn't one already
     if killer == nil then
         killer = table.Random(innocent)
+        self:StripRoleWeapons(killer)
         Randomat:SetRole(killer, ROLE_KILLER)
         killer:SetCredits(2)
         -- Let the end-of-round scoreboard know roles have changed

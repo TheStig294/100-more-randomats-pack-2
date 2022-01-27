@@ -2,13 +2,14 @@ local EVENT = {}
 EVENT.Title = "The detective is acting suspicious..."
 EVENT.Description = "The detective could secretly be a traitor"
 EVENT.id = "dsuspicious"
+EVENT.MaxRoundCompletePercent = 5
 local isDetraitor = false
 
 function EVENT:Begin()
     local detectiveCount = 0
 
     for i, ply in ipairs(player.GetAll()) do
-        if ply:GetRole() == ROLE_DETECTIVE then
+        if Randomat:IsGoodDetectiveLike(ply) then
             detectiveCount = detectiveCount + 1
         end
     end
@@ -24,14 +25,14 @@ function EVENT:Begin()
     local detraitorTriggered = false
 
     for k, ply in pairs(self:GetAlivePlayers(true)) do
-        if detraitorTriggered == false and ply:GetRole() == ROLE_DETECTIVE and math.random() < 0.5 then
+        if detraitorTriggered == false and Randomat:IsGoodDetectiveLike(ply) and math.random() < 0.5 then
             -- If Malivil's custom roles is being used
             if isDetraitor then
                 self:StripRoleWeapons(ply)
                 Randomat:SetRole(ply, ROLE_DETRAITOR)
 
                 timer.Simple(1, function()
-                    ply:PrintMessage(HUD_PRINTTALK, "DETRAITOR! You're a detective, but on the traitor team!")
+                    ply:PrintMessage(HUD_PRINTTALK, "DETRAITOR! \nYou're a detective, but on the traitor team!")
                 end)
 
                 -- Let the round report know roles have changed
@@ -46,7 +47,7 @@ function EVENT:Begin()
                 ply:SetNWBool("HasPromotion", true)
 
                 timer.Simple(1, function()
-                    ply:PrintMessage(HUD_PRINTTALK, "IMPERSONATOR! You're a detective, but on the traitor team!")
+                    ply:PrintMessage(HUD_PRINTTALK, "IMPERSONATOR! \nYou're a detective, but on the traitor team!")
                 end)
 
                 SendFullStateUpdate()
@@ -64,8 +65,9 @@ function EVENT:Condition()
 
     -- Check there is a detective alive
     for k, ply in pairs(self:GetAlivePlayers()) do
-        if (ply:GetRole() == ROLE_DETECTIVE) or isDetective then
+        if Randomat:IsGoodDetectiveLike(ply) then
             isDetective = true
+            break
         end
     end
 

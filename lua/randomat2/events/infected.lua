@@ -34,6 +34,7 @@ local function removecorpse(corpse)
 end
 
 function EVENT:Begin()
+    self.Description = "Innocents and respawning Zombies, survive for " .. GetConVar("randomat_infected_time"):GetInt() .. " seconds!"
     -- Let the end function know the begin function has run
     infectedRandomat = true
     hasteMode = GetConVar("ttt_haste"):GetBool()

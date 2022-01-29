@@ -21,6 +21,7 @@ function EVENT:Begin()
             -- Give everyone a knife, unless they are a killer that naturally spawned in the round
             if ply:GetRole() ~= ROLE_KILLER then
                 ply:Give("weapon_ttt_knife")
+                Randomat:CallShopHooks(false, "weapon_ttt_knife", ply)
             end
         end)
     end

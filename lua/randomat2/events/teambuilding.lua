@@ -25,12 +25,6 @@ function EVENT:Begin()
                 ply:SetMaxHealth(200)
             end
         else
-            -- Heal any Old Man back to full when they are converted. From Noxx's custom roles, this role starts with 1 health.
-            if ply:GetRole() == ROLE_OLDMAN then
-                ply:SetHealth(100)
-                ply:SetMaxHealth(100)
-            end
-
             -- Set everyone else to beggars
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_BEGGAR)

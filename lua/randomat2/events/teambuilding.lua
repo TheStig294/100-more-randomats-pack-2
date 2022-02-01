@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "Team Building Exercise"
-EVENT.Description = "1 detective, 1 traitor, everyone else are beggars"
+EVENT.Description = "1 detective, 1 traitor. Everyone else is a beggar!"
 EVENT.id = "teambuilding"
 
 function EVENT:Begin()

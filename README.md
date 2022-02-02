@@ -49,6 +49,11 @@ Ordinary innocents are turned into deputies, and all kinds of traitors are turne
 \
 _ttt_randomat_imdeputy_ - Default: 1 - Whether this randomat is enabled
 
+## Everyone's a detective
+Everyone gains the ability to search bodies and gets a DNA scanner.\
+\
+_ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
+
 
 # Randomats made by "nanz"
 **The mod these randomats come from: [Steam Workshop::Randomat 2.0 (TTT2)](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)**

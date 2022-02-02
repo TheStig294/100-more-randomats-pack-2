@@ -28,7 +28,11 @@ function EVENT:Begin()
 
         -- And give a hint to all players on what to do during the murder randomat
         for i, ply in pairs(self:GetPlayers()) do
-            ply:ChatPrint("Gather guns for a revolver! \nAll traitors have knives...")
+            if Randomat:IsTraitorTeam(ply) then
+                ply:ChatPrint("Kill innocents quickly before they start getting guns! \nDetectives start with one...")
+            else
+                ply:ChatPrint("Gather guns for a revolver! \nAll traitors have knives...")
+            end
         end
     end)
 end

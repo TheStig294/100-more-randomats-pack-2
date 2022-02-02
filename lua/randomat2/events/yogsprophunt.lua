@@ -28,7 +28,7 @@ function EVENT:Begin()
 
         -- Print the prop disguiser controls to chat for props (living innocents)
         for i, ply in pairs(self:GetAlivePlayers()) do
-            if ply:GetRole() == ROLE_INNOCENT then
+            if not Randomat:IsTraitorTeam(ply) then
                 ply:ChatPrint("Press 'R' to choose a prop. \nLeft click to disguise.")
             end
         end

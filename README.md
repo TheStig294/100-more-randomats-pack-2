@@ -45,7 +45,7 @@ Turns someone into a clown and someone else into a jester. Whenever someone dies
 _ttt_randomat_yay_ - Default: 1 - Whether this randomat is enabled
 
 ## No, I'm a deputy!
-Ordinary innocents are turned into deputies, and all kinds of traitors are turned into impersonators.\
+Ordinary innocents are turned into deputies, ordinary traitors are turned into impersonators.\
 \
 _ttt_randomat_imdeputy_ - Default: 1 - Whether this randomat is enabled
 

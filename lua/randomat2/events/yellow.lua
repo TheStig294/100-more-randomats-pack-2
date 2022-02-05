@@ -62,7 +62,7 @@ function EVENT:GetConVars()
         end
     end
 
-    return sliders, {}, {}
+    return sliders
 end
 
 Randomat:register(EVENT)

@@ -58,8 +58,8 @@ _ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
 # Randomats made by "nanz"
 **The mod these randomats come from: [Steam Workshop::Randomat 2.0 (TTT2)](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)**
 ## I'll be back
-Every non-traitor becomes a phantom, coming back to life whenever their killers die.\
-Changed name from "We'll Be Back", made to be compatible with custom roles for TTT\
+Changes all ordinary innocents into phantoms (ones that aren't already a special innocent role)\
+Changed name from "We'll Be Back", made to be compatible with custom roles for TTT, changed to only transform ordinary innocents to help prevent RDM\
 \
 _ttt_randomat_beback_ - Default: 1 - Whether this randomat is enabled
 

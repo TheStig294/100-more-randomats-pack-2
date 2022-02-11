@@ -1,32 +1,54 @@
-# The List of Randomats, and Randomat Options
-_Words in italics_ are console commands. Press ` or ~ in a game of TTT to open the console and type in console commands (plus a space and a number) to change this mod’s settings. \
+_This is the second of my 4 randomat packs. These randomats require "Custom Roles for TTT", a mod that adds new roles like the 'Jester'._
+
+# Settings/Options
+_Words in italics_ are console commands.\
+Press ` or ~ in a game of TTT to open the console and type in _the words in italics_ (plus a space and a number) to change this mod’s settings. \
 \
-Alternatively, add the italic text to your server.cfg (for dedicated servers) or listenserver.cfg (for peer-to-peer servers).\
+Alternatively, add the italic text to your __server.cfg__ (for dedicated servers)\
+or __listenserver.cfg__ (for peer-to-peer servers)\
 \
-E.g. To turn off randomats triggering at the start of a round of TTT, type in:\
+For example, to turn off randomats triggering at the start of a round of TTT, type in:\
 _ttt_randomat_auto 0_\
 (1 = on, 0 = off)\
 \
+_ttt_randomat_auto_ - Default: 0 - Whether the Randomat should automatically trigger on round start.\
+_ttt_randomat_auto_chance_ - Default: 1 - Chance of the auto-Randomat triggering.\
+_ttt_randomat_auto_silent_ - Default: 0 - Whether the auto-started event should be silent.\
+_ttt_randomat_chooseevent_ - Default: 0 - Allows you to choose out of a selection of events.\
+_ttt_randomat_rebuyable_ - Default: 0 - Whether you can buy more than one Randomat.\
+_ttt_randomat_event_weight_ - Default: 1 - The default selection weight each event should use.\
 _ttt_randomat_event_hint_ - Default: 1 - Whether the Randomat should print what each event does when they start.\
-_ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put in chat.
+_ttt_randomat_event_hint_chat_ - Default: 1 - Whether hints should also be put in chat.\
+_ttt_randomat_event_history_ - Default: 10 - How many events should be kept in history. Events in history will are ignored when searching for a random event to start.
 
+# Newly added randomats
+1. Yay! - Guarantees a clown/jester but you can't see when the clown activates
+1. No, I'm a Deputy! - Normal innocents/traitors become deputies/impersonators
+1. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
 
+# Randomats
+**Randomats that don't have credit were completely made by me**
 
-# Randomats Made By Me
-## What am I?
-Hides your role and disables the scoreboard\
+## A killer in disguise...
+Gives everyone a knife and changes someone to a killer\
 \
-_ttt_randomat_whatami_ - Default: 1 - Whether this randomat is enabled
-
-## Prop Hunt (Yogscast intro)
-Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat, if installed.\
+_ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled\
 \
-_ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled
+Changed name from "Who Let The Killer Out?", now gives everyone a knife as well, only innocents can now be the killer (except the detective)\
+Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
 
-## Murder (Yogscast intro)
-Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat, if installed.\
+## Everyone's a detective
+Everyone gains the ability to search bodies and gets a DNA scanner.\
 \
-_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
+
+## I'll be back
+Changes all normal innocents into phantoms\
+\
+_ttt_randomat_beback_ - Default: 1 - Whether this randomat is enabled
+
+Changed name from "We'll Be Back", made to be compatible with custom roles for TTT, changed to only transform ordinary innocents to help prevent RDM\
+Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)
 
 ## Infected
 1 initial zombie starts with a throwing knife, everyone else is innocent. Zombies respawn after a 5 second delay and innocents win by surviving for a minute and a half.\
@@ -34,59 +56,49 @@ _ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
 _ttt_randomat_infected_ - Default: 1 - Whether this randomat is enabled\
 _randomat_infected_time_ - Default: 90 - Time players must survive in seconds
 
-## The detective is acting suspicious...
-The/A detective has a 50% chance to secretly be turned into a traitor.\
+## Murder (Yogscast intro)
+Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat, if installed.\
 \
-_ttt_randomat_dsuspicious_ - Default: 1 - Whether this randomat is enabled
-
-## Yay!
-Turns someone into a clown and someone else into a jester. Whenever someone dies everyone makes a clown activation sound and sprays confetti.\
-\
-_ttt_randomat_yay_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
 
 ## No, I'm a deputy!
 Ordinary innocents are turned into deputies, ordinary traitors are turned into impersonators.\
 \
 _ttt_randomat_imdeputy_ - Default: 1 - Whether this randomat is enabled
 
-## Everyone's a detective
-Everyone gains the ability to search bodies and gets a DNA scanner.\
+## Prop Hunt (Yogscast intro)
+Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat, if installed.\
 \
-_ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled
 
-
-# Randomats made by "nanz"
-**The mod these randomats come from: [Steam Workshop::Randomat 2.0 (TTT2)](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)**
-## I'll be back
-Changes all ordinary innocents into phantoms (ones that aren't already a special innocent role)\
-Changed name from "We'll Be Back", made to be compatible with custom roles for TTT, changed to only transform ordinary innocents to help prevent RDM\
-\
-_ttt_randomat_beback_ - Default: 1 - Whether this randomat is enabled
-
-
-
-# Randomats made by "Dem"
-**The mod these randomats come from: [Steam Workshop::TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)**
 ## Team Building Exercise
 1 detective, 1 traitor, everyone else is a 'beggar'. Detective has 200 health and both have 2 credits. Only activates if a custom roles mod adding the beggar is installed and the beggar is enabled.\
 \
-Changed name from "One traitor, One Detective. Everyone else is a Jester. Detective is stronger." Changed jesters to beggars. Detective and traitor are now set to 2 credits.\
+_ttt_randomat_teambuilding_ - Default: 1 - Whether this randomat is enabled\
 \
-_ttt_randomat_teambuilding_ - Default: 1 - Whether this randomat is enabled
+Changed name from "One traitor, One Detective. Everyone else is a Jester. Detective is stronger." Changed jesters to beggars. Detective and traitor are now set to 2 credits.\
+Originally made by [Dem](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)
 
+## The detective is acting suspicious...
+A detective has a 50% chance to secretly be turned into a traitor.\
+\
+_ttt_randomat_dsuspicious_ - Default: 1 - Whether this randomat is enabled
 
+## What am I?
+Hides your role and disables the scoreboard\
+\
+_ttt_randomat_whatami_ - Default: 1 - Whether this randomat is enabled
 
-# Randomats made by "ruiner189"
-**The mod these randomats come from: [Steam Workshop::Custom Randomat](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)**
+## Yay!
+Turns someone into a clown and someone else into a jester. Whenever someone dies everyone makes a clown activation sound and sprays confetti.\
+\
+_ttt_randomat_yay_ - Default: 1 - Whether this randomat is enabled
+
 ## Yellow Is The New Green!
 Changes all innocents to mercenaries\
-Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
 \
 _ttt_randomat_yellow_ - Default: 1 - Whether this randomat is enabled\
-_randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get
-
-## A killer in disguise...
-Gives everyone a knife and changes someone to a killer\
-Changed name from "Who Let The Killer Out?", now gives everyone a knife as well, only innocents can now be the killer (except the detective)\
+_randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get\
 \
-_ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled
+Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
+Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)

@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "No, I'm a deputy!"
-EVENT.Description = "Ordinary innocents/traitors are now deputies/impersonators"
+EVENT.Description = "Normal innocents/traitors become deputies/impersonators"
 EVENT.id = "imdeputy"
 
 function EVENT:Begin()

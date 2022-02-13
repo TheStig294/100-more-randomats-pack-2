@@ -20,13 +20,14 @@ net.Receive("WhatAmIRandomatConVarCheck", function()
 end)
 
 local function EndWhatAmI()
+    cvars.RemoveChangeCallback("ttt_hide_role", "WhatAmIPreventUnhide")
     -- Resets the role hint popup time
     GetConVar("ttt_startpopup_duration"):SetInt(popupTime)
     -- Un-hides the player's role
     GetConVar("ttt_hide_role"):SetBool(false)
     -- Re-enables the scoreboard and weapon pickup popups
-    hook.Remove("PlayerBindPress", "WhoAmIDisableScorboard")
-    hook.Remove("HUDShouldDraw", "WhoAmIDisableWeaponHistory")
+    hook.Remove("PlayerBindPress", "WhatAmIDisableScorboard")
+    hook.Remove("HUDShouldDraw", "WhatAmIDisableWeaponHistory")
     hook.Remove("TTTBeginRound", "ForceEndWhatAmIBeginRound")
     hook.Remove("TTTEndRound", "ForceEndWhatAmIEndRound")
     hook.Remove("ShutDown", "ForceEndWhatAmIEndRound")
@@ -40,13 +41,22 @@ net.Receive("WhatAmIRandomat", function()
     -- Hide the player's role
     GetConVar("ttt_hide_role"):SetBool(true)
 
+    -- Prevent the players from un-hiding their role by unchecking the "hide role" tickbox in the F1 menu
+    local function WhatAmIPreventUnhide(convar, oldValue, newValue)
+        if convar == "ttt_hide_role" then
+            GetConVar("ttt_hide_role"):SetBool(true)
+        end
+    end
+
+    cvars.AddChangeCallback("ttt_hide_role", WhatAmIPreventUnhide, "WhatAmIPreventUnhide")
+
     -- Prevent them from opening the scoreboard
-    hook.Add("PlayerBindPress", "WhoAmIDisableScorboard", function(ply, bind, pressed)
+    hook.Add("PlayerBindPress", "WhatAmIDisableScorboard", function(ply, bind, pressed)
         if (string.find(bind, "+showscores")) then return true end
     end)
 
     -- Hides the weapon pickup popup on the side as it's colour gives away your role
-    hook.Add("HUDShouldDraw", "WhoAmIDisableWeaponHistory", function(name)
+    hook.Add("HUDShouldDraw", "WhatAmIDisableWeaponHistory", function(name)
         if name == "TTTPickupHistory" then return false end
     end)
 

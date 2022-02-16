@@ -105,6 +105,6 @@ Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetail
 
 ## You're on the case, detective..
 If detective-only search is off (a setting form Custom Roles for TTT), this randomat can trigger, and it simply turns that setting on for the round.\
-It makes it so only detectives can search bodies, and all other players can only call a detective over to one to search it.\
+It makes it so only detectives can search bodies, and all other players can only call a detective over to search a body.\
 \
 _ttt_randomat_detectivesearch_ - Default: 1 - Whether this randomat is enabled

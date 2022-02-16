@@ -102,3 +102,9 @@ _randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get\
 \
 Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
+
+## You're on the case, detective..
+If detective-only search is off (a setting form Custom Roles for TTT), this randomat can trigger, and it simply turns that setting on for the round.\
+It makes it so only detectives can search bodies, and all other players can only call a detective over to one to search it.\
+\
+_ttt_randomat_detectivesearch_ - Default: 1 - Whether this randomat is enabled

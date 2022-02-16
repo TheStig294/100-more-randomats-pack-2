@@ -20,7 +20,7 @@ function EVENT:Condition()
     local isDetective = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
-        if IsGoodDetectiveLike(ply) then
+        if Randomat:IsGoodDetectiveLike(ply) then
             isDetective = true
             break
         end

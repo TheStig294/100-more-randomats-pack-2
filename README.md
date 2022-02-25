@@ -1,4 +1,5 @@
-_This is the second of my 4 randomat packs. These randomats require "Custom Roles for TTT", a mod that adds new roles like the 'Jester'._
+_This is the second of my 4 randomat packs. These randomats require "Custom Roles for TTT", a mod that adds new roles like the 'Jester'._\
+_Some extra randomats will activate if have other mods installed, linked below those randomats' descriptions_
 
 # Settings/Options
 
@@ -29,6 +30,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
 
 # Randomats
+
 __Randomats that don't have credit were completely made by me__
 
 ## A killer in disguise
@@ -45,6 +47,19 @@ Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetail
 Everyone gains the ability to search bodies and gets a DNA scanner.\
 \
 _ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
+
+## Home Run
+
+Everyone is continually given home run bats!\
+\
+_ttt_randomat_homerun_ - Default: 1 - Whether this randomat is enabled\
+_randomat_homerun_strip_ - Default: 1 - The event strips your other weapons\
+_randomat_homerun_weaponid_ - Default: weapon_ttt_homebat - Id of the weapon given\
+\
+Changed name from "Batter Up!"\
+Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)\
+\
+Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
 
 ## I'll be back
 
@@ -67,6 +82,14 @@ _randomat_infected_time_ - Default: 90 - Time players must survive in seconds
 Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat, if installed.\
 \
 _ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
+
+## Mystery box
+
+Everyone gets a random COD Zombies wonder weapon!\
+\
+_ttt_randomat_mysterybox_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2252594978>
 
 ## No, I'm a deputy
 
@@ -123,3 +146,12 @@ If detective-only search is off (a setting form Custom Roles for TTT), this rand
 It makes it so only detectives can search bodies, and all other players can only call a detective over to search a body.\
 \
 _ttt_randomat_detectivesearch_ - Default: 1 - Whether this randomat is enabled
+
+## You just triggered my trap card
+
+Everyone gets an uno reverse card that reflects all damage and lasts for a set amount of time\
+\
+_ttt_randomat_uno_ - Default: 1 - Whether this randomat is enabled\
+_randomat_uno_time_ - Default: 3 - How long the uno reverse card lasts\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2329721936>

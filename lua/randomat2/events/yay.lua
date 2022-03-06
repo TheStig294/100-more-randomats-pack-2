@@ -3,7 +3,7 @@ EVENT.Title = "Yay!"
 EVENT.Description = "There is a clown and a jester, but everyone sprays confetti when someone dies"
 EVENT.id = "yay"
 
-EVENT.Categories = {"rolechange", "largeimpact"}
+EVENT.Categories = {"rolechange", "deathtrigger", "largeimpact"}
 
 util.AddNetworkString("YayRandomatActivate")
 

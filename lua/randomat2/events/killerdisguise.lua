@@ -3,6 +3,8 @@ EVENT.Title = "A killer in disguise..."
 EVENT.Description = "There is a killer, but EVERYONE has a knife"
 EVENT.id = "killerdisguise"
 
+EVENT.Categories = {"rolechange", "item", "moderateimpact"}
+
 function EVENT:Begin()
     local innocent = {}
     local killer = nil

@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "What am I?"
 EVENT.Description = "Hides your role on the HUD"
 EVENT.id = "whatami"
+
+EVENT.Categories = {"largeimpact"}
+
 util.AddNetworkString("WhatAmIRandomat")
 util.AddNetworkString("WhatAmIRandomatEnd")
 util.AddNetworkString("WhatAmIRandomatConVarCheck")

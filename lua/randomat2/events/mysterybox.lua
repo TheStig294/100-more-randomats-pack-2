@@ -3,6 +3,8 @@ EVENT.Title = "Mystery Box"
 EVENT.Description = "Gives everyone a random COD Zombies wonder weapon!"
 EVENT.id = "mysterybox"
 
+EVENT.Categories = {"item", "moderateimpact"}
+
 local wonderWeapons = {"tfa_acidgat", "tfa_blundergat", "tfa_jetgun", "tfa_raygun", "tfa_raygun_mark2", "tfa_scavenger", "tfa_shrinkray", "tfa_sliquifier", "tfa_staff_wind", "tfa_thundergun", "tfa_vr11", "tfa_wavegun", "tfa_wintershowl", "tfa_wunderwaffe", "tfa_staff_lightning"}
 
 local wonderWeaponsActive = {}

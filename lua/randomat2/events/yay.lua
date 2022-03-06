@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "Yay!"
 EVENT.Description = "There is a clown and a jester, but everyone sprays confetti when someone dies"
 EVENT.id = "yay"
+
+EVENT.Categories = {"rolechange", "largeimpact"}
+
 util.AddNetworkString("YayRandomatActivate")
 
 function EVENT:Begin()

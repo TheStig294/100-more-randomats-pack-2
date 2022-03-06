@@ -3,6 +3,8 @@ EVENT.Title = "Team Building Exercise"
 EVENT.Description = "1 detective, 1 traitor. Everyone else is a beggar!"
 EVENT.id = "teambuilding"
 
+EVENT.Categories = {"rolechange", "largeimpact"}
+
 function EVENT:Begin()
     local tx = 0
     local dx = 0

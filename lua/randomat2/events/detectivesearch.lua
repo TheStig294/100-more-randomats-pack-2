@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = "You're on the case, detective..."
 EVENT.Description = "Detectives can search bodies, everyone else can only call a detective over"
 EVENT.id = "detectivesearch"
+
+EVENT.Categories = {"smallimpact"}
+
 local eventTriggered = false
 
 function EVENT:Begin()

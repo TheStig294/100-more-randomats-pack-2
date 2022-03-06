@@ -3,6 +3,9 @@ EVENT.Title = ""
 EVENT.id = "yogsprophunt"
 EVENT.AltTitle = "Prop Hunt (Yogscast intro)"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+
+EVENT.Categories = {"gamemode", "eventtrigger", "largeimpact"}
+
 util.AddNetworkString("YogsPropHuntRandomat")
 util.AddNetworkString("YogsPropHuntRandomatEnd")
 

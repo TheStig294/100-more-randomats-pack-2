@@ -6,6 +6,9 @@ EVENT.Title = "Infected"
 EVENT.Description = "Innocents and respawning zombies, survive for " .. GetConVar("randomat_infected_time"):GetInt() .. " seconds!"
 EVENT.id = "infected"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+
+EVENT.Categories = {"gamemode", "largeimpact"}
+
 local infectedRandomat = false
 local initialPrimeOnlyWeapons = true
 local hasteMode = false

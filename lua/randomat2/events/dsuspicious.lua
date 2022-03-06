@@ -3,6 +3,9 @@ EVENT.Title = "The detective is acting suspicious..."
 EVENT.Description = "The detective could secretly be a traitor"
 EVENT.id = "dsuspicious"
 EVENT.MaxRoundCompletePercent = 5
+
+EVENT.Categories = {"rolechange", "largeimpact"}
+
 local isDetraitor = false
 
 function EVENT:Begin()

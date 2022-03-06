@@ -3,6 +3,8 @@ EVENT.Title = "I'll be back..."
 EVENT.Description = "Turns ordinary innocents into phantoms"
 EVENT.id = "beback"
 
+EVENT.Categories = {"rolechange", "biased", "moderateimpact"}
+
 function EVENT:Begin()
     for k, ply in pairs(self:GetAlivePlayers()) do
         if ply:GetRole() == ROLE_INNOCENT then

@@ -2,6 +2,9 @@ local EVENT = {}
 EVENT.Title = ""
 EVENT.id = "yogsmurder"
 EVENT.AltTitle = "Murder (Yogscast intro)"
+
+EVENT.Categories = {"gamemode", "eventtrigger", "largeimpact"}
+
 util.AddNetworkString("YogsMurderRandomat")
 util.AddNetworkString("YogsMurderRandomatEnd")
 -- Declares this randomat a 'Weapon Override' randomat, meaning it cannot trigger if another Weapon Override randomat has triggered in the round

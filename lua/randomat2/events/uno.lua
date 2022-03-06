@@ -6,6 +6,8 @@ EVENT.Title = "You just triggered my trap card!"
 EVENT.Description = "Everyone gets an UNO reverse card"
 EVENT.id = "uno"
 
+EVENT.Categories = {"item", "smallimpact"}
+
 function EVENT:Begin()
     unoRandomat = true
     original_uno_length = tonumber(GetConVar("ttt_uno_reverse_length"):GetFloat())

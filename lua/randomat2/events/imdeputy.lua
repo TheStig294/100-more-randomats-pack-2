@@ -3,6 +3,8 @@ EVENT.Title = "No, I'm a deputy!"
 EVENT.Description = "Normal innocents/traitors become deputies/impersonators"
 EVENT.id = "imdeputy"
 
+EVENT.Categories = {"rolechange", "moderateimpact"}
+
 function EVENT:Begin()
     for k, ply in pairs(self:GetAlivePlayers()) do
         if ply:GetRole() == ROLE_INNOCENT then

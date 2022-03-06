@@ -8,6 +8,8 @@ EVENT.Title = "Home Run!"
 EVENT.Description = "Homerun bats only!"
 EVENT.id = "homerun"
 
+EVENT.Categories = {"item", "biased", "largeimpact"}
+
 if GetConVar("randomat_homerun_strip"):GetBool() then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 end

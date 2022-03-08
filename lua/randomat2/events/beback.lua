@@ -3,7 +3,7 @@ EVENT.Title = "I'll be back..."
 EVENT.Description = "Turns ordinary innocents into phantoms"
 EVENT.id = "beback"
 
-EVENT.Categories = {"rolechange", "biased", "moderateimpact"}
+EVENT.Categories = {"rolechange", "biased_innocent", "biased", "moderateimpact"}
 
 function EVENT:Begin()
     for k, ply in pairs(self:GetAlivePlayers()) do

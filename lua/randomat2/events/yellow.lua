@@ -6,7 +6,7 @@ EVENT.Title = "Yellow Is The New Green!"
 EVENT.Description = "Ordinary innocents are now mercenaries"
 EVENT.id = "yellow"
 
-EVENT.Categories = {"rolechange", "biased", "moderateimpact"}
+EVENT.Categories = {"rolechange", "biased_innocent", "biased", "moderateimpact"}
 
 function EVENT:Begin()
     -- For all alive players,

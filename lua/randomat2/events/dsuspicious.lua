@@ -4,7 +4,7 @@ EVENT.Description = "The detective could secretly be a traitor"
 EVENT.id = "dsuspicious"
 EVENT.MaxRoundCompletePercent = 5
 
-EVENT.Categories = {"rolechange", "largeimpact"}
+EVENT.Categories = {"rolechange", "largeimpact", "biased_traitor", "biased"}
 
 local isDetraitor = false
 

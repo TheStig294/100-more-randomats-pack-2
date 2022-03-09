@@ -5,7 +5,8 @@ CreateConVar("randomat_infected_time", 90, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time 
 EVENT.Title = "Infected"
 EVENT.Description = "Innocents and respawning zombies, survive for " .. GetConVar("randomat_infected_time"):GetInt() .. " seconds!"
 EVENT.id = "infected"
-EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+
+EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_RESPAWN}
 
 EVENT.Categories = {"gamemode", "largeimpact"}
 

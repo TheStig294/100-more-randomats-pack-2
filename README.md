@@ -25,15 +25,15 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. Yay! - Guarantees a clown/jester but you can't see when the clown activates
-1. No, I'm a Deputy! - Normal innocents/traitors become deputies/impersonators
-1. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
+1. No, I'm a Deputy! - Innocents become deputies, traitors become impersonators
+2. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
+3. You're on the case, detective... - Only the detective can search bodies
 
 # Randomats
 
 __Randomats that don't have credit were completely made by me__
 
-## A killer in disguise
+## A killer in disguise...
 
 Gives everyone a knife and changes someone to a killer\
 \
@@ -48,7 +48,7 @@ Everyone gains the ability to search bodies and gets a DNA scanner.\
 \
 _ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
 
-## Home Run
+## Home Run!
 
 Everyone is continually given home run bats!\
 \
@@ -91,7 +91,7 @@ _ttt_randomat_mysterybox_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2252594978>
 
-## No, I'm a deputy
+## No, I'm a deputy!
 
 Ordinary innocents are turned into deputies, ordinary traitors are turned into impersonators.\
 \
@@ -112,7 +112,7 @@ _ttt_randomat_teambuilding_ - Default: 1 - Whether this randomat is enabled\
 Changed name from "One traitor, One Detective. Everyone else is a Jester. Detective is stronger." Changed jesters to beggars. Detective and traitor are now set to 2 credits.\
 Originally made by [Dem](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)
 
-## The detective is acting suspicious
+## The detective is acting suspicious...
 
 A detective has a 50% chance to secretly be turned into a traitor.\
 \
@@ -124,13 +124,13 @@ Hides your role and disables the scoreboard\
 \
 _ttt_randomat_whatami_ - Default: 1 - Whether this randomat is enabled
 
-## Yay
+## Yay!
 
 Turns someone into a clown and someone else into a jester. Whenever someone dies everyone makes a clown activation sound and sprays confetti.\
 \
 _ttt_randomat_yay_ - Default: 1 - Whether this randomat is enabled
 
-## Yellow Is The New Green
+## Yellow Is The New Green!
 
 Changes all innocents to mercenaries\
 \
@@ -140,14 +140,13 @@ _randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get\
 Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
 
-## You're on the case, detective
+## You're on the case, detective...
 
-If detective-only search is off (a setting form Custom Roles for TTT), this randomat can trigger, and it simply turns that setting on for the round.\
-It makes it so only detectives can search bodies, and all other players can only call a detective over to search a body.\
+Only detectives can search bodies, all other players can only call a detective over to search a body.\
 \
 _ttt_randomat_detectivesearch_ - Default: 1 - Whether this randomat is enabled
 
-## You just triggered my trap card
+## You just triggered my trap card!
 
 Everyone gets an uno reverse card that reflects all damage and lasts for a set amount of time\
 \

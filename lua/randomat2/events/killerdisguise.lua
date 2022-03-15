@@ -36,6 +36,7 @@ function EVENT:Begin()
         killer:SetCredits(2)
         -- Let the end-of-round scoreboard know roles have changed
         SendFullStateUpdate()
+        hook.Run("UpdatePlayerLoadouts")
     end
 end
 

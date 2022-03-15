@@ -38,8 +38,6 @@ function EVENT:Begin()
                     ply:PrintMessage(HUD_PRINTTALK, "DETRAITOR! \nYou're a detective, but on the traitor team!")
                 end)
 
-                -- Let the round report know roles have changed
-                SendFullStateUpdate()
                 detraitorTriggered = true
                 -- Let the traitor remover function know who the detraitor is and that the effect actually triggered
             elseif detraitorTriggered == false then
@@ -53,11 +51,14 @@ function EVENT:Begin()
                     ply:PrintMessage(HUD_PRINTTALK, "IMPERSONATOR! \nYou're a detective, but on the traitor team!")
                 end)
 
-                SendFullStateUpdate()
                 detraitorTriggered = true
             end
         end
     end
+
+    -- Let the round report know roles have changed
+    SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 end
 
 function EVENT:Condition()

@@ -14,6 +14,7 @@ function EVENT:Begin()
 
     -- Let the end-of-round report know roles have changed
     SendFullStateUpdate()
+    hook.Run("UpdatePlayerLoadouts")
 end
 
 function EVENT:Condition()

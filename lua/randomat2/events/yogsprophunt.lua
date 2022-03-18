@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = ""
 EVENT.id = "yogsprophunt"
 EVENT.AltTitle = "Prop Hunt (Yogscast intro)"
+EVENT.ExtDescription = "Displays the old Yogscast Prop Hunt intro, and turns the game into Prop Hunt!"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 EVENT.Categories = {"gamemode", "eventtrigger", "largeimpact"}

@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = ""
 EVENT.id = "yogsmurder"
 EVENT.AltTitle = "Murder (Yogscast intro)"
+EVENT.ExtDescription = "Displays the old Yogscast Gmod Murder intro, and turns the game into Murder!"
 
 EVENT.Categories = {"gamemode", "eventtrigger", "largeimpact"}
 

@@ -43,7 +43,6 @@ function EVENT:Begin()
 
     -- Let the end-of-round report know roles have changed
     SendFullStateUpdate()
-    hook.Run("UpdatePlayerLoadouts")
 
     -- Play the clown activate sound and confetti on everyone when someone dies
     self:AddHook("PostPlayerDeath", function()

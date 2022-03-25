@@ -34,6 +34,7 @@ function EVENT:Begin()
         self:StripRoleWeapons(killer)
         Randomat:SetRole(killer, ROLE_KILLER)
         killer:SetCredits(2)
+        killer:SetHealth(GetConVar("ttt_killer_starting_health"):GetInt())
         -- Let the end-of-round scoreboard know roles have changed
         SendFullStateUpdate()
     end

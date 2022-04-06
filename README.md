@@ -75,7 +75,7 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 1 initial zombie starts with a throwing knife, everyone else is innocent. Zombies respawn after a 5 second delay and innocents win by surviving for a minute and a half.\
 \
 _ttt_randomat_infected_ - Default: 1 - Whether this randomat is enabled\
-_randomat_infected_time_ - Default: 90 - Time players must survive in seconds
+_randomat_infected_timer_ - Default: 90 - Time players must survive in seconds
 
 ## Murder (Yogscast intro)
 

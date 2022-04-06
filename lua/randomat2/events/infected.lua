@@ -1,9 +1,9 @@
 local EVENT = {}
 
-CreateConVar("randomat_infected_time", 90, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time players must survive in seconds", 30, 180)
+CreateConVar("randomat_infected_timer", 90, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Time players must survive in seconds", 30, 180)
 
 EVENT.Title = "Infected"
-EVENT.Description = "Innocents and respawning zombies, survive for " .. GetConVar("randomat_infected_time"):GetInt() .. " seconds!"
+EVENT.Description = "Innocents and respawning zombies, survive for " .. GetConVar("randomat_infected_timer"):GetInt() .. " seconds!"
 EVENT.id = "infected"
 
 EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_RESPAWN}
@@ -33,7 +33,7 @@ local function removecorpse(corpse)
 end
 
 function EVENT:Begin()
-    self.Description = "Innocents and respawning Zombies, survive for " .. GetConVar("randomat_infected_time"):GetInt() .. " seconds!"
+    self.Description = "Innocents and respawning Zombies, survive for " .. GetConVar("randomat_infected_timer"):GetInt() .. " seconds!"
     -- Let the end function know the begin function has run
     infectedRandomat = true
     hasteMode = GetConVar("ttt_haste"):GetBool()
@@ -43,10 +43,10 @@ function EVENT:Begin()
     if hasteMode then
         GetConVar("ttt_haste"):SetBool(false)
         GetConVar("ttt_haste_minutes_per_death"):SetFloat(0)
-        SetGlobalFloat("ttt_haste_end", CurTime() + GetConVar("randomat_infected_time"):GetInt())
-        SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_infected_time"):GetInt())
+        SetGlobalFloat("ttt_haste_end", CurTime() + GetConVar("randomat_infected_timer"):GetInt())
+        SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_infected_timer"):GetInt())
     else
-        SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_infected_time"):GetInt())
+        SetGlobalFloat("ttt_round_end", CurTime() + GetConVar("randomat_infected_timer"):GetInt())
     end
 
     -- Let the zombie prime use weapons other than the claws so the throwing knife can be used

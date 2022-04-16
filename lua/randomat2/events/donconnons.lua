@@ -43,9 +43,11 @@ function EVENT:Begin()
     end)
 
     -- Jesters are immune to the donconnon, so make them innocents
-    for i, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsJesterTeam(ply) then
-            Randomat:SetRole(ply, ROLE_INNOCENT)
+    if GetConVar("randomat_donconnons_strip"):GetBool() then
+        for i, ply in ipairs(self:GetAlivePlayers()) do
+            if Randomat:IsJesterTeam(ply) then
+                Randomat:SetRole(ply, ROLE_INNOCENT)
+            end
         end
     end
 end

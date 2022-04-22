@@ -73,23 +73,29 @@ net.Receive("randomat_horror", function()
 end)
 
 net.Receive("randomat_horror_end", function()
-    -- Reset map lighting and stop removing the skybox if the map had one
-    render.RedownloadAllLightmaps()
-    hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
-
     -- Plays the ending music
     if music then
         timer.Remove("HorrorRandomatMusicLoop")
         RunConsoleCommand("stopsound")
-        -- timer.Simple(0.1, function()
-        --     surface.PlaySound("horror/deep_horrors_end.mp3")
-        -- end)
+
+        timer.Simple(0.1, function()
+            surface.PlaySound("horror/deep_horrors_scare.mp3")
+        end)
     end
 
-    -- Remove the fog effect
-    hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
-    hook.Remove("SetupSkyboxFog", "HorrorRandomatSkyboxFog")
-    -- Remove the block on seeing the player info popup
-    hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
-    hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
+    timer.Simple(5, function()
+        -- Reset map lighting and stop removing the skybox if the map had one
+        render.RedownloadAllLightmaps()
+        hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
+        -- Remove the fog effect
+        hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
+        hook.Remove("SetupSkyboxFog", "HorrorRandomatSkyboxFog")
+        -- Remove the block on seeing the player info popup
+        hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
+        hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
+
+        timer.Simple(2, function()
+            render.RedownloadAllLightmaps()
+        end)
+    end)
 end)

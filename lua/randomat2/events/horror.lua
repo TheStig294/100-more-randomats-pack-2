@@ -98,15 +98,18 @@ function EVENT:End()
         horrorRandomat = false
         -- Resetting the killer crowbar convar to what is was before the event triggered
         GetConVar("ttt_killer_crowbar_enabled"):SetBool(killerCrowbar)
-        -- Resets map lighting and plays ending music, if enabled
-        engine.LightStyle(0, "m")
+        -- Playing ending sound if music was enabled
         net.Start("randomat_horror_end")
         net.Broadcast()
 
-        -- Turns everyone's flashlight off
-        for _, ply in ipairs(self:GetAlivePlayers()) do
-            ply:Flashlight(false)
-        end
+        -- Resets map lighting and turns everyone's flashlight off
+        timer.Simple(5, function()
+            engine.LightStyle(0, "m")
+
+            for _, ply in ipairs(self:GetAlivePlayers()) do
+                ply:Flashlight(false)
+            end
+        end)
     end
 end
 
@@ -115,24 +118,6 @@ function EVENT:Condition()
 end
 
 function EVENT:GetConVars()
-    local sliders = {}
-
-    for _, v in ipairs({"innocent_fog", "killer_fog"}) do
-        local name = "randomat_" .. self.id .. "_" .. v
-
-        if ConVarExists(name) then
-            local convar = GetConVar(name)
-
-            table.insert(sliders, {
-                cmd = v,
-                dsc = convar:GetHelpText(),
-                min = convar:GetMin(),
-                max = convar:GetMax(),
-                dcm = 1
-            })
-        end
-    end
-
     local checkboxes = {}
 
     for _, v in pairs({"music"}) do
@@ -151,7 +136,7 @@ function EVENT:GetConVars()
         end
     end
 
-    return sliders, checkboxes
+    return {}, checkboxes
 end
 
 Randomat:register(EVENT)

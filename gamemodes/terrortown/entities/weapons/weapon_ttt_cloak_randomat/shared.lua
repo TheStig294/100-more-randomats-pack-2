@@ -9,14 +9,17 @@ if CLIENT then
     SWEP.Slot = 7
     SWEP.DrawAmmo = false
     SWEP.DrawCrosshair = false
-
     -- Plays the jumpscare sound if someone is looking at the killer as they uncloak
-    net.Receive("randomat_invisibility_cloak_uncloak", function()
-        local client = LocalPlayer()
-        local ent = client:GetEyeTrace().Entity
+    LocalPlayer().SeenKiller = false
 
-        if IsPlayer(ent) and ent:IsKiller() then
-            surface.PlaySound("horror/deep_horrors_scare.mp3")
+    net.Receive("randomat_invisibility_cloak_uncloak", function()
+        if LocalPlayer().GetEyeTrace then
+            local ent = LocalPlayer():GetEyeTrace().Entity
+
+            if IsPlayer(ent) and ent:IsKiller() and not LocalPlayer().SeenKiller then
+                surface.PlaySound("horror/deep_horrors_scare.mp3")
+                LocalPlayer().SeenKiller = true
+            end
         end
     end)
 end
@@ -53,10 +56,7 @@ function SWEP:Deploy()
     if not IsPlayer(owner) then return end
     owner:GetViewModel():SendViewModelMatchingSequence(12)
     owner:DrawShadow(false)
-    owner:SetColor(Color(255, 255, 255, 0))
-    owner:SetMaterial("models/effects/vol_light001")
-    owner:SetRenderMode(RENDERMODE_TRANSALPHA)
-    owner:SetNWBool("RdmtInvisible", true)
+    Randomat:SetPlayerInvisible(owner)
 
     if SERVER then
         if self.InitialEmitSound then
@@ -106,10 +106,8 @@ end
 function SWEP:Holster()
     local owner = self:GetOwner()
     if not IsPlayer(owner) then return end
-    owner:SetMaterial("")
-    owner:SetRenderMode(RENDERMODE_NORMAL)
     owner:DrawShadow(true)
-    owner:SetNWBool("RdmtInvisible", false)
+    Randomat:SetPlayerVisible(owner)
 
     if SERVER then
         timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
@@ -122,12 +120,7 @@ function SWEP:Holster()
 end
 
 function SWEP:PreDrop()
-    local owner = self:GetOwner()
-    if not IsPlayer(owner) then return end
-    owner:SetMaterial("")
-    owner:SetRenderMode(RENDERMODE_NORMAL)
-    owner:DrawShadow(true)
-    owner:SetNWBool("RdmtInvisible", false)
+    self:Holster()
 end
 
 function SWEP:OnDrop()
@@ -136,4 +129,10 @@ end
 
 function SWEP:ShouldDropOnDie()
     return false
+end
+
+function SWEP:OnRemove()
+    if CLIENT then
+        LocalPlayer().SeenKiller = false
+    end
 end

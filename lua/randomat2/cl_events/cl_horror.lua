@@ -2,19 +2,20 @@ local music
 
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
-    local killerID = net.ReadString()
+    killerID = net.ReadString()
     -- Plays a "kikikimamama" sound when the event triggers
     surface.PlaySound("horror/kikikimamama.mp3")
     -- Updates the map lighting to be dark and removes any skybox on the map
     render.RedownloadAllLightmaps()
     hook.Add("PreDrawSkyBox", "HorrorRemoveSkybox", function() return true end)
 
+    -- Plays music if enabled
     if music then
         for i = 1, 2 do
             surface.PlaySound("horror/deep_horrors.mp3")
         end
 
-        timer.Create("HorrorRandomatMusicLoop", 153, 0, function()
+        timer.Create("HorrorRandomatMusicLoop", 136, 0, function()
             for i = 1, 2 do
                 surface.PlaySound("horror/deep_horrors.mp3")
             end
@@ -28,8 +29,8 @@ net.Receive("randomat_horror", function()
         render.FogMaxDensity(1)
 
         if LocalPlayer():SteamID64() == killerID then
-            render.FogStart(300)
-            render.FogEnd(600)
+            render.FogStart(300 * 1.5)
+            render.FogEnd(600 * 1.5)
         else
             render.FogStart(300)
             render.FogEnd(600)
@@ -45,11 +46,11 @@ net.Receive("randomat_horror", function()
         render.FogMaxDensity(1)
 
         if LocalPlayer():SteamID64() == killerID then
-            render.FogStart(300 * scale)
-            render.FogEnd(600 * scale)
+            render.FogStart(300 * 1.5)
+            render.FogEnd(600 * 1.5)
         else
-            render.FogStart(300 * scale)
-            render.FogEnd(600 * scale)
+            render.FogStart(300)
+            render.FogEnd(600)
         end
 
         return true

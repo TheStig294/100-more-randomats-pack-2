@@ -12,11 +12,17 @@ util.AddNetworkString("randomat_horror_end")
 
 local musicConvar = CreateConVar("randomat_horror_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
+local killerCrowbar
+local killerIcons
+local killerPlayerHighlights
+
 function EVENT:Begin()
     horrorRandomat = true
+    -- Picks who is the killer
+    local killer = self:GetAlivePlayers(true)[1]
+    local killerID = killer:SteamID64()
+    -- Draws screen effects to hinder each player's view and plays music if enabled
     engine.LightStyle(0, "a")
-    -- Apply black-and-white filter and play music, if enabled
-    local killerID = table.Random(self:GetAlivePlayers()):SteamID64()
     net.Start("randomat_horror")
     net.WriteBool(musicConvar:GetBool())
     net.WriteString(killerID)
@@ -34,14 +40,22 @@ function EVENT:Begin()
         end
     end
 
-    local killer = nil
+    -- Turns off the killer crowbar, target icons and player highlights for the killer
+    killerCrowbar = GetConVar("ttt_killer_crowbar_enabled"):GetBool()
+    GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)
+    killerIcons = GetConVar("ttt_killer_show_target_icon"):GetBool()
+    GetConVar("ttt_killer_show_target_icon"):SetBool(false)
+    killerPlayerHighlights = GetConVar("ttt_killer_vision_enable"):GetBool()
+    GetConVar("ttt_killer_vision_enable"):SetBool(false)
 
-    for _, ply in ipairs(self:GetAlivePlayers(true)) do
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        -- Turns everyone's flashlight on
         ply:Flashlight(true)
         -- Reset FOV to unscope
         ply:SetFOV(0, 0.2)
 
-        if not killer then
+        -- Gives the killer extra health, an invisibility cloak, and shows hints in the centre of the screen
+        if ply == killer then
             Randomat:SetRole(ply, ROLE_KILLER)
             killer = ply
             ply:SetHealth(200)
@@ -50,7 +64,11 @@ function EVENT:Begin()
             ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns")
 
             timer.Simple(2, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and cloaking device!")
+                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and cloaking device...")
+            end)
+
+            timer.Simple(4, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "Kill all others to win!")
             end)
         else
             Randomat:SetRole(ply, ROLE_INNOCENT)
@@ -63,9 +81,23 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    -- Checking if the randomat has run before trying to remove the greyscale effect, else causes an error
+    -- Checking if the randomat has run before trying to end the event, else causes an error
     if horrorRandomat then
         horrorRandomat = false
+
+        if killerCrowbar ~= nil then
+            GetConVar("ttt_killer_crowbar_enabled"):SetBool(killerCrowbar)
+        end
+
+        if killerIcons ~= nil then
+            GetConVar("ttt_killer_show_target_icon"):SetBool(killerIcons)
+        end
+
+        if killerPlayerHighlights ~= nil then
+            GetConVar("ttt_killer_vision_enable"):SetBool(killerPlayerHighlights)
+        end
+
+        -- Resets map lighting and plays ending music, if enabled
         engine.LightStyle(0, "m")
         net.Start("randomat_horror_end")
         net.Broadcast()

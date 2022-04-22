@@ -61,6 +61,16 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 \
 Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
 
+## Ki Ki Ki Ma Ma Ma, (a.k.a. Horror)
+
+Changes someone to a killer and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight\
+The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, and instead must attack with their re-usable knife.\
+\
+_ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\
+_ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music
+
+Code responsible for removing map lighting originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
+
 ## I'll be back
 
 Changes all normal innocents into phantoms\

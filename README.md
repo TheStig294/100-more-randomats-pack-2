@@ -25,9 +25,9 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. No, I'm a Deputy! - Innocents become deputies, traitors become impersonators
-2. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
-3. You're on the case, detective... - Only the detective can search bodies
+1. Ki Ki Ki Ma Ma Ma - A horror themed randomat that makes someone a powerful killer...
+2. No, I'm a Deputy! - Innocents become deputies, traitors become impersonators
+3. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
 
 # Randomats
 

@@ -6,6 +6,8 @@ local music
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
     local killerID = net.ReadString()
+    -- Plays a "kikikimamama" sound when the event triggers
+    surface.PlaySound("horror/kikikimamama.mp3")
     -- Updates the map lighting to be dark and removes any skybox on the map
     render.RedownloadAllLightmaps()
     hook.Add("PreDrawSkyBox", "HorrorRemoveSkybox", function() return true end)

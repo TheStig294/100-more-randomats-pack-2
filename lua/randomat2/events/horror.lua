@@ -72,6 +72,10 @@ function EVENT:Begin()
             end)
         else
             Randomat:SetRole(ply, ROLE_INNOCENT)
+
+            timer.Simple(5, function()
+                ply:PrintMessage(HUD_PRINTTALK, "When you hear that sound, \nthe killer is invisible...")
+            end)
         end
     end
 

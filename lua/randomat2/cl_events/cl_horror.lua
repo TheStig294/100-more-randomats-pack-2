@@ -1,5 +1,9 @@
 local music
 
+local function IsPlayerValid(p)
+    return IsPlayer(p) and p:Alive() and not p:IsSpec()
+end
+
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
     killerID = net.ReadString()
@@ -46,14 +50,25 @@ net.Receive("randomat_horror", function()
         render.FogMaxDensity(1)
 
         if LocalPlayer():SteamID64() == killerID then
-            render.FogStart(300 * 1.5)
-            render.FogEnd(600 * 1.5)
+            render.FogStart(300 * 1.5 * scale)
+            render.FogEnd(600 * 1.5 * scale)
         else
             render.FogStart(300)
             render.FogEnd(600)
         end
 
         return true
+    end)
+
+    -- Removes popups when players look at a killer using the invisibility cloak
+    hook.Add("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon", function(ply, cli)
+        if not IsPlayerValid(cli) or not IsPlayerValid(ply) then return end
+        if ply:GetNWBool("RdmtInvisible") then return true end
+    end)
+
+    hook.Add("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo", function(ply, cli)
+        if not IsPlayerValid(cli) or not IsPlayerValid(ply) then return end
+        if ply:GetNWBool("RdmtInvisible") then return true end
     end)
 end)
 
@@ -74,4 +89,7 @@ net.Receive("randomat_horror_end", function()
     -- Remove the fog effect
     hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
     hook.Remove("SetupSkyboxFog", "HorrorRandomatSkyboxFog")
+    -- Remove the block on seeing the player info popup
+    hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
+    hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
 end)

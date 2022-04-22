@@ -13,13 +13,15 @@ util.AddNetworkString("randomat_horror_end")
 local musicConvar = CreateConVar("randomat_horror_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
 local killerCrowbar
-local killerIcons
-local killerPlayerHighlights
 
 function EVENT:Begin()
     horrorRandomat = true
+    -- Turns off the killer crowbar, target icons and player highlights for the killer
+    killerCrowbar = GetConVar("ttt_killer_crowbar_enabled"):GetBool()
+    GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)
     -- Picks who is the killer
     local killer = self:GetAlivePlayers(true)[1]
+    killer = Entity(1)
     local killerID = killer:SteamID64()
     -- Draws screen effects to hinder each player's view and plays music if enabled
     engine.LightStyle(0, "a")
@@ -40,67 +42,57 @@ function EVENT:Begin()
         end
     end
 
-    -- Turns off the killer crowbar, target icons and player highlights for the killer
-    killerCrowbar = GetConVar("ttt_killer_crowbar_enabled"):GetBool()
-    GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)
-    killerIcons = GetConVar("ttt_killer_show_target_icon"):GetBool()
-    GetConVar("ttt_killer_show_target_icon"):SetBool(false)
-    killerPlayerHighlights = GetConVar("ttt_killer_vision_enable"):GetBool()
-    GetConVar("ttt_killer_vision_enable"):SetBool(false)
-
     for _, ply in ipairs(self:GetAlivePlayers()) do
         -- Turns everyone's flashlight on
         ply:Flashlight(true)
         -- Reset FOV to unscope
         ply:SetFOV(0, 0.2)
+        -- Role weapons were stripped earlier, but just in case there are some that don't use WEAPON_ROLE...
+        self:StripRoleWeapons(ply)
 
         -- Gives the killer extra health, an invisibility cloak, and shows hints in the centre of the screen
         if ply == killer then
             Randomat:SetRole(ply, ROLE_KILLER)
             killer = ply
             ply:SetHealth(200)
-            ply:SetMaxHealth(200)
+            ply:SetMaxHealth(100)
+            ply:SetCredits(1)
             ply:Give("weapon_ttt_cloak_randomat")
-            ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns")
 
             timer.Simple(2, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and cloaking device...")
+                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns")
             end)
 
             timer.Simple(4, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and cloaking device...")
+            end)
+
+            timer.Simple(6, function()
                 ply:PrintMessage(HUD_PRINTCENTER, "Kill all others to win!")
             end)
         else
             Randomat:SetRole(ply, ROLE_INNOCENT)
+            ply:SetCredits(0)
 
             timer.Simple(5, function()
-                ply:PrintMessage(HUD_PRINTTALK, "When you hear that sound, \nthe killer is invisible...")
+                ply:PrintMessage(HUD_PRINTCENTER, "When you hear that sound...")
+            end)
+
+            timer.Simple(7, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "The killer is invisible...")
             end)
         end
     end
 
     SendFullStateUpdate()
-    -- Prevents players from turning off their flashlight
-    self:AddHook("PlayerSwitchFlashlight", function() return false end)
 end
 
 function EVENT:End()
     -- Checking if the randomat has run before trying to end the event, else causes an error
     if horrorRandomat then
         horrorRandomat = false
-
-        if killerCrowbar ~= nil then
-            GetConVar("ttt_killer_crowbar_enabled"):SetBool(killerCrowbar)
-        end
-
-        if killerIcons ~= nil then
-            GetConVar("ttt_killer_show_target_icon"):SetBool(killerIcons)
-        end
-
-        if killerPlayerHighlights ~= nil then
-            GetConVar("ttt_killer_vision_enable"):SetBool(killerPlayerHighlights)
-        end
-
+        -- Resetting the killer crowbar convar to what is was before the event triggered
+        GetConVar("ttt_killer_crowbar_enabled"):SetBool(killerCrowbar)
         -- Resets map lighting and plays ending music, if enabled
         engine.LightStyle(0, "m")
         net.Start("randomat_horror_end")

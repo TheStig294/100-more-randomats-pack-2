@@ -1,10 +1,24 @@
 AddCSLuaFile()
 
+if SERVER then
+    util.AddNetworkString("randomat_invisibility_cloak_uncloak")
+end
+
 if CLIENT then
     SWEP.PrintName = "Invisibility Cloak"
     SWEP.Slot = 7
     SWEP.DrawAmmo = false
     SWEP.DrawCrosshair = false
+
+    -- Plays the jumpscare sound if someone is looking at the killer as they uncloak
+    net.Receive("randomat_invisibility_cloak_uncloak", function()
+        local client = LocalPlayer()
+        local ent = client:GetEyeTrace().Entity
+
+        if IsPlayer(ent) and ent:IsKiller() then
+            surface.PlaySound("horror/deep_horrors_scare.mp3")
+        end
+    end)
 end
 
 SWEP.HoldType = "knife"
@@ -23,7 +37,7 @@ SWEP.Primary.Ammo = "none"
 SWEP.NoSights = true
 SWEP.AllowDrop = false
 SWEP.InitialEmitSound = true
-SWEP.FlashlightMessage = true
+SWEP.FirstCloakMessage = true
 
 function SWEP:PrimaryAttack()
 end
@@ -39,47 +53,81 @@ function SWEP:Deploy()
     if not IsPlayer(owner) then return end
     owner:GetViewModel():SendViewModelMatchingSequence(12)
     owner:DrawShadow(false)
-    Randomat:SetPlayerInvisible(owner)
+    owner:SetColor(Color(255, 255, 255, 0))
+    owner:SetMaterial("models/effects/vol_light001")
+    owner:SetRenderMode(RENDERMODE_TRANSALPHA)
+    owner:SetNWBool("RdmtInvisible", true)
 
-    if self.InitialEmitSound then
-        self:EmitSound("horror/kikikimamama.mp3", 0)
-        self.InitialEmitSound = false
-    end
-
-    if self.FlashlightMessage then
-        owner:PrintMessage(HUD_PRINTCENTER, "Your flashlight is still visible")
-        self.FlashlightMessage = false
-    end
-
-    timer.Create("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64(), 2, 1, function()
-        if IsValid(self) then
-            self.InitialEmitSound = true
-        else
-            timer.Remove("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64())
-        end
-    end)
-
-    timer.Create("InvisibilityCloakWhisperSound" .. owner:SteamID64(), 10, 0, function()
-        if IsValid(self) then
+    if SERVER then
+        if self.InitialEmitSound then
             self:EmitSound("horror/kikikimamama.mp3", 0)
-        else
-            timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
+            self.InitialEmitSound = false
         end
-    end)
+
+        -- Displays hints on using the invisibility cloak when first brought out
+        if self.FirstCloakMessage then
+            owner:PrintMessage(HUD_PRINTCENTER, "You and your flashlight are barely visible")
+
+            timer.Simple(1, function()
+                owner:PrintMessage(HUD_PRINTCENTER, "You and your flashlight are barely visible")
+            end)
+
+            timer.Simple(3, function()
+                owner:PrintMessage(HUD_PRINTCENTER, "Turn off your flashlight to be less visible")
+            end)
+
+            timer.Simple(4, function()
+                owner:PrintMessage(HUD_PRINTCENTER, "Turn off your flashlight to be less visible")
+            end)
+
+            self.FirstCloakMessage = false
+        end
+
+        -- Prevents spamming the whisper sound for everyone repeatedly 
+        timer.Create("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64(), 2, 1, function()
+            if IsValid(self) then
+                self.InitialEmitSound = true
+            else
+                timer.Remove("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64())
+            end
+        end)
+
+        -- Repeatedly plays the whispering sound while the killer is invisible, to alert everyone else
+        timer.Create("InvisibilityCloakWhisperSound" .. owner:SteamID64(), 10, 0, function()
+            if IsValid(self) then
+                self:EmitSound("horror/kikikimamama.mp3", 0)
+            else
+                timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
+            end
+        end)
+    end
 end
 
 function SWEP:Holster()
     local owner = self:GetOwner()
     if not IsPlayer(owner) then return end
-    Randomat:SetPlayerVisible(owner)
+    owner:SetMaterial("")
+    owner:SetRenderMode(RENDERMODE_NORMAL)
     owner:DrawShadow(true)
-    timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
+    owner:SetNWBool("RdmtInvisible", false)
+
+    if SERVER then
+        timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
+        -- Plays a jumpscare sound if someone is looking directly at someone uncloaking
+        net.Start("randomat_invisibility_cloak_uncloak")
+        net.Broadcast()
+    end
 
     return true
 end
 
 function SWEP:PreDrop()
-    self:Holster()
+    local owner = self:GetOwner()
+    if not IsPlayer(owner) then return end
+    owner:SetMaterial("")
+    owner:SetRenderMode(RENDERMODE_NORMAL)
+    owner:DrawShadow(true)
+    owner:SetNWBool("RdmtInvisible", false)
 end
 
 function SWEP:OnDrop()

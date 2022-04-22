@@ -21,7 +21,7 @@ function EVENT:Begin()
     GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)
     -- Picks who is the killer
     local killer = self:GetAlivePlayers(true)[1]
-    killer = Entity(1)
+    killer = Entity(2)
     local killerID = killer:SteamID64()
     -- Draws screen effects to hinder each player's view and plays music if enabled
     engine.LightStyle(0, "a")
@@ -61,14 +61,17 @@ function EVENT:Begin()
 
             timer.Simple(2, function()
                 ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns")
+                ply:PrintMessage(HUD_PRINTTALK, "You deal less damage with guns")
             end)
 
             timer.Simple(4, function()
                 ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and cloaking device...")
+                ply:PrintMessage(HUD_PRINTTALK, "Use your knife and cloaking device...")
             end)
 
             timer.Simple(6, function()
                 ply:PrintMessage(HUD_PRINTCENTER, "Kill all others to win!")
+                ply:PrintMessage(HUD_PRINTTALK, "Kill all others to win!")
             end)
         else
             Randomat:SetRole(ply, ROLE_INNOCENT)
@@ -76,10 +79,12 @@ function EVENT:Begin()
 
             timer.Simple(5, function()
                 ply:PrintMessage(HUD_PRINTCENTER, "When you hear that sound...")
+                ply:PrintMessage(HUD_PRINTTALK, "When you hear that sound...")
             end)
 
             timer.Simple(7, function()
                 ply:PrintMessage(HUD_PRINTCENTER, "The killer is invisible...")
+                ply:PrintMessage(HUD_PRINTTALK, "The killer is invisible...")
             end)
         end
     end

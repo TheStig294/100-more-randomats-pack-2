@@ -25,7 +25,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. Ki Ki Ki Ma Ma Ma - A horror themed randomat that makes someone a powerful killer...
+1. Friday the 13th - A horror themed randomat that makes someone a powerful killer...
 2. No, I'm a Deputy! - Innocents become deputies, traitors become impersonators
 3. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
 
@@ -61,7 +61,7 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 \
 Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
 
-## Ki Ki Ki Ma Ma Ma, (a.k.a. Horror)
+## Friday the 13th, (a.k.a. Horror)
 
 Changes someone to a killer and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight\
 The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, and instead must attack with their re-usable knife.\
@@ -70,6 +70,11 @@ _ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\
 _ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music
 
 Code responsible for removing map lighting originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
+
+Credit for music used:\
+Unseen Horrors by Kevin MacLeod\
+Link: https://www.youtube.com/watch?v=7URbQvJzztI\
+License: https://filmmusic.io/standard-license
 
 ## I'll be back
 

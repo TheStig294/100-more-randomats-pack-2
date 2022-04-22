@@ -1,5 +1,5 @@
 local EVENT = {}
-EVENT.Title = "Ki Ki Ki Ma Ma Ma"
+EVENT.Title = "Friday the 13th"
 EVENT.AltTitle = "Horror"
 EVENT.ExtDescription = "Makes someone a killer and everyone else innocent. Adds horror-themed visuals and sounds."
 EVENT.id = "horror"
@@ -27,11 +27,38 @@ function EVENT:Begin()
         DisableRoundEndSounds()
     end
 
-    -- Forces everyone's flashlight on
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        ply:Flashlight(true)
+    -- Removes all role and shop weapons
+    for _, ent in ipairs(ents.GetAll()) do
+        if ent.Kind and ent.Kind >= WEAPON_EQUIP1 then
+            ent:Remove()
+        end
     end
 
+    local killer = nil
+
+    for _, ply in ipairs(self:GetAlivePlayers(true)) do
+        ply:Flashlight(true)
+        -- Reset FOV to unscope
+        ply:SetFOV(0, 0.2)
+
+        if not killer then
+            Randomat:SetRole(ply, ROLE_KILLER)
+            killer = ply
+            ply:SetHealth(200)
+            ply:SetMaxHealth(200)
+            ply:Give("weapon_ttt_cloak_randomat")
+            ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns")
+
+            timer.Simple(2, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and cloaking device!")
+            end)
+        else
+            Randomat:SetRole(ply, ROLE_INNOCENT)
+        end
+    end
+
+    SendFullStateUpdate()
+    -- Prevents players from turning off their flashlight
     self:AddHook("PlayerSwitchFlashlight", function() return false end)
 end
 
@@ -43,6 +70,7 @@ function EVENT:End()
         net.Start("randomat_horror_end")
         net.Broadcast()
 
+        -- Turns everyone's flashlight off
         for _, ply in ipairs(self:GetAlivePlayers()) do
             ply:Flashlight(false)
         end

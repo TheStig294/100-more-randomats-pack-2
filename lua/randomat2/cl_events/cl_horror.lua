@@ -72,6 +72,28 @@ net.Receive("randomat_horror", function()
     end)
 end)
 
+net.Receive("randomat_horror_spectator", function()
+    hook.Add("PreDrawHalos", "HorrorRandomatHalos", function()
+        local alivePlys = {}
+
+        for k, v in ipairs(player.GetAll()) do
+            if v:Alive() and not v:IsSpec() then
+                alivePlys[k] = v
+            end
+        end
+
+        halo.Add(alivePlys, Color(255, 0, 0), 0, 0, 1, true, true)
+    end)
+
+    -- Remove the fog effect and re-add the skybox to help spectators see better
+    hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
+    hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
+    hook.Remove("SetupSkyboxFog", "HorrorRandomatSkyboxFog")
+    -- Remove the block on seeing the player info popup
+    hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
+    hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
+end)
+
 net.Receive("randomat_horror_end", function()
     -- Plays the ending music
     if music then
@@ -93,6 +115,8 @@ net.Receive("randomat_horror_end", function()
         -- Remove the block on seeing the player info popup
         hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
         hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
+        -- Remove the spectator halos
+        hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
 
         timer.Simple(2, function()
             render.RedownloadAllLightmaps()

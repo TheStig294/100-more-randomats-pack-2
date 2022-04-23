@@ -9,10 +9,27 @@ EVENT.Categories = {"rolechange", "largeimpact"}
 
 util.AddNetworkString("randomat_horror")
 util.AddNetworkString("randomat_horror_end")
+util.AddNetworkString("randomat_horror_spectator")
 
 local musicConvar = CreateConVar("randomat_horror_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
 local killerCrowbar
+
+local function SpectatorMessage(ply)
+    ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through living players")
+
+    timer.Simple(2, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through living players")
+    end)
+
+    timer.Simple(4, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'R' to go to first person view")
+    end)
+
+    timer.Simple(6, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'R' to go to first person view")
+    end)
+end
 
 function EVENT:Begin()
     horrorRandomat = true
@@ -78,18 +95,37 @@ function EVENT:Begin()
             ply:SetCredits(0)
 
             timer.Simple(5, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "When you hear that sound...")
-                ply:PrintMessage(HUD_PRINTTALK, "When you hear that sound...")
+                if ply:Alive() and not ply:IsSpec() then
+                    ply:PrintMessage(HUD_PRINTCENTER, "When you hear that sound...")
+                    ply:PrintMessage(HUD_PRINTTALK, "When you hear that sound...")
+                end
             end)
 
             timer.Simple(7, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "The killer is invisible...")
-                ply:PrintMessage(HUD_PRINTTALK, "The killer is invisible...")
+                if ply:Alive() and not ply:IsSpec() then
+                    ply:PrintMessage(HUD_PRINTCENTER, "The killer is invisible...")
+                    ply:PrintMessage(HUD_PRINTTALK, "The killer is invisible...")
+                end
             end)
         end
     end
 
     SendFullStateUpdate()
+
+    -- Puts halos around living players for spectators to make them easier to see
+    for _, ply in ipairs(player.GetAll()) do
+        if ply:IsSpec() then
+            net.Start("randomat_horror_spectator")
+            net.Send(ply)
+            SpectatorMessage(ply)
+        end
+    end
+
+    self:AddHook("PostPlayerDeath", function(ply)
+        net.Start("randomat_horror_spectator")
+        net.Send(ply)
+        SpectatorMessage(ply)
+    end)
 end
 
 function EVENT:End()

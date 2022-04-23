@@ -60,7 +60,9 @@ function SWEP:Deploy()
 
     if SERVER then
         if GetGlobalBool("randomat_horror_cloak_sounds") and self.InitialEmitSound then
-            self:EmitSound("horror/kikikimamama.mp3", 0)
+            -- Why not just use self:EmitSound() ? Because it sometimes decides to just not play the sound...
+            -- This method of playing the sound from the client works more consistently
+            BroadcastLua("surface.PlaySound(\"horror/kikikimamama.mp3\")")
             self.InitialEmitSound = false
         end
 
@@ -95,7 +97,7 @@ function SWEP:Deploy()
         -- Repeatedly plays the whispering sound while the killer is invisible, to alert everyone else
         timer.Create("InvisibilityCloakWhisperSound" .. owner:SteamID64(), 10, 0, function()
             if GetGlobalBool("randomat_horror_cloak_sounds") and IsValid(self) then
-                self:EmitSound("horror/kikikimamama.mp3", 0)
+                BroadcastLua("surface.PlaySound(\"horror/kikikimamama.mp3\")")
             else
                 timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
             end

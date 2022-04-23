@@ -64,7 +64,7 @@ Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
 ## Friday the 13th, (a.k.a. Horror)
 
 Changes someone to a killer and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight\
-The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, and instead must attack with their re-usable knife.\
+The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife.\
 \
 _ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\
 _ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music
@@ -72,13 +72,29 @@ _ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music
 Code responsible for removing map lighting originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
 
 Credit for sounds/music used:\
-Unseen Horrors by Kevin MacLeod\
+"Unseen Horrors" by Kevin MacLeod\
 Link: https://www.youtube.com/watch?v=7URbQvJzztI\
 License: https://filmmusic.io/standard-license\
 \
-Horror Sounds by GowlerMusic\
+"Horror Sounds" by GowlerMusic\
 Link: https://freesound.org/people/GowlerMusic/sounds/262257/\
-License: https://creativecommons.org/licenses/by/3.0/
+License: https://creativecommons.org/licenses/by/3.0/\
+\
+"Hand Bells, Reverse Cluster" by InspectorJ\
+Link: https://freesound.org/people/InspectorJ/sounds/339821/\
+License: https://creativecommons.org/licenses/by/4.0/\
+\
+"Horror, Violin Tremolo Cluster, B" by InspectorJ\
+Link: https://freesound.org/people/InspectorJ/sounds/370937/\
+License: https://creativecommons.org/licenses/by/4.0/\
+\
+"Piano, String Glissando, Low, A" by InspectorJ\
+Link: https://freesound.org/people/InspectorJ/sounds/339671/\
+License: https://creativecommons.org/licenses/by/4.0/\
+\
+"Ghost Scream" by onderwish\
+Link: https://freesound.org/people/onderwish/sounds/469141/\
+License: https://creativecommons.org/publicdomain/zero/1.0/
 
 ## I'll be back
 

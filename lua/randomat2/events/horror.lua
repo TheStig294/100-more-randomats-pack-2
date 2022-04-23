@@ -146,6 +146,7 @@ function EVENT:Begin()
         net.Send(ply)
     end)
 
+    -- Plays a random horror sound when a spectator presses the jump key
     self:AddHook("KeyPress", function(ply, key)
         if key == IN_JUMP and ply:GetNWInt("HorrorRandomatSpectatorPower", 0) == 100 then
             local target = ply:GetObserverMode() ~= OBS_MODE_ROAMING and ply:GetObserverTarget() or nil
@@ -170,6 +171,7 @@ function EVENT:Begin()
         end
     end)
 
+    -- Updates the spectator charge bar
     local tick = GetConVar("randomat_horror_spectator_charge_time"):GetInt() / 100
 
     timer.Create("HorrorRandomatPowerTimer", tick, 0, function()

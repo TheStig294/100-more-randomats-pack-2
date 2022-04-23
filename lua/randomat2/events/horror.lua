@@ -11,8 +11,11 @@ EVENT.Categories = {"spectator", "rolechange", "largeimpact"}
 util.AddNetworkString("randomat_horror")
 util.AddNetworkString("randomat_horror_end")
 util.AddNetworkString("randomat_horror_spectator")
+util.AddNetworkString("randomat_horror_respawn")
 
 local musicConvar = CreateConVar("randomat_horror_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
+
+CreateConVar("randomat_horror_spectator_charge_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many seconds it takes to charge playing a sound as a spectator", 10, 120)
 
 local killerCrowbar
 
@@ -124,10 +127,42 @@ function EVENT:Begin()
         end
     end
 
+    -- Removes screen effects and add halos around players for spectators
     self:AddHook("PostPlayerDeath", function(ply)
         net.Start("randomat_horror_spectator")
         net.Send(ply)
         SpectatorMessage(ply)
+    end)
+
+    -- Re-adds screen effects and removes player halos for players that respawn
+    self:AddHook("PlayerSpawn", function(ply)
+        net.Start("randomat_horror_respawn")
+        net.Send(ply)
+    end)
+
+    self:AddHook("KeyPress", function(ply, key)
+        if key == IN_JUMP and ply:GetNWInt("HorrorRandomatSpectatorPower", 0) == 100 then
+            local target = ply:GetObserverMode() ~= OBS_MODE_ROAMING and ply:GetObserverTarget() or nil
+
+            if IsPlayer(target) then
+                -- Reset the player's power
+                ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
+                -- Insert effect here...
+                -- Do stuff, play sounds, keep track of played sounds, etc.
+            end
+        end
+    end)
+
+    local tick = GetConVar("randomat_horror_spectator_charge_time"):GetInt() / 100
+
+    timer.Create("HorrorRandomatPowerTimer", tick, 0, function()
+        for _, ply in ipairs(self:GetDeadPlayers()) do
+            local power = ply:GetNWInt("HorrorRandomatPower", 0)
+
+            if power < 100 then
+                ply:SetNWInt("HorrorRandomatPower", power + 1)
+            end
+        end
     end)
 end
 

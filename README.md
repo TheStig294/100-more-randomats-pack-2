@@ -71,10 +71,14 @@ _ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music
 
 Code responsible for removing map lighting originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
 
-Credit for music used:\
+Credit for sounds/music used:\
 Unseen Horrors by Kevin MacLeod\
 Link: https://www.youtube.com/watch?v=7URbQvJzztI\
-License: https://filmmusic.io/standard-license
+License: https://filmmusic.io/standard-license\
+\
+Horror Sounds by GowlerMusic\
+Link: https://freesound.org/people/GowlerMusic/sounds/262257/\
+License: https://creativecommons.org/licenses/by/3.0/
 
 ## I'll be back
 

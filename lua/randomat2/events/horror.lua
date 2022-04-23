@@ -12,12 +12,17 @@ util.AddNetworkString("randomat_horror")
 util.AddNetworkString("randomat_horror_end")
 util.AddNetworkString("randomat_horror_spectator")
 util.AddNetworkString("randomat_horror_respawn")
+util.AddNetworkString("randomat_horror_spectator_sound")
 
 local musicConvar = CreateConVar("randomat_horror_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
 CreateConVar("randomat_horror_spectator_charge_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many seconds it takes to charge playing a sound as a spectator", 10, 120)
 
-local killerCrowbar
+CreateConVar("randomat_horror_spectator_sound_cooldown", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many seconds it takes until someone can hear a spectator sound again", 10, 120)
+
+local killerCrowbar = true
+
+local spectatorSounds = {"horror/spectator_sounds/box_laugh.mp3", "horror/spectator_sounds/box_richtofen_laugh.mp3", "horror/spectator_sounds/flowey_laugh.mp3", "horror/spectator_sounds/gowlermusic_sudden_sound.mp3", "horror/spectator_sounds/inspectorj_hand_bells_reverse.mp3", "horror/spectator_sounds/inspectorj_horror_violin.mp3", "horror/spectator_sounds/minecraft_cave_sound_1.mp3", "horror/spectator_sounds/minecraft_cave_sound_2.mp3", "horror/spectator_sounds/moon_laugh.mp3", "horror/spectator_sounds/onderwish_scream.mp3"}
 
 local function SpectatorMessage(ply)
     ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through living players")
@@ -119,6 +124,7 @@ function EVENT:Begin()
     -- Puts halos around living players for spectators to make them easier to see
     for _, ply in ipairs(player.GetAll()) do
         ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
+        ply:SetNWBool("HorrorRandomatSpectatorCooldown", false)
 
         if not ply:Alive() or ply:IsSpec() then
             net.Start("randomat_horror_spectator")
@@ -144,11 +150,22 @@ function EVENT:Begin()
         if key == IN_JUMP and ply:GetNWInt("HorrorRandomatSpectatorPower", 0) == 100 then
             local target = ply:GetObserverMode() ~= OBS_MODE_ROAMING and ply:GetObserverTarget() or nil
 
-            if IsPlayer(target) then
+            if IsPlayer(target) and not target:GetNWBool("HorrorRandomatSpectatorCooldown") then
                 -- Reset the player's power
                 ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
-                -- Insert effect here...
-                -- Do stuff, play sounds, keep track of played sounds, etc.
+                -- Players can only hear sounds on a cooldown
+                target:SetNWBool("HorrorRandomatSpectatorCooldown", true)
+
+                timer.Simple(GetConVar("randomat_horror_spectator_sound_cooldown"):GetInt(), function()
+                    target:SetNWBool("HorrorRandomatSpectatorCooldown", false)
+                end)
+
+                -- Sound plays for the spectator and target player
+                local soundPlayers = {target, ply}
+
+                net.Start("randomat_horror_spectator_sound")
+                net.WriteString(table.Random(spectatorSounds))
+                net.Send(soundPlayers)
             end
         end
     end)

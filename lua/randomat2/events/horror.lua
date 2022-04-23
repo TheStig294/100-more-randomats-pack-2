@@ -46,8 +46,8 @@ function EVENT:Begin()
     killerCrowbar = GetConVar("ttt_killer_crowbar_enabled"):GetBool()
     GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)
     -- Picks who is the killer
-    local killer = self:GetAlivePlayers(true)[1]
-    killer = Entity(2)
+    local alivePlayers = self:GetAlivePlayers(true)
+    local killer = alivePlayers[1]
     local killerID = killer:SteamID64()
     -- Draws screen effects to hinder each player's view and plays music if enabled
     engine.LightStyle(0, "a")
@@ -68,7 +68,7 @@ function EVENT:Begin()
         end
     end
 
-    for _, ply in ipairs(self:GetAlivePlayers()) do
+    for _, ply in ipairs(alivePlayers) do
         -- Turns everyone's flashlight on
         ply:Flashlight(true)
         -- Reset FOV to unscope

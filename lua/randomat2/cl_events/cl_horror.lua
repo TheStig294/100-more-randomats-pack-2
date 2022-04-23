@@ -89,6 +89,24 @@ net.Receive("randomat_horror_spectator", function()
         halo.Add(alivePlys, Color(255, 0, 0), 0, 0, 1, true, true)
     end)
 
+    hook.Add("HUDPaint", "HorrorRandomatUI", function()
+        local width, height, margin = 200, 25, 20
+        local x = ScrW() / 2 - width / 2
+        local y = ScrH() - (margin / 2 + height)
+        local progress = client:GetNWInt("HorrorRandomatPower", 0)
+        local progress_percentage = progress / 100
+
+        local colors = {
+            border = COLOR_WHITE,
+            background = Color(17, 115, 135, 222),
+            fill = Color(82, 226, 255, 255)
+        }
+
+        Randomat:PaintBar(8, x, y, width, height, colors, progress_percentage)
+        draw.SimpleText("SCARE POWER", "HealthAmmo", ScrW() / 2, y, Color(0, 0, 10, 200), TEXT_ALIGN_CENTER)
+        draw.SimpleText("Press JUMP to play a horror sound for someone (must be spectating a player)", "TabLarge", ScrW() / 2, y - margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
+    end)
+
     -- Remove the fog effect and re-add the skybox to help spectators see better
     hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
     hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
@@ -102,6 +120,7 @@ net.Receive("randomat_horror_respawn", function()
     ApplyScreenEffects()
     -- Remove the spectator halos
     hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
+    hook.Remove("HUDPaint", "HorrorRandomatUI")
 end)
 
 net.Receive("randomat_horror_end", function()

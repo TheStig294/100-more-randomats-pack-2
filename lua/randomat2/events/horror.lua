@@ -1,7 +1,7 @@
 local EVENT = {}
 EVENT.Title = "Friday the 13th"
 EVENT.AltTitle = "Horror"
-EVENT.ExtDescription = "Makes someone a killer and everyone else innocent. Adds horror-themed visuals and sounds."
+EVENT.ExtDescription = "One killer vs. innocents. Adds horror-themed visuals and sounds."
 EVENT.id = "horror"
 
 EVENT.Type = {EVENT_TYPE_MUSIC, EVENT_TYPE_SPECTATOR_UI}
@@ -22,7 +22,7 @@ CreateConVar("randomat_horror_cloak_sounds", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "
 
 CreateConVar("randomat_horror_spectator_charge_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until a spectator can play a sound again", 10, 120)
 
-CreateConVar("randomat_horror_spectator_sound_cooldown", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds it takes until someone can hear a spectator sound again", 10, 120)
+CreateConVar("randomat_horror_spectator_sound_cooldown", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until someone can hear a spectator sound again", 10, 120)
 
 CreateConVar("randomat_horror_killer_crowbar", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a throwable crowbar rather than a normal one", 0, 1)
 
@@ -30,7 +30,7 @@ CreateConVar("randomat_horror_killer_health", 200, {FCVAR_NOTIFY, FCVAR_ARCHIVE}
 
 CreateConVar("randomat_horror_killer_credits", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Credits the killer starts with", 0, 5)
 
-CreateConVar("randomat_horror_killer_cloak", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a 'Shadow Cloak' item, which makes them appear as a shadow while held", 0, 1)
+CreateConVar("randomat_horror_killer_cloak", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a 'Shadow Cloak' item. Makes them appear as a shadow while held", 0, 1)
 
 -- Removes the spectator category if spectator sounds are turned off
 if not GetConVar("randomat_horror_spectator_sounds"):GetBool() then

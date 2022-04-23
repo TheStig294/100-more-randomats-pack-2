@@ -114,7 +114,7 @@ function EVENT:Begin()
 
     -- Puts halos around living players for spectators to make them easier to see
     for _, ply in ipairs(player.GetAll()) do
-        if ply:IsSpec() then
+        if not ply:Alive() or ply:IsSpec() then
             net.Start("randomat_horror_spectator")
             net.Send(ply)
             SpectatorMessage(ply)

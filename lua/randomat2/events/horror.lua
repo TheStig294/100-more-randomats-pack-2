@@ -91,8 +91,8 @@ function EVENT:Begin()
             end)
 
             timer.Simple(4, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and cloaking device...")
-                ply:PrintMessage(HUD_PRINTTALK, "Use your knife and cloaking device...")
+                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and shadow cloak...")
+                ply:PrintMessage(HUD_PRINTTALK, "Use your knife and shadow cloak...")
             end)
 
             timer.Simple(6, function()
@@ -112,8 +112,8 @@ function EVENT:Begin()
 
             timer.Simple(7, function()
                 if ply:Alive() and not ply:IsSpec() then
-                    ply:PrintMessage(HUD_PRINTCENTER, "The killer is invisible...")
-                    ply:PrintMessage(HUD_PRINTTALK, "The killer is invisible...")
+                    ply:PrintMessage(HUD_PRINTCENTER, "The killer is a shadow...")
+                    ply:PrintMessage(HUD_PRINTTALK, "The killer is shadow...")
                 end
             end)
         end

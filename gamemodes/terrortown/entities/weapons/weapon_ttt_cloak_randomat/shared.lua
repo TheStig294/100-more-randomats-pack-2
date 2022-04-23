@@ -5,7 +5,7 @@ if SERVER then
 end
 
 if CLIENT then
-    SWEP.PrintName = "Invisibility Cloak"
+    SWEP.PrintName = "Shadow Cloak"
     SWEP.Slot = 7
     SWEP.DrawAmmo = false
     SWEP.DrawCrosshair = false
@@ -66,18 +66,18 @@ function SWEP:Deploy()
 
         -- Displays hints on using the invisibility cloak when first brought out
         if self.FirstCloakMessage then
-            owner:PrintMessage(HUD_PRINTCENTER, "You and your flashlight are barely visible")
+            owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow, stay in the dark!")
 
             timer.Simple(1, function()
-                owner:PrintMessage(HUD_PRINTCENTER, "You and your flashlight are barely visible")
+                owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow, stay in the dark!")
             end)
 
             timer.Simple(3, function()
-                owner:PrintMessage(HUD_PRINTCENTER, "Turn off your flashlight to be less visible")
+                owner:PrintMessage(HUD_PRINTCENTER, "Your flashlight is barely visible to others")
             end)
 
             timer.Simple(4, function()
-                owner:PrintMessage(HUD_PRINTCENTER, "Turn off your flashlight to be less visible")
+                owner:PrintMessage(HUD_PRINTCENTER, "Your flashlight is barely visible to others")
             end)
 
             self.FirstCloakMessage = false

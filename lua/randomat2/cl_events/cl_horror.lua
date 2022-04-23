@@ -1,7 +1,7 @@
 local music
 local killerID
-local spectatorSounds
 local cloakSounds
+local client
 
 local function IsPlayerValid(p)
     return IsPlayer(p) and p:Alive() and not p:IsSpec()
@@ -57,8 +57,8 @@ end
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
     killerID = net.ReadString()
-    spectatorSounds = net.ReadBool()
     cloakSounds = net.ReadBool()
+    client = LocalPlayer()
 
     -- Plays a "kikikimamama" sound when the event triggers
     if cloakSounds then

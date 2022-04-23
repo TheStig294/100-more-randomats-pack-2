@@ -131,6 +131,11 @@ function EVENT:Begin()
             net.Send(ply)
             SpectatorMessage(ply)
         end
+
+        -- Adding all sounds to the initial pool spectator sound so players don't hear the same sound more than once
+        -- Until all sounds have been heard before
+        ply.remainingSpectatorSounds = {}
+        table.Add(ply.remainingSpectatorSounds, spectatorSounds)
     end
 
     -- Removes screen effects and add halos around players for spectators
@@ -162,10 +167,18 @@ function EVENT:Begin()
                 end)
 
                 -- Sound plays for the spectator and target player
+                local randomSound = table.Random(target.remainingSpectatorSounds)
+                table.RemoveByValue(target.remainingSpectatorSounds, randomSound)
+
+                -- Resets the choosable sounds if all have been played before for that player
+                if table.IsEmpty(target.remainingSpectatorSounds) then
+                    table.Add(target.remainingSpectatorSounds, spectatorSounds)
+                end
+
                 local soundPlayers = {target, ply}
 
                 net.Start("randomat_horror_spectator_sound")
-                net.WriteString(table.Random(spectatorSounds))
+                net.WriteString(randomSound)
                 net.Send(soundPlayers)
             end
         end

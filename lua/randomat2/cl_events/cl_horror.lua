@@ -1,4 +1,7 @@
-local music = true
+local music
+local killerID
+local spectatorSounds
+local cloakSounds
 
 local function IsPlayerValid(p)
     return IsPlayer(p) and p:Alive() and not p:IsSpec()
@@ -54,8 +57,14 @@ end
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
     killerID = net.ReadString()
+    spectatorSounds = net.ReadBool()
+    cloakSounds = net.ReadBool()
+
     -- Plays a "kikikimamama" sound when the event triggers
-    surface.PlaySound("horror/kikikimamama.mp3")
+    if cloakSounds then
+        surface.PlaySound("horror/kikikimamama.mp3")
+    end
+
     -- Updates the map lighting to be dark and removes any skybox on the map
     render.RedownloadAllLightmaps()
     hook.Add("PreDrawSkyBox", "HorrorRemoveSkybox", function() return true end)

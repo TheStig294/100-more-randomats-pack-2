@@ -63,11 +63,19 @@ Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
 
 ## Friday the 13th, (a.k.a. Horror)
 
-Changes someone to a killer and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight\
-The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife.\
+Changes someone to a killer and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
+The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife, and sneak around as a shadow with their 'Shadow Cloak'.\
 \
 _ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\
-_ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music
+_ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music\
+_randomat_horror_spectator_sounds_ - Default: 1 - Spectators can play horror sounds\
+_randomat_horror_cloak_sounds_ - Default: 1 - Sounds play as the killer is cloaked/uncloaks\
+_randomat_horror_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again\
+_randomat_horror_spectator_sound_cooldown_ - Default: 30 - Seconds it takes until someone can hear a spectator sound again\
+_randomat_horror_killer_crowbar_ - Default: 0 - Killer gets a throwable crowbar rather than a normal one\
+_randomat_horror_killer_health_ - Default: 200 - How much health the killer starts with\
+_randomat_horror_killer_credits_ - Default: 1 - Credits the killer starts with\
+_randomat_horror_killer_cloak_ - Default: 1 - Killer gets a 'Shadow Cloak' item, which makes them appear as a shadow while held
 
 Code responsible for removing map lighting originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
 

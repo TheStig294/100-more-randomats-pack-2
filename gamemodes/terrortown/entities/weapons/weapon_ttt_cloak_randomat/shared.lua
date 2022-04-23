@@ -13,7 +13,7 @@ if CLIENT then
     LocalPlayer().SeenKiller = false
 
     net.Receive("randomat_invisibility_cloak_uncloak", function()
-        if LocalPlayer().GetEyeTrace then
+        if GetGlobalBool("randomat_horror_cloak_sounds") and LocalPlayer().GetEyeTrace then
             local ent = LocalPlayer():GetEyeTrace().Entity
 
             if IsPlayer(ent) and ent:IsKiller() and not LocalPlayer().SeenKiller then
@@ -59,7 +59,7 @@ function SWEP:Deploy()
     Randomat:SetPlayerInvisible(owner)
 
     if SERVER then
-        if self.InitialEmitSound then
+        if GetGlobalBool("randomat_horror_cloak_sounds") and self.InitialEmitSound then
             self:EmitSound("horror/kikikimamama.mp3", 0)
             self.InitialEmitSound = false
         end
@@ -94,7 +94,7 @@ function SWEP:Deploy()
 
         -- Repeatedly plays the whispering sound while the killer is invisible, to alert everyone else
         timer.Create("InvisibilityCloakWhisperSound" .. owner:SteamID64(), 10, 0, function()
-            if IsValid(self) then
+            if GetGlobalBool("randomat_horror_cloak_sounds") and IsValid(self) then
                 self:EmitSound("horror/kikikimamama.mp3", 0)
             else
                 timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())

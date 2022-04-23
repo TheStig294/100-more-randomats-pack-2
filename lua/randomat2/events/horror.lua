@@ -170,6 +170,11 @@ function EVENT:Begin()
         net.Start("randomat_horror_spectator")
         net.Send(ply)
         SpectatorMessage(ply)
+
+        timer.Simple(3, function()
+            ply:AllowFlashlight(true)
+            ply:Flashlight(true)
+        end)
     end)
 
     -- Re-adds screen effects and removes player halos for players that respawn

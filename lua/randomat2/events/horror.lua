@@ -206,11 +206,30 @@ function EVENT:End()
     end
 end
 
+-- This event can only run if the "killer" role exists
 function EVENT:Condition()
     return ConVarExists("ttt_killer_enabled")
 end
 
 function EVENT:GetConVars()
+    local sliders = {}
+
+    for _, v in ipairs({"spectator_charge_time", "spectator_sound_cooldown"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(sliders, {
+                cmd = v,
+                dsc = convar:GetHelpText(),
+                min = convar:GetMin(),
+                max = convar:GetMax(),
+                dcm = 0
+            })
+        end
+    end
+
     local checkboxes = {}
 
     for _, v in pairs({"music"}) do
@@ -229,7 +248,7 @@ function EVENT:GetConVars()
         end
     end
 
-    return {}, checkboxes
+    return sliders, checkboxes
 end
 
 Randomat:register(EVENT)

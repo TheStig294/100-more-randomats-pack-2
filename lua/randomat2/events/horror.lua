@@ -3,9 +3,10 @@ EVENT.Title = "Friday the 13th"
 EVENT.AltTitle = "Horror"
 EVENT.ExtDescription = "Makes someone a killer and everyone else innocent. Adds horror-themed visuals and sounds."
 EVENT.id = "horror"
-EVENT.Type = EVENT_TYPE_MUSIC
 
-EVENT.Categories = {"rolechange", "largeimpact"}
+EVENT.Type = {EVENT_TYPE_MUSIC, EVENT_TYPE_SPECTATOR_UI}
+
+EVENT.Categories = {"spectator", "rolechange", "largeimpact"}
 
 util.AddNetworkString("randomat_horror")
 util.AddNetworkString("randomat_horror_end")
@@ -114,6 +115,8 @@ function EVENT:Begin()
 
     -- Puts halos around living players for spectators to make them easier to see
     for _, ply in ipairs(player.GetAll()) do
+        ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
+
         if not ply:Alive() or ply:IsSpec() then
             net.Start("randomat_horror_spectator")
             net.Send(ply)

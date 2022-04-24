@@ -39,8 +39,8 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "none"
 SWEP.NoSights = true
 SWEP.AllowDrop = false
-SWEP.InitialEmitSound = true
 SWEP.FirstCloakMessage = true
+SetGlobalBool("randomat_horror_cloak_initial_sound", true)
 
 function SWEP:PrimaryAttack()
 end
@@ -59,11 +59,11 @@ function SWEP:Deploy()
     Randomat:SetPlayerInvisible(owner)
 
     if SERVER then
-        if GetGlobalBool("randomat_horror_cloak_sounds") and self.InitialEmitSound and owner:Alive() and not owner:IsSpec() then
+        if GetGlobalBool("randomat_horror_cloak_sounds") and GetGlobalBool("randomat_horror_cloak_initial_sound") and owner:Alive() and not owner:IsSpec() then
             -- Why not just use self:EmitSound() ? Because it sometimes decides to just not play the sound...
             -- This method of playing the sound from the client works more consistently
             BroadcastLua("surface.PlaySound(\"horror/kikikimamama.mp3\")")
-            self.InitialEmitSound = false
+            SetGlobalBool("randomat_horror_cloak_initial_sound", false)
         end
 
         -- Displays hints on using the invisibility cloak when first brought out
@@ -88,20 +88,22 @@ function SWEP:Deploy()
         -- Prevents spamming the whisper sound for everyone repeatedly 
         timer.Create("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64(), 5, 1, function()
             if IsValid(self) then
-                self.InitialEmitSound = true
+                SetGlobalBool("randomat_horror_cloak_initial_sound", true)
             else
                 timer.Remove("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64())
             end
         end)
 
         -- Repeatedly plays the whispering sound while the killer is invisible, to alert everyone else
-        timer.Create("InvisibilityCloakWhisperSound" .. owner:SteamID64(), 10, 0, function()
-            if GetGlobalBool("randomat_horror_cloak_sounds") and IsValid(self) then
-                BroadcastLua("surface.PlaySound(\"horror/kikikimamama.mp3\")")
-            else
-                timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
-            end
-        end)
+        if not timer.Exists("InvisibilityCloakWhisperSound") then
+            timer.Create("InvisibilityCloakWhisperSound", 10, 0, function()
+                if GetGlobalBool("randomat_horror_cloak_sounds") and IsValid(self) then
+                    BroadcastLua("surface.PlaySound(\"horror/kikikimamama.mp3\")")
+                else
+                    timer.Remove("InvisibilityCloakWhisperSound")
+                end
+            end)
+        end
     end
 end
 
@@ -112,7 +114,7 @@ function SWEP:Holster()
     Randomat:SetPlayerVisible(owner)
 
     if SERVER then
-        timer.Remove("InvisibilityCloakWhisperSound" .. owner:SteamID64())
+        timer.Remove("InvisibilityCloakWhisperSound")
         -- Plays a jumpscare sound if someone is looking directly at someone uncloaking
         net.Start("randomat_invisibility_cloak_uncloak")
         net.Broadcast()

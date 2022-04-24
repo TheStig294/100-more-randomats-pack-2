@@ -55,6 +55,31 @@ local function ApplyScreenEffects()
     end)
 end
 
+local function RemoveHooks()
+    -- Reset map lighting and stop removing the skybox if the map had one
+    render.RedownloadAllLightmaps()
+    hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
+    -- Remove the fog effect
+    hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
+    hook.Remove("SetupSkyboxFog", "HorrorRandomatSkyboxFog")
+    -- Remove the block on seeing the player info popup
+    hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
+    hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
+    -- Remove the spectator halos, UI and artificial flashlight
+    hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
+    hook.Remove("HUDPaint", "HorrorRandomatUI")
+    hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
+
+    if client.HorrorRandomatFlashlight then
+        client.HorrorRandomatFlashlight:Remove()
+    end
+
+    -- Just in case
+    timer.Simple(2, function()
+        render.RedownloadAllLightmaps()
+    end)
+end
+
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
     cloakSounds = net.ReadBool()
@@ -90,8 +115,8 @@ net.Receive("randomat_horror", function()
         local soundPlayed = false
 
         hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
-            LANG.AddToLanguage("english", "win_horror_killer", "game over")
-            LANG.AddToLanguage("english", "win_horror_innocent", ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive")
+            LANG.AddToLanguage("english", "win_horror_killer", string.lower("game over"))
+            LANG.AddToLanguage("english", "win_horror_innocent", string.lower(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
             local newTitle = {}
 
             if wintype == WIN_KILLER then
@@ -105,10 +130,14 @@ net.Receive("randomat_horror", function()
 
             timer.Simple(0.1, function()
                 if killerWinPassed and not soundPlayed then
+                    timer.Simple(10, RemoveHooks)
+
                     for i = 1, 2 do
                         surface.PlaySound("horror/moon_laugh_2.mp3")
                     end
                 elseif not soundPlayed then
+                    timer.Simple(5, RemoveHooks)
+
                     for i = 1, 2 do
                         surface.PlaySound("horror/deep_horrors_scare.mp3")
                     end
@@ -187,28 +216,7 @@ net.Receive("randomat_horror_end", function()
         end
     end
 
-    timer.Simple(5, function()
-        -- Reset map lighting and stop removing the skybox if the map had one
-        render.RedownloadAllLightmaps()
-        hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
-        -- Remove the fog effect
-        hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
-        hook.Remove("SetupSkyboxFog", "HorrorRandomatSkyboxFog")
-        -- Remove the block on seeing the player info popup
-        hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
-        hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
-        -- Remove the spectator halos, UI and artificial flashlight
-        hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
-        hook.Remove("HUDPaint", "HorrorRandomatUI")
-        hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
-
-        if client.HorrorRandomatFlashlight then
-            client.HorrorRandomatFlashlight:Remove()
-        end
-
-        -- Just in case
-        timer.Simple(2, function()
-            render.RedownloadAllLightmaps()
-        end)
-    end)
+    if not horrorEnding then
+        timer.Simple(5, RemoveHooks)
+    end
 end)

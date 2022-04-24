@@ -67,7 +67,8 @@ Changes 1/2 as many people as there were traitors to killers, and everyone else 
 The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife, and sneak around as a shadow with their 'Shadow Cloak'.\
 \
 _ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\
-_ttt_randomat_horror_music_ - Default: 1 - Whether this randomat plays music\
+_randomat_horror_music_ - Default: 1 - Whether this randomat plays music\
+_randomat_horror_ending_ - Default: 1 - Win screen plays a horror sound and ending title is changed\
 _randomat_horror_spectator_sounds_ - Default: 1 - Spectators can play horror sounds\
 _randomat_horror_cloak_sounds_ - Default: 1 - Sounds play as the killer is cloaked/uncloaks\
 _randomat_horror_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again\

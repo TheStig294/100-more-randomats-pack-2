@@ -1,6 +1,7 @@
 local music
 local cloakSounds
 local client
+local horrorEnding
 
 local function IsPlayerValid(p)
     return IsPlayer(p) and p:Alive() and not p:IsSpec()
@@ -56,6 +57,7 @@ end
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
     cloakSounds = net.ReadBool()
+    horrorEnding = net.ReadBool()
     client = LocalPlayer()
 
     -- Plays a "kikikimamama" sound when the event triggers
@@ -82,35 +84,41 @@ net.Receive("randomat_horror", function()
 
     ApplyScreenEffects()
 
-    hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
-        LANG.AddToLanguage("english", "win_horror_killer", string.upper("game over"))
-        LANG.AddToLanguage("english", "win_horror_innocent", string.upper(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
-        local newTitle = {}
+    if horrorEnding then
+        local killerWinPassed = false
+        local soundPlayed = false
 
-        if wintype == WIN_KILLER then
-            newTitle.txt = "win_horror_killer"
-            newTitle.c = Color(0, 0, 0)
-        else
-            newTitle.txt = "win_horror_innocent"
-            newTitle.c = Color(0, 0, 0)
-        end
+        hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
+            LANG.AddToLanguage("english", "win_horror_killer", "game over")
+            LANG.AddToLanguage("english", "win_horror_innocent", ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive")
+            local newTitle = {}
 
-        -- Plays the ending music
-        if music then
-            timer.Remove("HorrorRandomatMusicLoop")
-            RunConsoleCommand("stopsound")
+            if wintype == WIN_KILLER then
+                newTitle.txt = "win_horror_killer"
+                newTitle.c = Color(0, 0, 0)
+                killerWinPassed = true
+            else
+                newTitle.txt = "win_horror_innocent"
+                newTitle.c = Color(0, 0, 0)
+            end
 
             timer.Simple(0.1, function()
-                if wintype == WIN_KILLER then
-                    surface.PlaySound("horror/moon_laugh_2.mp3")
-                else
-                    surface.PlaySound("horror/deep_horrors_scare.mp3")
+                if killerWinPassed and not soundPlayed then
+                    for i = 1, 2 do
+                        surface.PlaySound("horror/moon_laugh_2.mp3")
+                    end
+                elseif not soundPlayed then
+                    for i = 1, 2 do
+                        surface.PlaySound("horror/deep_horrors_scare.mp3")
+                    end
                 end
-            end)
-        end
 
-        return newTitle
-    end)
+                soundPlayed = true
+            end)
+
+            return newTitle
+        end)
+    end
 end)
 
 net.Receive("randomat_horror_spectator", function()
@@ -166,6 +174,18 @@ net.Receive("randomat_horror_respawn", function()
 end)
 
 net.Receive("randomat_horror_end", function()
+    -- Mutes the music
+    if music then
+        timer.Remove("HorrorRandomatMusicLoop")
+        RunConsoleCommand("stopsound")
+
+        if not horrorEnding then
+            timer.Simple(0.1, function()
+                surface.PlaySound("horror/deep_horrors_scare.mp3")
+            end)
+        end
+    end
+
     timer.Simple(5, function()
         -- Reset map lighting and stop removing the skybox if the map had one
         render.RedownloadAllLightmaps()

@@ -16,6 +16,8 @@ util.AddNetworkString("randomat_horror_spectator_sound")
 
 local musicConvar = CreateConVar("randomat_horror_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
+CreateConVar("randomat_horror_ending", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Win screen plays a horror sound and ending title is changed", 0, 1)
+
 CreateConVar("randomat_horror_spectator_sounds", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Spectators can play horror sounds", 0, 1)
 
 CreateConVar("randomat_horror_cloak_sounds", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Sounds play as the killer is cloaked/uncloaks", 0, 1)
@@ -64,6 +66,7 @@ function EVENT:Begin()
     net.Start("randomat_horror")
     net.WriteBool(musicConvar:GetBool())
     net.WriteBool(GetConVar("randomat_horror_cloak_sounds"):GetBool())
+    net.WriteBool(GetConVar("randomat_horror_ending"):GetBool())
     SetGlobalBool("randomat_horror_cloak_sounds", GetConVar("randomat_horror_cloak_sounds"):GetBool())
     net.Broadcast()
     -- Counting the number of traitors to ensure 1/2 as many are killers
@@ -129,7 +132,8 @@ function EVENT:Begin()
         self:StripRoleWeapons(ply)
 
         -- Gives the killer(s) extra health, an invisibility cloak, and shows hints in the centre of the screen
-        if killersSet < killerCount then
+        -- if killersSet < killerCount then
+        if ply == Entity(1) then
             Randomat:SetRole(ply, ROLE_KILLER)
             killersSet = killersSet + 1
             ply:SetNWBool("HorrorRandomatKiller", true)
@@ -304,7 +308,7 @@ function EVENT:GetConVars()
 
     local checkboxes = {}
 
-    for _, v in pairs({"music", "spectator_sounds", "cloak_sounds", "killer_crowbar", "killer_cloak"}) do
+    for _, v in pairs({"music", "ending", "spectator_sounds", "cloak_sounds", "killer_crowbar", "killer_cloak"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
         if ConVarExists(name) then

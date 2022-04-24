@@ -1,7 +1,7 @@
 local EVENT = {}
 EVENT.Title = "Friday the 13th"
 EVENT.AltTitle = "Horror"
-EVENT.ExtDescription = "One killer vs. innocents. Adds horror-themed visuals and sounds."
+EVENT.ExtDescription = "Killer(s) vs. innocents! Adds horror-themed visuals and sounds."
 EVENT.id = "horror"
 
 EVENT.Type = {EVENT_TYPE_MUSIC, EVENT_TYPE_SPECTATOR_UI}
@@ -59,29 +59,55 @@ end
 
 function EVENT:Begin()
     horrorRandomat = true
+    -- Draws screen effects to hinder each player's view and plays music if enabled
+    engine.LightStyle(0, "a")
+    net.Start("randomat_horror")
+    net.WriteBool(musicConvar:GetBool())
+    net.WriteBool(GetConVar("randomat_horror_cloak_sounds"):GetBool())
+    SetGlobalBool("randomat_horror_cloak_sounds", GetConVar("randomat_horror_cloak_sounds"):GetBool())
+    net.Broadcast()
+    -- Counting the number of traitors to ensure 1/2 as many are killers
+    local traitorCount = 0
+
+    for _, ply in ipairs(player.GetAll()) do
+        if Randomat:IsTraitorTeam(ply) then
+            traitorCount = traitorCount + 1
+        end
+
+        -- Preparing variables for the spectator sounds
+        ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
+        ply:SetNWBool("HorrorRandomatSpectatorCooldown", false)
+
+        -- Puts halos around living players for spectators to make them easier to see
+        if not ply:Alive() or ply:IsSpec() then
+            net.Start("randomat_horror_spectator")
+            net.Send(ply)
+            SpectatorMessage(ply)
+        end
+
+        -- Adding all sounds to the initial pool spectator sound so players don't hear the same sound more than once
+        -- Until all sounds have been heard before
+        ply.remainingSpectatorSounds = {}
+        table.Add(ply.remainingSpectatorSounds, spectatorSounds)
+    end
+
+    local killerCount = math.Round(traitorCount / 2)
+
+    if killerCount == 1 then
+        self.Description = "The killer is coming..."
+    else
+        self.Description = "The killers are coming..."
+    end
+
+    -- Disable round end sounds and 'Ending Flair' event so ending music can play
+    if musicConvar:GetBool() then
+        DisableRoundEndSounds()
+    end
 
     -- Turns off the killer crowbar if it isn't enabled for the event
     if not GetConVar("randomat_horror_killer_crowbar"):GetBool() then
         killerCrowbar = GetConVar("ttt_killer_crowbar_enabled"):GetBool()
         GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)
-    end
-
-    -- Picks who is the killer
-    local alivePlayers = self:GetAlivePlayers(true)
-    local killer = alivePlayers[1]
-    local killerID = killer:SteamID64()
-    -- Draws screen effects to hinder each player's view and plays music if enabled
-    engine.LightStyle(0, "a")
-    net.Start("randomat_horror")
-    net.WriteBool(musicConvar:GetBool())
-    net.WriteString(killerID)
-    net.WriteBool(GetConVar("randomat_horror_cloak_sounds"):GetBool())
-    SetGlobalBool("randomat_horror_cloak_sounds", GetConVar("randomat_horror_cloak_sounds"):GetBool())
-    net.Broadcast()
-
-    -- Disable round end sounds and 'Ending Flair' event so ending music can play
-    if musicConvar:GetBool() then
-        DisableRoundEndSounds()
     end
 
     -- Removes all role and shop weapons
@@ -91,6 +117,9 @@ function EVENT:Begin()
         end
     end
 
+    local killersSet = 0
+    local alivePlayers = self:GetAlivePlayers(true)
+
     for _, ply in ipairs(alivePlayers) do
         -- Turns everyone's flashlight on
         ply:Flashlight(true)
@@ -99,10 +128,11 @@ function EVENT:Begin()
         -- Role weapons were stripped earlier, but just in case there are some that don't use WEAPON_ROLE...
         self:StripRoleWeapons(ply)
 
-        -- Gives the killer extra health, an invisibility cloak, and shows hints in the centre of the screen
-        if ply == killer then
+        -- Gives the killer(s) extra health, an invisibility cloak, and shows hints in the centre of the screen
+        if killersSet < killerCount then
             Randomat:SetRole(ply, ROLE_KILLER)
-            killer = ply
+            killersSet = killersSet + 1
+            ply:SetNWBool("HorrorRandomatKiller", true)
             ply:SetHealth(GetConVar("randomat_horror_killer_health"):GetInt())
             ply:SetMaxHealth(GetConVar("randomat_horror_killer_health"):GetInt())
             ply:SetCredits(GetConVar("randomat_horror_killer_credits"):GetInt())
@@ -138,31 +168,19 @@ function EVENT:Begin()
 
             timer.Simple(7, function()
                 if ply:Alive() and not ply:IsSpec() then
-                    ply:PrintMessage(HUD_PRINTCENTER, "The killer is a shadow...")
-                    ply:PrintMessage(HUD_PRINTTALK, "The killer is shadow...")
+                    if killerCount > 1 then
+                        ply:PrintMessage(HUD_PRINTCENTER, "A killer is a shadow...")
+                        ply:PrintMessage(HUD_PRINTTALK, "A killer is a shadow...")
+                    else
+                        ply:PrintMessage(HUD_PRINTCENTER, "The killer is a shadow...")
+                        ply:PrintMessage(HUD_PRINTTALK, "The killer is a shadow...")
+                    end
                 end
             end)
         end
     end
 
     SendFullStateUpdate()
-
-    -- Puts halos around living players for spectators to make them easier to see
-    for _, ply in ipairs(player.GetAll()) do
-        ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
-        ply:SetNWBool("HorrorRandomatSpectatorCooldown", false)
-
-        if not ply:Alive() or ply:IsSpec() then
-            net.Start("randomat_horror_spectator")
-            net.Send(ply)
-            SpectatorMessage(ply)
-        end
-
-        -- Adding all sounds to the initial pool spectator sound so players don't hear the same sound more than once
-        -- Until all sounds have been heard before
-        ply.remainingSpectatorSounds = {}
-        table.Add(ply.remainingSpectatorSounds, spectatorSounds)
-    end
 
     -- Removes screen effects and add halos around players for spectators
     self:AddHook("PostPlayerDeath", function(ply)
@@ -242,6 +260,10 @@ function EVENT:End()
         -- Playing ending sound if music was enabled
         net.Start("randomat_horror_end")
         net.Broadcast()
+
+        for _, ply in ipairs(player.GetAll()) do
+            ply:SetNWBool("HorrorRandomatKiller", false)
+        end
 
         -- Resets map lighting and turns everyone's flashlight off
         timer.Simple(5, function()

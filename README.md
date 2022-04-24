@@ -63,7 +63,7 @@ Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
 
 ## Friday the 13th, (a.k.a. Horror)
 
-Changes someone to a killer and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
+Changes 1/2 as many people as there were traitors to killers, and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
 The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife, and sneak around as a shadow with their 'Shadow Cloak'.\
 \
 _ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\

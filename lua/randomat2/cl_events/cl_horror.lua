@@ -1,5 +1,4 @@
 local music
-local killerID
 local cloakSounds
 local client
 
@@ -14,7 +13,7 @@ local function ApplyScreenEffects()
         render.FogColor(0, 0, 0)
         render.FogMaxDensity(1)
 
-        if LocalPlayer():SteamID64() == killerID then
+        if LocalPlayer():GetNWBool("HorrorRandomatKiller") then
             render.FogStart(300 * 1.5)
             render.FogEnd(600 * 1.5)
         else
@@ -31,7 +30,7 @@ local function ApplyScreenEffects()
         render.FogColor(0, 0, 0)
         render.FogMaxDensity(1)
 
-        if LocalPlayer():SteamID64() == killerID then
+        if LocalPlayer():GetNWBool("HorrorRandomatKiller") then
             render.FogStart(300 * 1.5 * scale)
             render.FogEnd(600 * 1.5 * scale)
         else
@@ -56,7 +55,6 @@ end
 
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
-    killerID = net.ReadString()
     cloakSounds = net.ReadBool()
     client = LocalPlayer()
 

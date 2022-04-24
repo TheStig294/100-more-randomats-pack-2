@@ -123,19 +123,6 @@ net.Receive("randomat_horror", function()
 end)
 
 net.Receive("randomat_horror_spectator", function()
-    -- Draws the outlines over everyone for spectators
-    hook.Add("PreDrawHalos", "HorrorRandomatHalos", function()
-        local alivePlys = {}
-
-        for k, v in ipairs(player.GetAll()) do
-            if v:Alive() and not v:IsSpec() then
-                alivePlys[k] = v
-            end
-        end
-
-        halo.Add(alivePlys, Color(255, 0, 0), 0, 0, 1, true, true)
-    end)
-
     -- Draws the spectator sounds UI
     hook.Add("HUDPaint", "HorrorRandomatUI", function()
         local width, height, margin = 200, 25, 20
@@ -168,14 +155,6 @@ net.Receive("randomat_horror_spectator", function()
         client.HorrorRandomatFlashlight:SetAngles(client:EyeAngles())
         client.HorrorRandomatFlashlight:Update()
     end)
-
-    -- Remove the fog effect and re-add the skybox to help spectators see better
-    hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
-    hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
-    hook.Remove("SetupSkyboxFog", "HorrorRandomatSkyboxFog")
-    -- Remove the block on seeing the player info popup
-    hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
-    hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
 end)
 
 net.Receive("randomat_horror_spectator_sound", function()

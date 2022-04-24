@@ -86,7 +86,7 @@ function SWEP:Deploy()
         end
 
         -- Prevents spamming the whisper sound for everyone repeatedly 
-        timer.Create("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64(), 2, 1, function()
+        timer.Create("InvisibilityCloakWhisperSoundCooldown" .. owner:SteamID64(), 5, 1, function()
             if IsValid(self) then
                 self.InitialEmitSound = true
             else

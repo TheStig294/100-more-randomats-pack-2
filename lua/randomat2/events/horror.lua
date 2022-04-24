@@ -144,7 +144,7 @@ function EVENT:Begin()
 
         -- Gives the killer(s) extra health, an invisibility cloak, and shows hints in the centre of the screen
         -- if killersSet < killerCount then
-        if ply == Entity(2) then
+        if ply == Entity(1) then
             Randomat:SetRole(ply, ROLE_KILLER)
             killersSet = killersSet + 1
             ply:SetNWBool("HorrorRandomatKiller", true)

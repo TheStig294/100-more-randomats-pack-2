@@ -96,7 +96,7 @@ function SWEP:Deploy()
 
         -- Repeatedly plays the whispering sound while the killer is invisible, to alert everyone else
         if not timer.Exists("InvisibilityCloakWhisperSound") then
-            timer.Create("InvisibilityCloakWhisperSound", 10, 0, function()
+            timer.Create("InvisibilityCloakWhisperSound", GetConVar("randomat_horror_cloak_sound_timer"):GetInt(), 0, function()
                 if GetGlobalBool("randomat_horror_cloak_sounds") and IsValid(self) then
                     BroadcastLua("surface.PlaySound(\"horror/kikikimamama.mp3\")")
                 else

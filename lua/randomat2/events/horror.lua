@@ -34,6 +34,8 @@ CreateConVar("randomat_horror_killer_credits", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE},
 
 CreateConVar("randomat_horror_killer_cloak", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a 'Shadow Cloak' item. Makes them appear as a shadow while held", 0, 1)
 
+CreateConVar("randomat_horror_cloak_sound_timer", 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until the cloak sound is heard again while cloaked", 5, 60)
+
 -- Removes the spectator category if spectator sounds are turned off
 if not GetConVar("randomat_horror_spectator_sounds"):GetBool() then
     table.remove(EVENT.Categories, 1)
@@ -300,7 +302,7 @@ end
 function EVENT:GetConVars()
     local sliders = {}
 
-    for _, v in ipairs({"spectator_charge_time", "spectator_sound_cooldown", "killer_health", "killer_credits"}) do
+    for _, v in ipairs({"spectator_charge_time", "spectator_sound_cooldown", "killer_health", "killer_credits", "cloak_sound_timer"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
         if ConVarExists(name) then

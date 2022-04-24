@@ -41,7 +41,7 @@ end
 
 local killerCrowbar = true
 
-local spectatorSounds = {"horror/spectator_sounds/box_laugh.mp3", "horror/spectator_sounds/box_richtofen_laugh.mp3", "horror/spectator_sounds/flowey_laugh.mp3", "horror/spectator_sounds/gowlermusic_sudden_sound.mp3", "horror/spectator_sounds/inspectorj_hand_bells_reverse.mp3", "horror/spectator_sounds/inspectorj_horror_violin.mp3", "horror/spectator_sounds/minecraft_cave_sound_1.mp3", "horror/spectator_sounds/minecraft_cave_sound_2.mp3", "horror/spectator_sounds/moon_laugh.mp3", "horror/spectator_sounds/onderwish_scream.mp3"}
+local spectatorSounds = {"horror/spectator_sounds/box_laugh.mp3", "horror/spectator_sounds/box_richtofen_laugh.mp3", "horror/spectator_sounds/flowey_laugh.mp3", "horror/spectator_sounds/gowlermusic_sudden_sound.mp3", "horror/spectator_sounds/inspectorj_hand_bells_reverse.mp3", "horror/spectator_sounds/inspectorj_horror_violin.mp3", "horror/spectator_sounds/minecraft_cave_sound_1.mp3", "horror/spectator_sounds/minecraft_cave_sound_2.mp3", "horror/spectator_sounds/moon_laugh.mp3", "horror/spectator_sounds/onderwish_scream.mp3", "horror/spectator_sounds/omega_flowey_laugh.mp3"}
 
 local function SpectatorMessage(ply)
     ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through players")
@@ -254,10 +254,10 @@ function EVENT:Begin()
 
     timer.Create("HorrorRandomatPowerTimer", tick, 0, function()
         for _, ply in ipairs(self:GetDeadPlayers()) do
-            local power = ply:GetNWInt("HorrorRandomatPower", 0)
+            local power = ply:GetNWInt("HorrorRandomatSpectatorPower", 0)
 
             if power < 100 then
-                ply:SetNWInt("HorrorRandomatPower", power + 1)
+                ply:SetNWInt("HorrorRandomatSpectatorPower", power + 1)
             end
         end
     end)

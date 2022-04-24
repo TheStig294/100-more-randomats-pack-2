@@ -159,7 +159,7 @@ net.Receive("randomat_horror_spectator", function()
         local width, height, margin = 200, 25, 20
         local x = ScrW() / 2 - width / 2
         local y = ScrH() - (margin / 2 + height)
-        local progress = client:GetNWInt("HorrorRandomatPower", 0)
+        local progress = client:GetNWInt("HorrorRandomatSpectatorPower", 0)
         local progress_percentage = progress / 100
 
         local colors = {

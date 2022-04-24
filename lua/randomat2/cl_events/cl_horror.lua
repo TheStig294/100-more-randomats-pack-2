@@ -81,6 +81,36 @@ net.Receive("randomat_horror", function()
     end
 
     ApplyScreenEffects()
+
+    hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
+        LANG.AddToLanguage("english", "win_horror_killer", string.upper("game over"))
+        LANG.AddToLanguage("english", "win_horror_innocent", string.upper(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
+        local newTitle = {}
+
+        if wintype == WIN_KILLER then
+            newTitle.txt = "win_horror_killer"
+            newTitle.c = Color(0, 0, 0)
+        else
+            newTitle.txt = "win_horror_innocent"
+            newTitle.c = Color(0, 0, 0)
+        end
+
+        -- Plays the ending music
+        if music then
+            timer.Remove("HorrorRandomatMusicLoop")
+            RunConsoleCommand("stopsound")
+
+            timer.Simple(0.1, function()
+                if wintype == WIN_KILLER then
+                    surface.PlaySound("horror/moon_laugh_2.mp3")
+                else
+                    surface.PlaySound("horror/deep_horrors_scare.mp3")
+                end
+            end)
+        end
+
+        return newTitle
+    end)
 end)
 
 net.Receive("randomat_horror_spectator", function()
@@ -136,16 +166,6 @@ net.Receive("randomat_horror_respawn", function()
 end)
 
 net.Receive("randomat_horror_end", function()
-    -- Plays the ending music
-    if music then
-        timer.Remove("HorrorRandomatMusicLoop")
-        RunConsoleCommand("stopsound")
-
-        timer.Simple(0.1, function()
-            surface.PlaySound("horror/deep_horrors_scare.mp3")
-        end)
-    end
-
     timer.Simple(5, function()
         -- Reset map lighting and stop removing the skybox if the map had one
         render.RedownloadAllLightmaps()
@@ -159,6 +179,7 @@ net.Receive("randomat_horror_end", function()
         -- Remove the spectator halos
         hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
 
+        -- Just in case
         timer.Simple(2, function()
             render.RedownloadAllLightmaps()
         end)

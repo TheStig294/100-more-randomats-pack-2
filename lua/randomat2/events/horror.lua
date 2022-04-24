@@ -61,12 +61,12 @@ local function SpectatorMessage(ply)
     end)
 
     timer.Simple(8, function()
-        ply:PrintMessage(HUD_PRINTCENTER, "Press 'SPACE' to then play a sound...")
-        ply:PrintMessage(HUD_PRINTTALK, "Press 'SPACE' to then play a sound...")
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'SPACE' to play a sound...")
+        ply:PrintMessage(HUD_PRINTTALK, "Press 'SPACE' to play a sound...")
     end)
 
     timer.Simple(10, function()
-        ply:PrintMessage(HUD_PRINTCENTER, "Press 'SPACE' to then play a sound...")
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'SPACE' to play a sound...")
     end)
 end
 

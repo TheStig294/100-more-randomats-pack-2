@@ -149,7 +149,7 @@ net.Receive("randomat_horror_spectator", function()
 
         Randomat:PaintBar(8, x, y, width, height, colors, progress_percentage)
         draw.SimpleText("SCARE POWER", "HealthAmmo", ScrW() / 2, y, Color(0, 0, 10, 200), TEXT_ALIGN_CENTER)
-        draw.SimpleText("Right-click -> R -> Spacebar, to play a sound...", "TabLarge", ScrW() / 2, y - margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Right-click -> R -> SPACE, to play a sound...", "TabLarge", ScrW() / 2, y - margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
     end)
 
     -- Remove the fog effect and re-add the skybox to help spectators see better
@@ -168,7 +168,7 @@ end)
 
 net.Receive("randomat_horror_respawn", function()
     ApplyScreenEffects()
-    -- Remove the spectator halos
+    -- Remove the spectator halos and UI
     hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
     hook.Remove("HUDPaint", "HorrorRandomatUI")
 end)
@@ -196,8 +196,9 @@ net.Receive("randomat_horror_end", function()
         -- Remove the block on seeing the player info popup
         hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
         hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
-        -- Remove the spectator halos
+        -- Remove the spectator halos and UI
         hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
+        hook.Remove("HUDPaint", "HorrorRandomatUI")
 
         -- Just in case
         timer.Simple(2, function()

@@ -60,7 +60,7 @@ end
 function EVENT:Begin()
     horrorRandomat = true
 
-    -- Turns off the killer crowbar, target icons and player highlights for the killer
+    -- Turns off the killer crowbar if it isn't enabled for the event
     if not GetConVar("randomat_horror_killer_crowbar"):GetBool() then
         killerCrowbar = GetConVar("ttt_killer_crowbar_enabled"):GetBool()
         GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)

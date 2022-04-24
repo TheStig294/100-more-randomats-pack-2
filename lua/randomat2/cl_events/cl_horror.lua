@@ -117,7 +117,7 @@ net.Receive("randomat_horror", function()
         local soundPlayed = false
 
         hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
-            LANG.AddToLanguage("english", "win_horror_killer", string.lower("game over"))
+            LANG.AddToLanguage("english", "win_horror_killer", string.lower("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
             LANG.AddToLanguage("english", "win_horror_innocent", string.lower(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
             local newTitle = {}
 

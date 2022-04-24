@@ -68,10 +68,10 @@ function SWEP:Deploy()
 
         -- Displays hints on using the invisibility cloak when first brought out
         if self.FirstCloakMessage then
-            owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow, stay in the dark!")
+            owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow")
 
             timer.Simple(1, function()
-                owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow, stay in the dark!")
+                owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow")
             end)
 
             timer.Simple(3, function()

@@ -201,13 +201,17 @@ function EVENT:Begin()
     self:AddHook("PostPlayerDeath", function(ply)
         net.Start("randomat_horror_spectator")
         net.Send(ply)
-        SpectatorMessage(ply)
+
+        timer.Simple(2, function()
+            SpectatorMessage(ply)
+        end)
     end)
 
     -- Re-adds screen effects and removes player halos for players that respawn
     self:AddHook("PlayerSpawn", function(ply)
         net.Start("randomat_horror_respawn")
         net.Send(ply)
+        ply:Flashlight(true)
     end)
 
     -- Plays a random horror sound when a spectator presses the jump key

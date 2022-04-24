@@ -115,9 +115,12 @@ function SWEP:Holster()
 
     if SERVER then
         timer.Remove("InvisibilityCloakWhisperSound")
+
         -- Plays a jumpscare sound if someone is looking directly at someone uncloaking
-        net.Start("randomat_invisibility_cloak_uncloak")
-        net.Broadcast()
+        if owner:Alive() and not owner:IsSpec() then
+            net.Start("randomat_invisibility_cloak_uncloak")
+            net.Broadcast()
+        end
     end
 
     return true

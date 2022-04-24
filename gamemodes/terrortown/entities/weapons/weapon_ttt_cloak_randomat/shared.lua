@@ -59,7 +59,7 @@ function SWEP:Deploy()
     Randomat:SetPlayerInvisible(owner)
 
     if SERVER then
-        if GetGlobalBool("randomat_horror_cloak_sounds") and self.InitialEmitSound then
+        if GetGlobalBool("randomat_horror_cloak_sounds") and self.InitialEmitSound and owner:Alive() and not owner:IsSpec() then
             -- Why not just use self:EmitSound() ? Because it sometimes decides to just not play the sound...
             -- This method of playing the sound from the client works more consistently
             BroadcastLua("surface.PlaySound(\"horror/kikikimamama.mp3\")")
@@ -122,7 +122,11 @@ function SWEP:Holster()
 end
 
 function SWEP:PreDrop()
-    self:Holster()
+    local owner = self:GetOwner()
+
+    if owner:Alive() and not owner:IsSpec() then
+        self:Holster()
+    end
 end
 
 function SWEP:OnDrop()

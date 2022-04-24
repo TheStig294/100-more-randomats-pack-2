@@ -149,7 +149,7 @@ net.Receive("randomat_horror_spectator", function()
 
         Randomat:PaintBar(8, x, y, width, height, colors, progress_percentage)
         draw.SimpleText("SCARE POWER", "HealthAmmo", ScrW() / 2, y, Color(0, 0, 10, 200), TEXT_ALIGN_CENTER)
-        draw.SimpleText("Press JUMP to play a sound... (must be spectating a player)", "TabLarge", ScrW() / 2, y - margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Right-click -> R -> Spacebar, to play a sound...", "TabLarge", ScrW() / 2, y - margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
     end)
 
     -- Remove the fog effect and re-add the skybox to help spectators see better

@@ -44,18 +44,29 @@ local killerCrowbar = true
 local spectatorSounds = {"horror/spectator_sounds/box_laugh.mp3", "horror/spectator_sounds/box_richtofen_laugh.mp3", "horror/spectator_sounds/flowey_laugh.mp3", "horror/spectator_sounds/gowlermusic_sudden_sound.mp3", "horror/spectator_sounds/inspectorj_hand_bells_reverse.mp3", "horror/spectator_sounds/inspectorj_horror_violin.mp3", "horror/spectator_sounds/minecraft_cave_sound_1.mp3", "horror/spectator_sounds/minecraft_cave_sound_2.mp3", "horror/spectator_sounds/moon_laugh.mp3", "horror/spectator_sounds/onderwish_scream.mp3"}
 
 local function SpectatorMessage(ply)
-    ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through living players")
+    ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through players")
+    ply:PrintMessage(HUD_PRINTTALK, "Right-click to cycle through players")
 
     timer.Simple(2, function()
-        ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through living players")
+        ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through players")
     end)
 
     timer.Simple(4, function()
-        ply:PrintMessage(HUD_PRINTCENTER, "Press 'R' to go to first person view")
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'R' to go into first-person view")
+        ply:PrintMessage(HUD_PRINTTALK, "Press 'R' to go into first-person view")
     end)
 
     timer.Simple(6, function()
-        ply:PrintMessage(HUD_PRINTCENTER, "Press 'R' to go to first person view")
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'R' to go into first-person view")
+    end)
+
+    timer.Simple(8, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'SPACE' to then play a sound...")
+        ply:PrintMessage(HUD_PRINTTALK, "Press 'SPACE' to then play a sound...")
+    end)
+
+    timer.Simple(10, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "Press 'SPACE' to then play a sound...")
     end)
 end
 

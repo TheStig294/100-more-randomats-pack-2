@@ -229,6 +229,8 @@ function EVENT:Begin()
                 net.Start("randomat_horror_spectator_sound")
                 net.WriteString(randomSound)
                 net.Send(soundPlayers)
+            elseif IsPlayer(target) and target:GetNWBool("HorrorRandomatSpectatorCooldown") then
+                ply:PrintMessage(HUD_PRINTCENTER, "This player's been spooked too recently...")
             end
         end
     end)

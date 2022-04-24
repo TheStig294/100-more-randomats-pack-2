@@ -1,7 +1,8 @@
 local music
 local cloakSounds
-local client
 local horrorEnding
+-- Used for expensive calls needing LocalPlayer()
+local client
 
 local function IsPlayerValid(p)
     return IsPlayer(p) and p:Alive() and not p:IsSpec()
@@ -122,6 +123,7 @@ net.Receive("randomat_horror", function()
 end)
 
 net.Receive("randomat_horror_spectator", function()
+    -- Draws the outlines over everyone for spectators
     hook.Add("PreDrawHalos", "HorrorRandomatHalos", function()
         local alivePlys = {}
 
@@ -134,6 +136,7 @@ net.Receive("randomat_horror_spectator", function()
         halo.Add(alivePlys, Color(255, 0, 0), 0, 0, 1, true, true)
     end)
 
+    -- Draws the spectator sounds UI
     hook.Add("HUDPaint", "HorrorRandomatUI", function()
         local width, height, margin = 200, 25, 20
         local x = ScrW() / 2 - width / 2
@@ -152,6 +155,20 @@ net.Receive("randomat_horror_spectator", function()
         draw.SimpleText("Right-click -> R -> SPACE, to play a sound...", "TabLarge", ScrW() / 2, y - margin, COLOR_WHITE, TEXT_ALIGN_CENTER)
     end)
 
+    -- Creates an artificial flashlight for spectators
+    client.HorrorRandomatFlashlight = ProjectedTexture()
+    client.HorrorRandomatFlashlight:SetTexture("effects/flashlight001")
+    client.HorrorRandomatFlashlight:SetFarZ(600)
+    client.HorrorRandomatFlashlight:SetFOV(70)
+
+    hook.Add("Think", "HorrorRandomatSpectatorFlashlight", function()
+        local position = client:GetPos()
+        local newposition = Vector(position[1], position[2], position[3] + 40) + client:GetForward() * 20
+        client.HorrorRandomatFlashlight:SetPos(newposition)
+        client.HorrorRandomatFlashlight:SetAngles(client:EyeAngles())
+        client.HorrorRandomatFlashlight:Update()
+    end)
+
     -- Remove the fog effect and re-add the skybox to help spectators see better
     hook.Remove("PreDrawSkyBox", "HorrorRemoveSkybox")
     hook.Remove("SetupWorldFog", "HorrorRandomatWorldFog")
@@ -168,9 +185,14 @@ end)
 
 net.Receive("randomat_horror_respawn", function()
     ApplyScreenEffects()
-    -- Remove the spectator halos and UI
+    -- Remove the spectator halos, UI and artificial flashlight
     hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
     hook.Remove("HUDPaint", "HorrorRandomatUI")
+    hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
+
+    if client.HorrorRandomatFlashlight then
+        client.HorrorRandomatFlashlight:Remove()
+    end
 end)
 
 net.Receive("randomat_horror_end", function()
@@ -196,9 +218,14 @@ net.Receive("randomat_horror_end", function()
         -- Remove the block on seeing the player info popup
         hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
         hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
-        -- Remove the spectator halos and UI
+        -- Remove the spectator halos, UI and artificial flashlight
         hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
         hook.Remove("HUDPaint", "HorrorRandomatUI")
+        hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
+
+        if client.HorrorRandomatFlashlight then
+            client.HorrorRandomatFlashlight:Remove()
+        end
 
         -- Just in case
         timer.Simple(2, function()

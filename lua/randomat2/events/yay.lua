@@ -26,6 +26,7 @@ function EVENT:Begin()
             if ply:GetRole() ~= ROLE_JESTER and not Randomat:IsTraitorTeam(ply) then
                 self:StripRoleWeapons(ply)
                 Randomat:SetRole(ply, ROLE_CLOWN)
+                ply:SetCredits(GetConVar("ttt_clown_credits_starting"):GetInt())
                 break
             end
         end

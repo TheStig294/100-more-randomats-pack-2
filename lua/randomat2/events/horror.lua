@@ -1,5 +1,5 @@
 local EVENT = {}
-EVENT.Title = "Friday the 13th"
+EVENT.Title = ""
 EVENT.AltTitle = "Horror"
 EVENT.ExtDescription = "Killer(s) vs. innocents! Adds horror-themed visuals and sounds."
 EVENT.id = "horror"
@@ -107,13 +107,16 @@ function EVENT:Begin()
         table.Add(ply.remainingSpectatorSounds, spectatorSounds)
     end
 
-    local killerCount = math.Round(traitorCount / 2)
+    -- Name of the randomat changes depending on how many killers there are
+    local killerCount = math.ceil(traitorCount / 2)
 
     if killerCount == 1 then
-        self.Description = "The killer is coming..."
+        self.Title = "The killer is coming..."
     else
-        self.Description = "The killers are coming..."
+        self.Title = "The killers are coming..."
     end
+
+    Randomat:EventNotifySilent(self.Title)
 
     -- Disable round end sounds and 'Ending Flair' event so ending music can play
     if musicConvar:GetBool() then
@@ -268,6 +271,7 @@ function EVENT:End()
     -- Checking if the randomat has run before trying to end the event, else causes an error
     if horrorRandomat then
         horrorRandomat = false
+        EVENT.Title = ""
 
         -- Resetting the killer crowbar convar to what is was before the event triggered
         if not GetConVar("randomat_horror_killer_crowbar") then

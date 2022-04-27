@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = ""
-EVENT.AltTitle = "Horror"
+EVENT.AltTitle = "The killer(s) is/are coming..."
 EVENT.ExtDescription = "Killer(s) vs. innocents! Adds horror-themed visuals and sounds."
 EVENT.id = "horror"
 

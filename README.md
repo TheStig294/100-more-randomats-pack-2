@@ -25,9 +25,9 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. Friday the 13th - A horror themed randomat that makes someone a powerful killer...
-2. No, I'm a Deputy! - Innocents become deputies, traitors become impersonators
-3. Everyone's a detective - Everyone can search bodies and gets a DNA scanner
+1. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
+2. Friday the 13th - A horror themed randomat that makes someone a powerful killer...
+3. No, I'm a Deputy! - Innocents become deputies, traitors become impersonators
 
 # Randomats
 
@@ -60,8 +60,17 @@ Changed name from "Batter Up!"\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)\
 \
 Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
+## Hwapoon!
 
-## The killer is coming... / The killers are coming... (a.k.a. Horror)
+Everyone gets a 'hwapoon!'\
+If installed, everyone also gets a random "Yogscast Lewis" playermodel.\
+\
+_ttt_randomat_hwapoon_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=456189236> or <https://steamcommunity.com/sharedfiles/filedetails/?id=1625876886>\
+Optional "Yogscast Lewis" playermodel: <https://steamcommunity.com/sharedfiles/filedetails/?id=2293499171>
+
+## The killer is coming... (a.k.a. The killers are coming...)
 
 Changes 1/2 as many people as there were traitors to killers, and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
 The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife, and sneak around as a shadow with their 'Shadow Cloak'.\

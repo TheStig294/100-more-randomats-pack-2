@@ -70,54 +70,6 @@ _ttt_randomat_hwapoon_ - Default: 1 - Whether this randomat is enabled\
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=456189236> or <https://steamcommunity.com/sharedfiles/filedetails/?id=1625876886>\
 Optional "Yogscast Lewis" playermodel: <https://steamcommunity.com/sharedfiles/filedetails/?id=2293499171>
 
-## The killer is coming... (a.k.a. The killers are coming...)
-
-Changes 1/2 as many people as there were traitors to killers, and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
-The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife, and sneak around as a shadow with their 'Shadow Cloak'.\
-While the/a killer is cloaked, everyone hears a distinct sound after a few seconds.\
-Spectators can play a random sound to living players on a cooldown.\
-If a player sees someone uncloak, they hear a dramatic sound!\
-\
-_ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\
-_randomat_horror_music_ - Default: 1 - Whether this randomat plays music\
-_randomat_horror_ending_ - Default: 1 - Win screen plays a horror sound and ending title is changed\
-_randomat_horror_spectator_sounds_ - Default: 1 - Spectators can play horror sounds\
-_randomat_horror_cloak_sounds_ - Default: 1 - Sounds play as the killer is cloaked/uncloaks\
-_randomat_horror_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again\
-_randomat_horror_spectator_sound_cooldown_ - Default: 30 - Seconds it takes until someone can hear a spectator sound again\
-_randomat_horror_killer_crowbar_ - Default: 0 - Killer gets a throwable crowbar rather than a normal one\
-_randomat_horror_killer_health_ - Default: 200 - How much health the killer starts with\
-_randomat_horror_killer_credits_ - Default: 1 - Credits the killer starts with\
-_randomat_horror_killer_cloak_ - Default: 1 - Killer gets a 'Shadow Cloak' item, which makes them appear as a shadow while held\
-_randomat_horror_cloak_sound_timer_ - Default: 10 - Seconds until the cloak sound is heard again while cloaked
-
-Code responsible for removing map lighting originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
-
-Credit for sounds/music used:\
-"Unseen Horrors" by Kevin MacLeod\
-Link: https://www.youtube.com/watch?v=7URbQvJzztI\
-License: https://filmmusic.io/standard-license\
-\
-"Horror Sounds" by GowlerMusic\
-Link: https://freesound.org/people/GowlerMusic/sounds/262257/\
-License: https://creativecommons.org/licenses/by/3.0/\
-\
-"Hand Bells, Reverse Cluster" by InspectorJ\
-Link: https://freesound.org/people/InspectorJ/sounds/339821/\
-License: https://creativecommons.org/licenses/by/4.0/\
-\
-"Horror, Violin Tremolo Cluster, B" by InspectorJ\
-Link: https://freesound.org/people/InspectorJ/sounds/370937/\
-License: https://creativecommons.org/licenses/by/4.0/\
-\
-"Piano, String Glissando, Low, A" by InspectorJ\
-Link: https://freesound.org/people/InspectorJ/sounds/339671/\
-License: https://creativecommons.org/licenses/by/4.0/\
-\
-"Ghost Scream" by onderwish\
-Link: https://freesound.org/people/onderwish/sounds/469141/\
-License: https://creativecommons.org/publicdomain/zero/1.0/
-
 ## I'll be back
 
 Changes all normal innocents into phantoms\
@@ -207,6 +159,54 @@ A detective has a 50% chance to secretly be turned into a traitor.\
 \
 _ttt_randomat_dsuspicious_ - Default: 1 - Whether this randomat is enabled
 
+## The killer is coming... (a.k.a. The killers are coming...)
+
+Changes 1/2 as many people as there were traitors to killers, and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
+The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife, and sneak around as a shadow with their 'Shadow Cloak'.\
+While the/a killer is cloaked, everyone hears a distinct sound after a few seconds.\
+Spectators can play a random sound to living players on a cooldown.\
+If a player sees someone uncloak, they hear a dramatic sound!\
+\
+_ttt_randomat_horror_ - Default: 1 - Whether this randomat is enabled\
+_randomat_horror_music_ - Default: 1 - Whether this randomat plays music\
+_randomat_horror_ending_ - Default: 1 - Win screen plays a horror sound and ending title is changed\
+_randomat_horror_spectator_sounds_ - Default: 1 - Spectators can play horror sounds\
+_randomat_horror_cloak_sounds_ - Default: 1 - Sounds play as the killer is cloaked/uncloaks\
+_randomat_horror_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again\
+_randomat_horror_spectator_sound_cooldown_ - Default: 30 - Seconds it takes until someone can hear a spectator sound again\
+_randomat_horror_killer_crowbar_ - Default: 0 - Killer gets a throwable crowbar rather than a normal one\
+_randomat_horror_killer_health_ - Default: 200 - How much health the killer starts with\
+_randomat_horror_killer_credits_ - Default: 1 - Credits the killer starts with\
+_randomat_horror_killer_cloak_ - Default: 1 - Killer gets a 'Shadow Cloak' item, which makes them appear as a shadow while held\
+_randomat_horror_cloak_sound_timer_ - Default: 10 - Seconds until the cloak sound is heard again while cloaked
+
+Code responsible for removing map lighting originally made by [Wasted](https://steamcommunity.com/sharedfiles/filedetails/?id=2267954071)
+
+Credit for sounds/music used:\
+"Unseen Horrors" by Kevin MacLeod\
+Link: https://www.youtube.com/watch?v=7URbQvJzztI\
+License: https://filmmusic.io/standard-license\
+\
+"Horror Sounds" by GowlerMusic\
+Link: https://freesound.org/people/GowlerMusic/sounds/262257/\
+License: https://creativecommons.org/licenses/by/3.0/\
+\
+"Hand Bells, Reverse Cluster" by InspectorJ\
+Link: https://freesound.org/people/InspectorJ/sounds/339821/\
+License: https://creativecommons.org/licenses/by/4.0/\
+\
+"Horror, Violin Tremolo Cluster, B" by InspectorJ\
+Link: https://freesound.org/people/InspectorJ/sounds/370937/\
+License: https://creativecommons.org/licenses/by/4.0/\
+\
+"Piano, String Glissando, Low, A" by InspectorJ\
+Link: https://freesound.org/people/InspectorJ/sounds/339671/\
+License: https://creativecommons.org/licenses/by/4.0/\
+\
+"Ghost Scream" by onderwish\
+Link: https://freesound.org/people/onderwish/sounds/469141/\
+License: https://creativecommons.org/publicdomain/zero/1.0/
+
 ## UNLIMITED POWEEERRRRRR!
 
 Everyone gets a stungun with unlimited ammo!\
@@ -216,6 +216,17 @@ _ttt_randomat_stungun_ - Default: 1 - Whether this randomat is enabled\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=785294711>
+
+## Watch your step!
+
+Randomly places shark traps around the map\
+\
+_ttt_randomat_sharktrap_ - Default: 1 - Whether this randomat is enabled\
+_randomat_sharktrap_chance_ - Default: 20 - % of possible spawns replaced with shark traps\
+\
+Idea from "ProtoThis" on YouTube\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2550782000>
 
 ## What am I?
 

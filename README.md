@@ -25,9 +25,9 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
-2. Friday the 13th - A horror themed randomat that makes someone a powerful killer...
-3. No, I'm a Deputy! - Innocents become deputies, traitors become impersonators
+1. Suck it! - Jet guns only!
+2. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
+3. The killer is coming... - A horror themed randomat that makes someone a powerful killer...
 
 # Randomats
 
@@ -143,6 +143,19 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2237522867>
 Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat, if installed.\
 \
 _ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled
+
+## Suck it!
+
+Everyone is continually given jet guns! If your gun overheats, you'll have to wait 5 seconds before being given a new one\
+\
+_ttt_randomat_jetgun_ - Default: 1 - Whether this randomat is enabled\
+_randomat_jetgun_strip_ - Default: 1 - The event strips your other weapons\
+_randomat_jetgun_timer_ - Default: 5 - Seconds between being given a new jet gun\
+\
+Changed name from "Batter Up!", now gives jet guns instead of bats, no longer transforms jesters into innocents\
+Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2252594978>
 
 ## Team Building Exercise
 

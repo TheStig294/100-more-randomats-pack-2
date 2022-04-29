@@ -8,7 +8,7 @@ EVENT.id = "infected"
 
 EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_RESPAWN}
 
-EVENT.Categories = {"gamemode", "largeimpact"}
+EVENT.Categories = {"gamemode", "largeimpact", "deathtrigger"}
 
 local infectedRandomat = false
 local initialPrimeOnlyWeapons = true

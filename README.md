@@ -25,9 +25,9 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. Suck it! - Jet guns only!
-2. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
-3. The killer is coming... - A horror themed randomat that makes someone a powerful killer...
+1. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
+2. Suck it! - Jet guns only!
+3. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
 
 # Randomats
 
@@ -41,6 +41,14 @@ _ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled\
 \
 Changed name from "Who Let The Killer Out?", now gives everyone a knife as well, only innocents can now be the killer (except the detective)\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
+## Democracy Intensifies
+
+Everyone votes for a randomat every 30 seconds!\
+\
+_ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled\
+_randomat_democracyintensifies_timer_ - Default: 30 - Seconds between randomat votes\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ## Everyone's a detective
 
@@ -90,7 +98,9 @@ _randomat_infected_timer_ - Default: 90 - Time players must survive in seconds
 
 Plays the original Yogscast Murder theme and the original Yogscast Murder logo pops up on screen, then triggers the “Murder” randomat, if installed.\
 \
-_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_yogsmurder_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ## Mystery box
 
@@ -142,7 +152,9 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2237522867>
 
 Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat, if installed.\
 \
-_ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ## Suck it!
 

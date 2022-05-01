@@ -160,19 +160,12 @@ function EVENT:Begin()
                 ply:Give("weapon_ttt_cloak_randomat")
             end
 
-            timer.Simple(2, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns")
-                ply:PrintMessage(HUD_PRINTTALK, "You deal less damage with guns")
+            timer.Simple(5, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all others to win!")
             end)
 
-            timer.Simple(4, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "Use your knife and shadow cloak...")
-                ply:PrintMessage(HUD_PRINTTALK, "Use your knife and shadow cloak...")
-            end)
-
-            timer.Simple(6, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "Kill all others to win!")
-                ply:PrintMessage(HUD_PRINTTALK, "Kill all others to win!")
+            timer.Simple(7, function()
+                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all others to win!")
             end)
         else
             Randomat:SetRole(ply, ROLE_INNOCENT)
@@ -181,7 +174,6 @@ function EVENT:Begin()
             timer.Simple(5, function()
                 if ply:Alive() and not ply:IsSpec() then
                     ply:PrintMessage(HUD_PRINTCENTER, "When you hear that sound...")
-                    ply:PrintMessage(HUD_PRINTTALK, "When you hear that sound...")
                 end
             end)
 
@@ -189,10 +181,8 @@ function EVENT:Begin()
                 if ply:Alive() and not ply:IsSpec() then
                     if killerCount > 1 then
                         ply:PrintMessage(HUD_PRINTCENTER, "A killer is a shadow...")
-                        ply:PrintMessage(HUD_PRINTTALK, "A killer is a shadow...")
                     else
                         ply:PrintMessage(HUD_PRINTCENTER, "The killer is a shadow...")
-                        ply:PrintMessage(HUD_PRINTTALK, "The killer is a shadow...")
                     end
                 end
             end)

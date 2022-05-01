@@ -68,18 +68,10 @@ function SWEP:Deploy()
 
         -- Displays hints on using the invisibility cloak when first brought out
         if self.FirstCloakMessage then
-            owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow")
+            owner:PrintMessage(HUD_PRINTCENTER, "While held, you are very hard to see")
 
-            timer.Simple(1, function()
-                owner:PrintMessage(HUD_PRINTCENTER, "You appear as a shadow")
-            end)
-
-            timer.Simple(3, function()
-                owner:PrintMessage(HUD_PRINTCENTER, "Your flashlight is barely visible to others")
-            end)
-
-            timer.Simple(4, function()
-                owner:PrintMessage(HUD_PRINTCENTER, "Your flashlight is barely visible to others")
+            timer.Simple(1.9, function()
+                owner:PrintMessage(HUD_PRINTCENTER, "While held, you are very hard to see")
             end)
 
             self.FirstCloakMessage = false

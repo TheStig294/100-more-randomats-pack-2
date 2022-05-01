@@ -116,12 +116,20 @@ net.Receive("randomat_horror", function()
         local killerWinPassed = false
         local soundPlayed = false
 
+        local function IsKillerWin()
+            for _, ply in ipairs(player.GetAll()) do
+                if ply:GetRole() == ROLE_INNOCENT and ply:Alive() and not ply:IsSpec() then return false end
+            end
+
+            return true
+        end
+
         hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
             LANG.AddToLanguage("english", "win_horror_killer", string.lower("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
             LANG.AddToLanguage("english", "win_horror_innocent", string.lower(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
             local newTitle = {}
 
-            if wintype == WIN_KILLER then
+            if IsKillerWin() then
                 newTitle.txt = "win_horror_killer"
                 newTitle.c = Color(0, 0, 0)
                 killerWinPassed = true

@@ -110,11 +110,11 @@ _ttt_randomat_mysterybox_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2252594978>
 
-## No, I'm a deputy!
+## Oops! All deputies!
 
-Ordinary innocents are turned into deputies, ordinary traitors are turned into impersonators.\
+All innocents are deputies, all traitors are impersonators!\
 \
-_ttt_randomat_imdeputy_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_deputies_ - Default: 1 - Whether this randomat is enabled
 
 ## Now, you're thinking with portals.
 

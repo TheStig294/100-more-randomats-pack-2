@@ -1,16 +1,17 @@
 local EVENT = {}
-EVENT.Title = "No, I'm a deputy!"
-EVENT.Description = "Normal innocents/traitors become deputies/impersonators"
-EVENT.id = "imdeputy"
+EVENT.Title = "Oops! All deputies!"
+EVENT.Description = "All innocents are deputies, all traitors are impersonators!"
+EVENT.id = "deputies"
 
-EVENT.Categories = {"rolechange", "moderateimpact"}
+EVENT.Categories = {"biased_innocent", "biased", "rolechange", "largeimpact"}
 
 function EVENT:Begin()
     for k, ply in pairs(self:GetAlivePlayers()) do
-        if ply:GetRole() == ROLE_INNOCENT then
+        -- True argument is to skip the detective
+        if Randomat:IsInnocentTeam(ply, true) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_DEPUTY)
-        elseif ply:GetRole() == ROLE_TRAITOR then
+        elseif Randomat:IsTraitorTeam(ply) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_IMPERSONATOR)
         end
@@ -25,11 +26,11 @@ function EVENT:Condition()
     local traitorCount = 0
 
     for i, ply in ipairs(self:GetAlivePlayers()) do
-        if ply:GetRole() == ROLE_INNOCENT then
+        if Randomat:IsInnocentTeam(ply, true) then
             innocentCount = innocentCount + 1
         end
 
-        if ply:GetRole() == ROLE_TRAITOR then
+        if Randomat:IsTraitorTeam(ply) then
             traitorCount = traitorCount + 1
         end
     end

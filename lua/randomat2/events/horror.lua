@@ -43,7 +43,7 @@ end
 
 local killerCrowbar = true
 
-local spectatorSounds = {"horror/spectator_sounds/box_laugh.mp3", "horror/spectator_sounds/box_richtofen_laugh.mp3", "horror/spectator_sounds/flowey_laugh.mp3", "horror/spectator_sounds/gowlermusic_sudden_sound.mp3", "horror/spectator_sounds/inspectorj_hand_bells_reverse.mp3", "horror/spectator_sounds/inspectorj_horror_violin.mp3", "horror/spectator_sounds/minecraft_cave_sound_1.mp3", "horror/spectator_sounds/minecraft_cave_sound_2.mp3", "horror/spectator_sounds/moon_laugh.mp3", "horror/spectator_sounds/onderwish_scream.mp3", "horror/spectator_sounds/omega_flowey_laugh.mp3"}
+local spectatorSounds = {"horror/spectator_sounds/box_laugh.mp3", "horror/spectator_sounds/box_richtofen_laugh.mp3", "horror/spectator_sounds/flowey_laugh.mp3", "horror/spectator_sounds/gowlermusic_horror_sounds1.mp3", "horror/spectator_sounds/gowlermusic_horror_sounds2.mp3", "horror/spectator_sounds/inspectorj_hand_bells_reverse.mp3", "horror/spectator_sounds/inspectorj_horror_violin.mp3", "horror/spectator_sounds/moon_laugh.mp3", "horror/spectator_sounds/onderwish_scream.mp3", "horror/spectator_sounds/omega_flowey_laugh.mp3"}
 
 local function SpectatorMessage(ply)
     ply:PrintMessage(HUD_PRINTCENTER, "Right-click to cycle through players")

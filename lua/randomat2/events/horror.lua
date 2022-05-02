@@ -1,7 +1,7 @@
 local EVENT = {}
 EVENT.Title = ""
-EVENT.AltTitle = "The killer(s) is/are coming..."
-EVENT.ExtDescription = "Killer(s) vs. innocents! Adds horror-themed visuals and sounds."
+EVENT.AltTitle = "The killers are coming..."
+EVENT.ExtDescription = "Killers vs. Innocents! Adds horror-themed visuals and sounds."
 EVENT.id = "horror"
 
 EVENT.Type = {EVENT_TYPE_MUSIC, EVENT_TYPE_SPECTATOR_UI}
@@ -108,7 +108,7 @@ function EVENT:Begin()
     end
 
     -- Name of the randomat changes depending on how many killers there are
-    local killerCount = math.ceil(traitorCount / 2)
+    local killerCount = traitorCount
 
     if killerCount == 1 then
         self.Title = "The killer is coming..."

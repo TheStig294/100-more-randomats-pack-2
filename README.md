@@ -184,9 +184,9 @@ A detective has a 50% chance to secretly be turned into a traitor.\
 \
 _ttt_randomat_dsuspicious_ - Default: 1 - Whether this randomat is enabled
 
-## The killer is coming... (a.k.a. The killers are coming...)
+## The killers are coming... (a.k.a. The killer is coming...)
 
-Changes 1/2 as many people as there were traitors to killers, and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
+Changes as many people as there were traitors to killers, and everyone else to an innocent. The killer gets extra health and a cloaking device. Turns off map lighting, you have to use your flashlight!\
 The killer's goal is to be the last person standing. They have a limited shop, and do less damage with guns, instead they must attack with their re-usable knife, and sneak around as a shadow with their 'Shadow Cloak'.\
 While the/a killer is cloaked, everyone hears a distinct sound after a few seconds.\
 Spectators can play a random sound to living players on a cooldown.\

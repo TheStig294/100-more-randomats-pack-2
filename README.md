@@ -55,6 +55,11 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 Everyone gains the ability to search bodies and gets a DNA scanner.\
 \
 _ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
+## Everyone's a little trickster
+
+Everyone can use traitor traps!\
+\
+_ttt_randomat_trickster_ - Default: 1 - Whether this randomat is enabled
 
 ## Home Run!
 

@@ -25,9 +25,11 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
-1. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
-2. Suck it! - Jet guns only!
-3. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
+1. Everyone's a little trickster... - Everyone can use traitor traps!
+2. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
+3. Suck it! - Jet guns only!
+4. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
+5. The killers are coming... - A horror-themed randomat, which turns the traitors into killers!
 
 # Randomats
 

@@ -226,8 +226,8 @@ surface.CreateFont("HorrorRandomatKillerWin", {
 local function DrawKillerWin()
     local xPos = (ScrW() / 2) - 345
     local yPos = (ScrH() / 2) - 228
-    local xWidth = 691
-    local yWidth = 87
+    local width = 691
+    local height = 87
 
     if killerWinDrawn then
         killerWinDrawn = false
@@ -237,7 +237,7 @@ local function DrawKillerWin()
 
         hook.Add("DrawOverlay", "HorrorRandomatDrawKillerWin", function()
             surface.SetDrawColor(0, 0, 0)
-            surface.DrawRect(xPos, yPos, xWidth, yWidth)
+            surface.DrawRect(xPos, yPos, width, height)
             surface.SetFont("HorrorRandomatKillerWin")
             surface.SetTextColor(255, 255, 255)
             surface.SetTextPos(xPos + 75, yPos + 15)

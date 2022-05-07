@@ -63,9 +63,10 @@ Everyone can use traitor traps!\
 \
 _ttt_randomat_trickster_ - Default: 1 - Whether this randomat is enabled
 
-## Home Run!
+## Home Run! (a.k.a Cat with a bat!)
 
 Everyone is continually given home run bats!\
+If a "Night in the Woods" cat playermodel is installed, everyone's playermodel is changed to it too!\
 \
 _ttt_randomat_homerun_ - Default: 1 - Whether this randomat is enabled\
 _randomat_homerun_strip_ - Default: 1 - The event strips your other weapons\
@@ -74,7 +75,9 @@ _randomat_homerun_weaponid_ - Default: weapon_ttt_homebat - Id of the weapon giv
 Changed name from "Batter Up!"\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)\
 \
-Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>
+Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>\
+(Optional): <https://steamcommunity.com/sharedfiles/filedetails/?id=1187366110>
+
 ## Hwapoon!
 
 Everyone gets a 'hwapoon!'\

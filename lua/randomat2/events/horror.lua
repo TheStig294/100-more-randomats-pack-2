@@ -161,11 +161,11 @@ function EVENT:Begin()
             end
 
             timer.Simple(5, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all others to win!")
+                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all innocents to win!")
             end)
 
             timer.Simple(7, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all others to win!")
+                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all innocents to win!")
             end)
         else
             Randomat:SetRole(ply, ROLE_INNOCENT)

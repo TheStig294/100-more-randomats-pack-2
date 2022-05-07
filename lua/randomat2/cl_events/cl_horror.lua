@@ -1,8 +1,9 @@
 local music
 local cloakSounds
 local horrorEnding
+local killerWinDrawn
 -- Used for expensive calls needing LocalPlayer()
-local client
+local client = LocalPlayer()
 
 local function IsPlayerValid(p)
     return IsPlayer(p) and p:Alive() and not p:IsSpec()
@@ -95,6 +96,7 @@ net.Receive("randomat_horror", function()
     cloakSounds = net.ReadBool()
     horrorEnding = net.ReadBool()
     client = LocalPlayer()
+    killerWinDrawn = false
 
     -- Plays a "kikikimamama" sound when the event triggers
     if cloakSounds then
@@ -227,18 +229,21 @@ local function DrawKillerWin()
     local xWidth = 691
     local yWidth = 87
 
-    hook.Add("DrawOverlay", "HorrorRandomatDrawKillerWin", function()
-        surface.SetDrawColor(0, 0, 0)
-        surface.DrawRect(xPos, yPos, xWidth, yWidth)
-        surface.SetFont("HorrorRandomatKillerWin")
-        surface.SetTextColor(255, 255, 255)
-        surface.SetTextPos(xPos + 75, yPos + 15)
-        surface.DrawText("the innocents are dead")
-    end)
-end
+    if killerWinDrawn then
+        killerWinDrawn = false
+        hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
+    else
+        killerWinDrawn = true
 
-local function StopDrawKillerWin()
-    hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
+        hook.Add("DrawOverlay", "HorrorRandomatDrawKillerWin", function()
+            surface.SetDrawColor(0, 0, 0)
+            surface.DrawRect(xPos, yPos, xWidth, yWidth)
+            surface.SetFont("HorrorRandomatKillerWin")
+            surface.SetTextColor(255, 255, 255)
+            surface.SetTextPos(xPos + 75, yPos + 15)
+            surface.DrawText("the innocents are dead")
+        end)
+    end
 end
 
 net.Receive("randomat_horror_end", function()
@@ -254,13 +259,13 @@ net.Receive("randomat_horror_end", function()
         end
     end
 
-    -- Draws the killer win text on the win screen in a very brute-forced way, since the wintitle hook in CR doesn't work for the killer
+    -- Draws the killer win text on the win screen by brute-force drawing over the win title
+    -- Since the wintitle hook in CR doesn't work for the killer
     if horrorEnding and IsKillerWin() then
-        hook.Add("OnContextMenuClose", "HorrorRandomatStopDrawKillerWin", StopDrawKillerWin)
+        DrawKillerWin()
         hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
 
         hook.Add("TTTBeginRound", "HorrorRandomatRemoveKillerWin", function()
-            hook.Remove("OnContextMenuClose", "HorrorRandomatStopDrawKillerWin")
             hook.Remove("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin")
             hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
             hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")

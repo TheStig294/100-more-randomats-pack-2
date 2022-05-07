@@ -82,6 +82,14 @@ local function RemoveHooks()
     end)
 end
 
+local function IsKillerWin()
+    for _, ply in ipairs(player.GetAll()) do
+        if ply:GetRole() == ROLE_INNOCENT and ply:Alive() and not ply:IsSpec() then return false end
+    end
+
+    return true
+end
+
 net.Receive("randomat_horror", function()
     music = net.ReadBool()
     cloakSounds = net.ReadBool()
@@ -112,17 +120,11 @@ net.Receive("randomat_horror", function()
 
     ApplyScreenEffects()
 
+    -- Modifies the win screen and plays a sound depending on if the killer or innocents win
+    -- The logic for the killer win title doesn't work in this hook and is instead handled the "randomat_horror_end" net function
     if horrorEnding then
         local killerWinPassed = false
         local soundPlayed = false
-
-        local function IsKillerWin()
-            for _, ply in ipairs(player.GetAll()) do
-                if ply:GetRole() == ROLE_INNOCENT and ply:Alive() and not ply:IsSpec() then return false end
-            end
-
-            return true
-        end
 
         hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
             LANG.AddToLanguage("english", "win_horror_killer", string.lower("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
@@ -213,6 +215,32 @@ net.Receive("randomat_horror_respawn", function()
     end
 end)
 
+surface.CreateFont("HorrorRandomatKillerWin", {
+    font = "Trebuchet24",
+    size = 58,
+    weight = 1000
+})
+
+local function DrawKillerWin()
+    local xPos = (ScrW() / 2) - 345
+    local yPos = (ScrH() / 2) - 228
+    local xWidth = 691
+    local yWidth = 87
+
+    hook.Add("DrawOverlay", "HorrorRandomatDrawKillerWin", function()
+        surface.SetDrawColor(0, 0, 0)
+        surface.DrawRect(xPos, yPos, xWidth, yWidth)
+        surface.SetFont("HorrorRandomatKillerWin")
+        surface.SetTextColor(255, 255, 255)
+        surface.SetTextPos(xPos + 75, yPos + 15)
+        surface.DrawText("the innocents are dead")
+    end)
+end
+
+local function StopDrawKillerWin()
+    hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
+end
+
 net.Receive("randomat_horror_end", function()
     -- Mutes the music
     if music then
@@ -226,7 +254,18 @@ net.Receive("randomat_horror_end", function()
         end
     end
 
-    if not horrorEnding then
+    -- Draws the killer win text on the win screen in a very brute-forced way, since the wintitle hook in CR doesn't work for the killer
+    if horrorEnding and IsKillerWin() then
+        hook.Add("OnContextMenuClose", "HorrorRandomatStopDrawKillerWin", StopDrawKillerWin)
+        hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
+
+        hook.Add("TTTBeginRound", "HorrorRandomatRemoveKillerWin", function()
+            hook.Remove("OnContextMenuClose", "HorrorRandomatStopDrawKillerWin")
+            hook.Remove("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin")
+            hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
+            hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")
+        end)
+    else
         timer.Simple(5, RemoveHooks)
     end
 end)

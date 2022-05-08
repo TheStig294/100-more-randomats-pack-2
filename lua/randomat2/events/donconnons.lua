@@ -24,11 +24,19 @@ EVENT.id = "donconnons"
 
 EVENT.Categories = {"item", "moderateimpact"}
 
+local donconModel = "models/player/Doncon/doncon.mdl"
+local donconModelInstalled = util.IsValidModel(donconModel)
+
+if donconModelInstalled then
+    EVENT.Description = "Everyone's Doncon. Donconnons for all!"
+end
+
 if GetConVar("randomat_donconnons_strip"):GetBool() then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 end
 
 function EVENT:Begin()
+    -- Periodically gives everyone donconnons
     timer.Create("RandomatDonconnonsTimer", GetConVar("randomat_donconnons_timer"):GetInt(), 0, function()
         for i, ply in pairs(self:GetAlivePlayers(true)) do
             if table.Count(ply:GetWeapons()) ~= 1 or (table.Count(ply:GetWeapons()) == 1 and ply:GetActiveWeapon():GetClass() ~= "doncmk2_swep") then
@@ -50,10 +58,206 @@ function EVENT:Begin()
             end
         end
     end
+
+    -- Gives everyone a doncon playermodel if installed
+    if donconModelInstalled then
+        local playerModelSets = {}
+
+        local ogDoncon = {
+            model = donconModel,
+            playerColor = Color(19, 46, 209):ToVector(),
+            skin = 0,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0,
+                [2] = 0,
+                [3] = 0,
+                [4] = 0,
+                [5] = 0
+            }
+        }
+
+        table.insert(playerModelSets, ogDoncon)
+
+        local floatingDoncon = {
+            model = donconModel,
+            playerColor = Color(19, 46, 209):ToVector(),
+            skin = 0,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0,
+                [2] = 1,
+                [3] = 1
+            }
+        }
+
+        table.insert(playerModelSets, floatingDoncon)
+
+        local gridDoncon = {
+            model = donconModel,
+            playerColor = Color(197, 17, 17):ToVector(),
+            skin = 1,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0,
+                [2] = 0,
+                [3] = 0
+            }
+        }
+
+        table.insert(playerModelSets, gridDoncon)
+
+        local hairlessDoncon = {
+            model = donconModel,
+            playerColor = Color(17, 127, 45):ToVector(),
+            skin = 0,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 1,
+                [2] = 0,
+                [3] = 1
+            }
+        }
+
+        table.insert(playerModelSets, hairlessDoncon)
+
+        local hairlessFloatingDoncon = {
+            model = donconModel,
+            playerColor = Color(17, 127, 45):ToVector(),
+            skin = 0,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 1,
+                [2] = 1,
+                [3] = 1
+            }
+        }
+
+        table.insert(playerModelSets, hairlessFloatingDoncon)
+
+        local shirtDoncon = {
+            model = donconModel,
+            playerColor = Color(237, 84, 186):ToVector(),
+            skin = 2,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0,
+                [2] = 0,
+                [3] = 0
+            }
+        }
+
+        table.insert(playerModelSets, shirtDoncon)
+
+        local rainbowDoncon = {
+            model = donconModel,
+            playerColor = Color(255, 0, 0):ToVector(),
+            skin = 0,
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0,
+                [2] = 0,
+                [3] = 0
+            }
+        }
+
+        table.insert(playerModelSets, rainbowDoncon)
+        -- Randomly assign unique playermodels to everyone
+        local remainingPlayermodels = {}
+        local chosenPlayermodels = {}
+        table.Add(remainingPlayermodels, playerModelSets)
+
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            -- But if all playermodels have been used, reset the pool of playermodels
+            if table.IsEmpty(remainingPlayermodels) then
+                table.Add(remainingPlayermodels, playerModelSets)
+            end
+
+            local modelData = table.Random(remainingPlayermodels)
+            ForceSetPlayermodel(ply, modelData)
+            -- Remove the selected model from the pool
+            table.RemoveByValue(remainingPlayermodels, modelData)
+            -- Keep track of who got what model so it can be set when they respawn
+            chosenPlayermodels[ply] = modelData
+        end
+
+        -- Sets someone's playermodel again when respawning,
+        -- if they weren't in the round when the event triggered, set their chosen model to a random one
+        self:AddHook("PlayerSpawn", function(ply)
+            if not chosenPlayermodels[ply] then
+                chosenPlayermodels[ply] = table.Random(playerModelSets)
+            end
+
+            timer.Simple(1, function()
+                ForceSetPlayermodel(ply, chosenPlayermodels[ply])
+            end)
+        end)
+
+        -- Rainbow Doncon logic to change colours over time
+        local rainbowPhase = 1
+
+        self:AddHook("Think", function()
+            for _, ply in ipairs(self:GetAlivePlayers()) do
+                if chosenPlayermodels[ply] == rainbowDoncon then
+                    local vector = ply:GetPlayerColor()
+
+                    if rainbowPhase == 1 then
+                        vector.z = vector.z + (1 / 128)
+
+                        if vector.z + (1 / 128) > 1 then
+                            vector.z = 1
+                            rainbowPhase = rainbowPhase + 1
+                        end
+                    elseif rainbowPhase == 2 then
+                        vector.x = vector.x - (1 / 128)
+
+                        if vector.x - (1 / 128) < 0 then
+                            vector.x = 0
+                            rainbowPhase = rainbowPhase + 1
+                        end
+                    elseif rainbowPhase == 3 then
+                        vector.y = vector.y + (1 / 128)
+
+                        if vector.y + (1 / 128) > 1 then
+                            vector.y = 1
+                            rainbowPhase = rainbowPhase + 1
+                        end
+                    elseif rainbowPhase == 4 then
+                        vector.z = vector.z - (1 / 128)
+
+                        if vector.z - (1 / 128) < 0 then
+                            vector.z = 0
+                            rainbowPhase = rainbowPhase + 1
+                        end
+                    elseif rainbowPhase == 5 then
+                        vector.x = vector.x + (1 / 128)
+
+                        if vector.x + (1 / 128) > 1 then
+                            vector.x = 1
+                            rainbowPhase = rainbowPhase + 1
+                        end
+                    elseif rainbowPhase == 6 then
+                        vector.y = vector.y - (1 / 128)
+
+                        if vector.y - (1 / 128) < 0 then
+                            vector.y = 0
+                            rainbowPhase = 1
+                        end
+                    end
+
+                    ply:SetPlayerColor(vector)
+                end
+            end
+        end)
+    end
 end
 
 function EVENT:End()
     timer.Remove("RandomatDonconnonsTimer")
+
+    if donconModelInstalled then
+        ForceResetAllPlayermodels()
+    end
 end
 
 function EVENT:Condition()

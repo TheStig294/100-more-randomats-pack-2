@@ -140,7 +140,8 @@ or: <https://steamcommunity.com/sharedfiles/filedetails/?id=954453521>
 
 ## O Rubber Tree...
 
-Continually gives donconnans to everyone\
+Continually gives donconnans to everyone.\
+Also gives everyone a "Doncon" playermodel, if installed.\
 \
 _ttt_randomat_donconnons_ - Default: 1 - Whether this randomat is enabled\
 _randomat_donconnons_timer_ - Default: 5 - Time between being given donconnons\
@@ -156,7 +157,8 @@ _randomat_donconnons_lockondecaytime_ - Default: 15 - Seconds until homing stop\
 Changed name from "O Rubber Tree", added description, made doncon projectiles much smaller, faster and one-shot, added convars to change donconnon stats, no longer strips all weapons by default, fixed donconnons eventually stopping being given out\
 Originally made by [Fate](https://steamcommunity.com/sharedfiles/filedetails/?id=2122924789)\
 \
-Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2237522867>
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2237522867>\
+(Optional): <https://steamcommunity.com/sharedfiles/filedetails/?id=1440266287>
 
 ## Prop Hunt (Yogscast intro)
 

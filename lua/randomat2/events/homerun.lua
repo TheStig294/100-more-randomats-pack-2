@@ -276,7 +276,9 @@ function EVENT:End()
         end
     end
 
-    ForceResetAllPlayermodels()
+    if catModelInstalled then
+        ForceResetAllPlayermodels()
+    end
 end
 
 function EVENT:Condition()

@@ -229,21 +229,15 @@ local function DrawKillerWin()
     local width = 691
     local height = 87
 
-    if killerWinDrawn then
-        killerWinDrawn = false
-        hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
-    else
-        killerWinDrawn = true
-
-        hook.Add("DrawOverlay", "HorrorRandomatDrawKillerWin", function()
-            surface.SetDrawColor(0, 0, 0)
-            surface.DrawRect(xPos, yPos, width, height)
-            surface.SetFont("HorrorRandomatKillerWin")
-            surface.SetTextColor(255, 255, 255)
-            surface.SetTextPos(xPos + 75, yPos + 15)
-            surface.DrawText("the innocents are dead")
-        end)
-    end
+    hook.Add("DrawOverlay", "HorrorRandomatDrawKillerWin", function()
+        if not IsValid(vgui.GetHoveredPanel()) then return end
+        surface.SetDrawColor(0, 0, 0)
+        surface.DrawRect(xPos, yPos, width, height)
+        surface.SetFont("HorrorRandomatKillerWin")
+        surface.SetTextColor(255, 255, 255)
+        surface.SetTextPos(xPos + 75, yPos + 15)
+        surface.DrawText("the innocents are dead")
+    end)
 end
 
 net.Receive("randomat_horror_end", function()

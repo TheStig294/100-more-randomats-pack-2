@@ -6,20 +6,31 @@ EVENT.id = "hwapoon"
 EVENT.Categories = {"item", "largeimpact"}
 
 local lewisModel = "models/bradyjharty/yogscast/lewis.mdl"
+util.AddNetworkString("HwapoonRandomatPlaySound")
 
 function EVENT:Begin()
     local alivePlayers = self:GetAlivePlayers(true)
 
-    -- Don't give the harpoon and change the description if a harpoon mod isn't installed
     if weapons.Get("ttt_m9k_harpoon") then
         for _, ply in ipairs(self:GetAlivePlayers()) do
-            ply:Give("weapon_ttt_hwapoon_randomat")
+            ply:Give("ttt_m9k_harpoon")
         end
     elseif weapons.Get("weapon_ttt_hwapoon") then
         for _, ply in ipairs(self:GetAlivePlayers()) do
             ply:Give("weapon_ttt_hwapoon")
         end
     end
+
+    self:AddHook("PlayerButtonDown", function(ply, button)
+        if not IsFirstTimePredicted() then return end
+
+        if button == MOUSE_LEFT and IsValid(ply:GetActiveWeapon()) and (ply:GetActiveWeapon():GetClass() == "ttt_m9k_harpoon" or ply:GetActiveWeapon():GetClass() == "weapon_ttt_hwapoon") then
+            local hwapoonSound = "hwapoon/hwapoon" .. math.random(1, 4) .. ".mp3"
+            net.Start("HwapoonRandomatPlaySound")
+            net.WriteString(hwapoonSound)
+            net.Broadcast()
+        end
+    end)
 
     -- If the yogs lewis playermodel is installed, do a bit more...
     if util.IsValidModel(lewisModel) then

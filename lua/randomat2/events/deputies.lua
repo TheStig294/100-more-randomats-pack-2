@@ -11,9 +11,11 @@ function EVENT:Begin()
         if Randomat:IsInnocentTeam(ply, true) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_DEPUTY)
+            ply:SetDefaultCredits()
         elseif Randomat:IsTraitorTeam(ply) then
             self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_IMPERSONATOR)
+            ply:SetDefaultCredits()
         end
     end
 

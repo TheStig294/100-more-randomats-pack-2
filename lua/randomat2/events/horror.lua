@@ -72,6 +72,26 @@ local function SpectatorMessage(ply)
     end)
 end
 
+local function SetToKiller(ply)
+    Randomat:SetRole(ply, ROLE_KILLER)
+    ply:SetNWBool("HorrorRandomatKiller", true)
+    ply:SetHealth(GetConVar("randomat_horror_killer_health"):GetInt())
+    ply:SetMaxHealth(GetConVar("randomat_horror_killer_health"):GetInt())
+    ply:SetCredits(GetConVar("randomat_horror_killer_credits"):GetInt())
+
+    if GetConVar("randomat_horror_killer_cloak"):GetBool() then
+        ply:Give("weapon_ttt_cloak_randomat")
+    end
+
+    timer.Simple(5, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all innocents to win!")
+    end)
+
+    timer.Simple(7, function()
+        ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all innocents to win!")
+    end)
+end
+
 function EVENT:Begin()
     horrorRandomat = true
     -- Draws screen effects to hinder each player's view and plays music if enabled
@@ -82,14 +102,8 @@ function EVENT:Begin()
     net.WriteBool(GetConVar("randomat_horror_ending"):GetBool())
     SetGlobalBool("randomat_horror_cloak_sounds", GetConVar("randomat_horror_cloak_sounds"):GetBool())
     net.Broadcast()
-    -- Counting the number of traitors to ensure 1/2 as many are killers
-    local traitorCount = 0
 
     for _, ply in ipairs(player.GetAll()) do
-        if Randomat:IsTraitorTeam(ply) then
-            traitorCount = traitorCount + 1
-        end
-
         -- Preparing variables for the spectator sounds
         ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
         ply:SetNWBool("HorrorRandomatSpectatorCooldown", false)
@@ -106,17 +120,6 @@ function EVENT:Begin()
         ply.remainingSpectatorSounds = {}
         table.Add(ply.remainingSpectatorSounds, spectatorSounds)
     end
-
-    -- Name of the randomat changes depending on how many killers there are
-    local killerCount = traitorCount
-
-    if killerCount == 1 then
-        self.Title = "The killer is coming..."
-    else
-        self.Title = "The killers are coming..."
-    end
-
-    Randomat:EventNotifySilent(self.Title)
 
     -- Disable round end sounds and 'Ending Flair' event so ending music can play
     if musicConvar:GetBool() then
@@ -136,7 +139,7 @@ function EVENT:Begin()
         end
     end
 
-    local killersSet = 0
+    local killerCount = 0
     local alivePlayers = self:GetAlivePlayers(true)
 
     for _, ply in ipairs(alivePlayers) do
@@ -147,26 +150,11 @@ function EVENT:Begin()
         -- Role weapons were stripped earlier, but just in case there are some that don't use WEAPON_ROLE...
         self:StripRoleWeapons(ply)
 
+        -- Turn the traitors into killers
         -- Gives the killer(s) extra health, an invisibility cloak, and shows hints in the centre of the screen
-        if killersSet < killerCount then
-            Randomat:SetRole(ply, ROLE_KILLER)
-            killersSet = killersSet + 1
-            ply:SetNWBool("HorrorRandomatKiller", true)
-            ply:SetHealth(GetConVar("randomat_horror_killer_health"):GetInt())
-            ply:SetMaxHealth(GetConVar("randomat_horror_killer_health"):GetInt())
-            ply:SetCredits(GetConVar("randomat_horror_killer_credits"):GetInt())
-
-            if GetConVar("randomat_horror_killer_cloak"):GetBool() then
-                ply:Give("weapon_ttt_cloak_randomat")
-            end
-
-            timer.Simple(5, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all innocents to win!")
-            end)
-
-            timer.Simple(7, function()
-                ply:PrintMessage(HUD_PRINTCENTER, "You deal less damage with guns, kill all innocents to win!")
-            end)
+        if Randomat:IsTraitorTeam(ply) then
+            SetToKiller(ply)
+            killerCount = killerCount + 1
         else
             Randomat:SetRole(ply, ROLE_INNOCENT)
             ply:SetCredits(0)
@@ -189,7 +177,22 @@ function EVENT:Begin()
         end
     end
 
+    -- If no traitors are alive, set a random player to be a killer
+    if killerCount == 0 then
+        SetToKiller(alivePlayers[1])
+        killerCount = killerCount + 1
+    end
+
     SendFullStateUpdate()
+
+    -- Name of the randomat changes depending on how many killers there are
+    if killerCount == 1 then
+        self.Title = "The killer is coming..."
+    else
+        self.Title = "The killers are coming..."
+    end
+
+    Randomat:EventNotifySilent(self.Title)
 
     -- Removes screen effects and add halos around players for spectators
     self:AddHook("PostPlayerDeath", function(ply)

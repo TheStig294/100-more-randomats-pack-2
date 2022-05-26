@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Everyone's a detective"
 EVENT.Description = "Everyone gets a DNA scanner and the ability to search bodies"
 EVENT.id = "dna"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"biased_innocent", "biased", "smallimpact"}
 

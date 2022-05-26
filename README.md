@@ -55,8 +55,9 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 ## Everyone's a detective
 
 Everyone gains the ability to search bodies and gets a DNA scanner.\
+NOTE: This randomat is disabled by default as it normally doesn't have any impact on the round in practice.\
 \
-_ttt_randomat_dna_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_dna_ - Default: 0 - Whether this randomat is enabled
 ## Everyone's a little trickster
 
 Everyone can use traitor traps!\
@@ -290,8 +291,9 @@ Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetail
 ## You're on the case, detective...
 
 Only detectives can search bodies, all other players can only call a detective over to search a body.\
+NOTE: This randomat is disabled by default as it normally doesn't have any impact on the round in practice.\
 \
-_ttt_randomat_detectivesearch_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_detectivesearch_ - Default: 0 - Whether this randomat is enabled
 
 ## You just triggered my trap card!
 

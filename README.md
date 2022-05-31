@@ -169,6 +169,15 @@ _ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
+## Random Deathmatch
+
+Gives everyone an infinite ammo railgun (a.k.a the "Free Kill Gun"), strips all other weapons on the ground and on players. \
+Transforms any jesters or swappers into innocents.\
+\
+_ttt_randomat_rdm_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=337994500>
+
 ## Suck it!
 
 Everyone is continually given jet guns! If your gun overheats, you'll have to wait 5 seconds before being given a new one\

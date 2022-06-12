@@ -9,6 +9,7 @@ EVENT.Categories = {"rolechange", "largeimpact", "biased_traitor", "biased"}
 local isDetraitor = false
 
 function EVENT:Begin()
+    -- Changing the description if there is more than one detective
     local detectiveCount = 0
 
     for i, ply in ipairs(player.GetAll()) do
@@ -24,34 +25,35 @@ function EVENT:Begin()
     end
 
     self.Description = description
-    -- Check to ensure only one detective is ever transformed into a traitor
-    local detraitorTriggered = false
 
-    for k, ply in pairs(self:GetAlivePlayers(true)) do
-        if detraitorTriggered == false and Randomat:IsGoodDetectiveLike(ply) and math.random() < 0.5 then
-            -- If Malivil's custom roles is being used
-            if isDetraitor then
-                self:StripRoleWeapons(ply)
-                Randomat:SetRole(ply, ROLE_DETRAITOR)
+    -- 50% chance to transform the/a detective
+    if math.random() < 0.5 then
+        for k, ply in pairs(self:GetAlivePlayers(true)) do
+            -- Choose an ordinary detective, or any detective if detective roles are hidden
+            if ply:GetRole() == ROLE_DETECTIVE or (GetConVar("ttt_detective_hide_special_mode"):GetInt() ~= 0 and Randomat:IsGoodDetectiveLike(ply)) then
+                -- If the detraitor exists, use it, as the impersonator doesn't exist on that version of Custom Roles
+                if isDetraitor then
+                    self:StripRoleWeapons(ply)
+                    Randomat:SetRole(ply, ROLE_DETRAITOR)
 
-                timer.Simple(1, function()
-                    ply:PrintMessage(HUD_PRINTTALK, "DETRAITOR! \nYou're a detective, but on the traitor team!")
-                end)
+                    timer.Simple(1, function()
+                        ply:PrintMessage(HUD_PRINTTALK, "DETRAITOR! \nYou're a detective, but on the traitor team!")
+                    end)
 
-                detraitorTriggered = true
-                -- Let the traitor remover function know who the detraitor is and that the effect actually triggered
-            elseif detraitorTriggered == false then
-                -- If Noxx's custom roles is being used, set them to an impersonator again
-                self:StripRoleWeapons(ply)
-                Randomat:SetRole(ply, ROLE_IMPERSONATOR)
-                -- And promote them to a detective
-                ply:SetNWBool("HasPromotion", true)
+                    break
+                else
+                    -- Else if the latest version of Custom Roles is being used, set them to an impersonator
+                    self:StripRoleWeapons(ply)
+                    Randomat:SetRole(ply, ROLE_IMPERSONATOR)
+                    -- And promote them to a detective
+                    ply:SetNWBool("HasPromotion", true)
 
-                timer.Simple(1, function()
-                    ply:PrintMessage(HUD_PRINTTALK, "IMPERSONATOR! \nYou're a detective, but on the traitor team!")
-                end)
+                    timer.Simple(1, function()
+                        ply:PrintMessage(HUD_PRINTTALK, "IMPERSONATOR! \nYou're a detective, but on the traitor team!")
+                    end)
 
-                detraitorTriggered = true
+                    break
+                end
             end
         end
     end
@@ -66,9 +68,9 @@ function EVENT:Condition()
     local isImpersonator = false
     local isIcon = true
 
-    -- Check there is a detective alive
+    -- Check there is an ordinary detective alive, or any kind of detective when detective roles are hidden
     for k, ply in pairs(self:GetAlivePlayers()) do
-        if Randomat:IsGoodDetectiveLike(ply) then
+        if ply:GetRole() == ROLE_DETECTIVE or (ConVarExists("ttt_detective_hide_special_mode") and GetConVar("ttt_detective_hide_special_mode"):GetInt() ~= 0 and Randomat:IsGoodDetectiveLike(ply)) then
             isDetective = true
             break
         end

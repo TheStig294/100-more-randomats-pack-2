@@ -108,7 +108,7 @@ function EVENT:Begin()
         ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
         ply:SetNWBool("HorrorRandomatSpectatorCooldown", false)
 
-        -- Puts halos around living players for spectators to make them easier to see
+        -- Gives spectators artificial flashlights and draws the spectator UI on their screen
         if not ply:Alive() or ply:IsSpec() then
             net.Start("randomat_horror_spectator")
             net.Send(ply)
@@ -194,7 +194,7 @@ function EVENT:Begin()
 
     Randomat:EventNotifySilent(self.Title)
 
-    -- Removes screen effects and add halos around players for spectators
+    -- Removes screen effects and adds the spectator UI and artificial flashlights for spectators
     self:AddHook("PostPlayerDeath", function(ply)
         net.Start("randomat_horror_spectator")
         net.Send(ply)
@@ -204,7 +204,7 @@ function EVENT:Begin()
         end)
     end)
 
-    -- Re-adds screen effects and removes player halos for players that respawn
+    -- Re-adds screen effects and removes the spectator UI and flashlight
     self:AddHook("PlayerSpawn", function(ply)
         net.Start("randomat_horror_respawn")
         net.Send(ply)

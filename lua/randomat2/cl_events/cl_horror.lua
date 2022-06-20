@@ -66,8 +66,7 @@ local function RemoveHooks()
     -- Remove the block on seeing the player info popup
     hook.Remove("TTTTargetIDPlayerBlockIcon", "HorrorRandomatVisionBlockTargetIcon")
     hook.Remove("TTTTargetIDPlayerBlockInfo", "HorrorRandomatVisionBlockTargetInfo")
-    -- Remove the spectator halos, UI and artificial flashlight
-    hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
+    -- Remove the spectator UI and artificial flashlight
     hook.Remove("HUDPaint", "HorrorRandomatUI")
     hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
     -- Remove modified win title if it was added
@@ -207,8 +206,7 @@ end)
 
 net.Receive("randomat_horror_respawn", function()
     ApplyScreenEffects()
-    -- Remove the spectator halos, UI and artificial flashlight
-    hook.Remove("PreDrawHalos", "HorrorRandomatHalos")
+    -- Remove the spectator UI and artificial flashlight
     hook.Remove("HUDPaint", "HorrorRandomatUI")
     hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
 

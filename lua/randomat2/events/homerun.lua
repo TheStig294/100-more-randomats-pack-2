@@ -26,25 +26,18 @@ end
 function EVENT:HandleRoleWeapons(ply)
     local updated = false
 
-    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
-    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply) then
-        Randomat:SetRole(ply, ROLE_TRAITOR)
-        updated = true
-    elseif Randomat:IsJesterTeam(ply) then
+    if (ply.IsZombie and ply:IsZombie()) or (ply.IsMadScientist and ply:IsMadScientist()) then
         Randomat:SetRole(ply, ROLE_INNOCENT)
-        updated = true
-    end
-
-    -- Remove role weapons from anyone on the traitor team now
-    if Randomat:IsTraitorTeam(ply) then
         self:StripRoleWeapons(ply)
+        ply:ChatPrint("Zombies can't hold bats, so you're now an innocent!")
+        updated = true
     end
 
     return updated
 end
 
 function EVENT:Begin()
-    -- Removing role weapons and changing problematic roles to basic ones
+    -- Turning all zombies and mad scientists to innocents
     for _, ply in ipairs(self:GetAlivePlayers()) do
         self:HandleRoleWeapons(ply)
     end
@@ -113,22 +106,6 @@ function EVENT:Begin()
         local catModelOffset = Vector(0, 0, 40)
         local catModelOffsetDucked = Vector(0, 0, 28)
         local playerModelSets = {}
-
-        local ogCat = {
-            model = catModel1,
-            viewOffset = catModelOffset,
-            viewOffsetDucked = catModelOffsetDucked,
-            bodygroupValues = {
-                [0] = 0,
-                [1] = 0,
-                [2] = 0,
-                [3] = 0,
-                [4] = 0,
-                [5] = 0
-            }
-        }
-
-        table.insert(playerModelSets, ogCat)
 
         local catEyesClosed = {
             model = catModel1,
@@ -228,6 +205,15 @@ function EVENT:Begin()
             table.insert(playerModelSets, meowscles)
         end
 
+        -- Also a garfield playermodel can be given as well...
+        if util.IsValidModel("models/player/garfield/buff_garfield.mdl") then
+            local garfield = {
+                model = "models/player/garfield/buff_garfield.mdl"
+            }
+
+            table.insert(playerModelSets, garfield)
+        end
+
         -- Randomly assign unique playermodels to everyone
         local remainingPlayermodels = {}
         local chosenPlayermodels = {}
@@ -281,8 +267,9 @@ function EVENT:End()
     end
 end
 
+-- Don't let 'rise from your grave' run at the same time as zombies can't hold guns
 function EVENT:Condition()
-    return weapons.Get(GetConVar("randomat_homerun_weaponid"):GetString()) ~= nil
+    return weapons.Get(GetConVar("randomat_homerun_weaponid"):GetString()) ~= nil and not Randomat:IsEventActive("grave")
 end
 
 function EVENT:GetConVars()

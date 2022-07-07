@@ -39,9 +39,67 @@ function EVENT:Begin()
         -- Special models that aren't just the yogs lewis model with a random colour
         local playerModelSets = {}
 
+        playerModelSets.lewisRed = {
+            model = lewisModel,
+            playerColor = Color(255, 0, 0):ToVector(),
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0
+            }
+        }
+
+        playerModelSets.lewisBlue = {
+            model = lewisModel,
+            playerColor = Color(0, 0, 255):ToVector(),
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0
+            }
+        }
+
+        playerModelSets.lewisPink = {
+            model = lewisModel,
+            playerColor = Color(255, 0, 255):ToVector(),
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0
+            }
+        }
+
+        playerModelSets.lewisWhite = {
+            model = lewisModel,
+            playerColor = Color(255, 255, 255):ToVector(),
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0
+            }
+        }
+
+        playerModelSets.beeLewis = {
+            model = lewisModel,
+            playerColor = Color(255, 229, 0):ToVector(),
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 1
+            }
+        }
+
+        playerModelSets.dressLewis = {
+            model = lewisModel,
+            playerColor = Color(0, 88, 0):ToVector(),
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 2
+            }
+        }
+
         playerModelSets.rainbowLewis = {
             model = lewisModel,
-            playerColor = Color(255, 0, 0):ToVector()
+            playerColor = Color(255, 0, 0):ToVector(),
+            bodygroupValues = {
+                [0] = 0,
+                [1] = 0
+            }
         }
 
         if util.IsValidModel("models/player/Yahtzee.mdl") then
@@ -58,26 +116,20 @@ function EVENT:Begin()
         end
 
         -- Randomly assign unique playermodels to everyone
+        local remainingPlayermodels = {}
         local chosenPlayermodels = {}
+        table.Add(remainingPlayermodels, playerModelSets)
 
-        for i, ply in ipairs(alivePlayers) do
-            local modelData
-
-            -- Set 1 person to the rainbow lewis model
-            if i == 1 then
-                modelData = playerModelSets.rainbowLewis
-            elseif playerModelSets.ogLewisModel and i == 2 then
-                -- 1 person to the og lewis model if installed,
-                modelData = playerModelSets.ogLewisModel
-            else
-                -- and everyone else to the standard lewis model with a random colour
-                modelData = {
-                    model = lewisModel,
-                    playerColor = VectorRand(0, 1)
-                }
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            -- But if all playermodels have been used, reset the pool of playermodels
+            if table.IsEmpty(remainingPlayermodels) then
+                table.Add(remainingPlayermodels, playerModelSets)
             end
 
+            local modelData = table.Random(remainingPlayermodels)
             ForceSetPlayermodel(ply, modelData)
+            -- Remove the selected model from the pool
+            table.RemoveByValue(remainingPlayermodels, modelData)
             -- Keep track of who got what model so it can be set when they respawn
             chosenPlayermodels[ply] = modelData
         end

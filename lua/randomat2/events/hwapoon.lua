@@ -9,14 +9,14 @@ local lewisModel = "models/bradyjharty/yogscast/lewis.mdl"
 util.AddNetworkString("HwapoonRandomatPlaySound")
 
 function EVENT:Begin()
-    local alivePlayers = self:GetAlivePlayers(true)
+    local alivePlayers = self:GetAlivePlayers()
 
     if weapons.Get("ttt_m9k_harpoon") then
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in ipairs(alivePlayers) do
             ply:Give("ttt_m9k_harpoon")
         end
     elseif weapons.Get("weapon_ttt_hwapoon") then
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in ipairs(alivePlayers) do
             ply:Give("weapon_ttt_hwapoon")
         end
     end
@@ -41,6 +41,7 @@ function EVENT:Begin()
 
         playerModelSets.lewisRed = {
             model = lewisModel,
+            skin = 1,
             playerColor = Color(255, 0, 0):ToVector(),
             bodygroupValues = {
                 [0] = 0,
@@ -50,6 +51,7 @@ function EVENT:Begin()
 
         playerModelSets.lewisBlue = {
             model = lewisModel,
+            skin = 1,
             playerColor = Color(0, 0, 255):ToVector(),
             bodygroupValues = {
                 [0] = 0,
@@ -59,6 +61,7 @@ function EVENT:Begin()
 
         playerModelSets.lewisPink = {
             model = lewisModel,
+            skin = 1,
             playerColor = Color(255, 0, 255):ToVector(),
             bodygroupValues = {
                 [0] = 0,
@@ -68,6 +71,7 @@ function EVENT:Begin()
 
         playerModelSets.lewisWhite = {
             model = lewisModel,
+            skin = 0,
             playerColor = Color(255, 255, 255):ToVector(),
             bodygroupValues = {
                 [0] = 0,
@@ -77,6 +81,7 @@ function EVENT:Begin()
 
         playerModelSets.beeLewis = {
             model = lewisModel,
+            skin = 0,
             playerColor = Color(255, 229, 0):ToVector(),
             bodygroupValues = {
                 [0] = 0,
@@ -86,6 +91,7 @@ function EVENT:Begin()
 
         playerModelSets.dressLewis = {
             model = lewisModel,
+            skin = 0,
             playerColor = Color(0, 88, 0):ToVector(),
             bodygroupValues = {
                 [0] = 0,
@@ -95,6 +101,7 @@ function EVENT:Begin()
 
         playerModelSets.rainbowLewis = {
             model = lewisModel,
+            skin = 1,
             playerColor = Color(255, 0, 0):ToVector(),
             bodygroupValues = {
                 [0] = 0,

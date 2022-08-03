@@ -1,6 +1,6 @@
 AddCSLuaFile()
 SWEP.Base = "doncmk2_swep"
-SWEP.PrintName = "Baby Donconnon"
+SWEP.PrintName = "Donconnon"
 
 if SERVER then
     SWEP.DonconDamage = GetConVar("randomat_donconnons_damage"):GetFloat()

@@ -37,6 +37,8 @@ function EVENT:Begin()
         SetRoleHealth(killer)
         -- Let the end-of-round scoreboard know roles have changed
         SendFullStateUpdate()
+        -- Give the killer their loadout weapons
+        hook.Run("PlayerLoadout", killer)
     end
 end
 

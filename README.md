@@ -297,6 +297,8 @@ Turns someone into a "Mud Scientist", a joke role that does nothing but "Collect
 The number of unique objects they managed to scan is displayed at the end of the round\
 The Mud Scientist wins simply by surviving to the end of the round, like the "Old Man"\
 \
+Changes the Mud Scientist to this model if installed: <https://steamcommunity.com/sharedfiles/filedetails/?id=2107987007>\
+\
 _ttt_randomat_mudscientist_ - Default: 1 - Whether this randomat is enabled
 
 ## Yay!

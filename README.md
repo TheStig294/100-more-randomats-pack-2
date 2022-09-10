@@ -25,11 +25,11 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Somehow, Palpatine Returned! - Spawns in a 'Tom' bot for the round
 1. Everyone's a little trickster... - Everyone can use traitor traps!
 2. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
 3. Suck it! - Jet guns only!
 4. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
-5. The killers are coming... - A horror-themed randomat, which turns the traitors into killers!
 
 # Randomats
 
@@ -177,6 +177,16 @@ Transforms any jesters or swappers into innocents.\
 _ttt_randomat_rdm_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=337994500>
+
+## Somehow, Palpatine returned!
+
+Spawns in a bot, that plays voicelines when hurt, walked near, killed, etc.\
+The bot is a high-health old man if CR for TTT is installed, else is an innocent with normal health.\
+The bot is kicked after the end of the round\
+\
+_ttt_randomat_palp_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=457212613>
 
 ## Suck it!
 

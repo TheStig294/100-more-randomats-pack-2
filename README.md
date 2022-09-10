@@ -25,11 +25,11 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. What's the Mud Scientist? - Turns someone into a "Mud Scientist", a joke role
 1. Somehow, Palpatine Returned! - Spawns in a 'Tom' bot for the round
 1. Everyone's a little trickster... - Everyone can use traitor traps!
 2. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
 3. Suck it! - Jet guns only!
-4. Hwapoon! - Everyone gets a 'Hwapoon!' and a "Yogscast Lewis" model, if installed
 
 # Randomats
 
@@ -290,6 +290,14 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2550782000>
 Hides your role and disables the scoreboard\
 \
 _ttt_randomat_whatami_ - Default: 1 - Whether this randomat is enabled
+
+## What's the Mud Scientist?
+
+Turns someone into a "Mud Scientist", a joke role that does nothing but "Collect mud samples"\
+The number of unique objects they managed to scan is displayed at the end of the round\
+The Mud Scientist wins simply by surviving to the end of the round, like the "Old Man"\
+\
+_ttt_randomat_mudscientist_ - Default: 1 - Whether this randomat is enabled
 
 ## Yay!
 

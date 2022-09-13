@@ -178,6 +178,12 @@ _ttt_randomat_rdm_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=337994500>
 
+## Shh... It's a Secret!
+
+Runs another random Randomat event without notifying the players. Also silences all future Randomat events while this event is active.\
+\
+_ttt_randomat_secret_ - Default: 1 - Whether this event is enabled.
+
 ## Somehow, Palpatine returned!
 
 Spawns in a bot, that plays voicelines when hurt, walked near, killed, etc.\

@@ -25,11 +25,11 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. NOT THE BEE BARRELS! - Spawns barrels that explode into bees!
 1. What's the Mud Scientist? - Turns someone into a "Mud Scientist", a joke role
 1. Somehow, Palpatine Returned! - Spawns in a 'Tom' bot for the round
 1. Everyone's a little trickster... - Everyone can use traitor traps!
 2. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
-3. Suck it! - Jet guns only!
 
 # Randomats
 
@@ -121,11 +121,19 @@ _ttt_randomat_mysterybox_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2252594978>
 
-## Oops! All deputies!
+## NOT THE BEE BARRELS!
 
-All innocents are deputies, all traitors are impersonators!\
+Spawns bee barrels around every player repeatedly until the event ends\
 \
-_ttt_randomat_deputies_ - Default: 1 - Whether this randomat is enabled
+_ttt_randomat_beebarrels_ - Default: 1 - Whether this randomat is enabled\
+_randomat_beebarrels_count_ - Default: 3 - Number of bee barrels spawned per person\
+_randomat_beebarrels_range_ - Default: 100 - Distance bee barrels spawn from the player\
+_randomat_beebarrels_timer_ - Default: 60 - Time between bee barrel spawns\
+\
+Added a condition to only run event when the bee model is installed\
+Originally made by [Spaaz](https://github.com/spaaz/Spaaz-s-Randomats)\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=913310851>
 
 ## Now, you're thinking with portals.
 
@@ -160,6 +168,12 @@ Originally made by [Fate](https://steamcommunity.com/sharedfiles/filedetails/?id
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2237522867>\
 (Optional): <https://steamcommunity.com/sharedfiles/filedetails/?id=1440266287>
+
+## Oops! All deputies!
+
+All innocents are deputies, all traitors are impersonators!\
+\
+_ttt_randomat_deputies_ - Default: 1 - Whether this randomat is enabled
 
 ## Prop Hunt (Yogscast intro)
 

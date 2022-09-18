@@ -80,8 +80,6 @@ function EVENT:Begin()
 
     -- Respawns any zombies that die after a 5 second delay
     self:AddHook("PostPlayerDeath", function(ply)
-        ply:ConCommand("ttt_spectator_mode 0")
-
         timer.Simple(5, function()
             local corpse = findcorpse(ply) -- run the normal respawn code now
             ply:SpawnForRound(true)

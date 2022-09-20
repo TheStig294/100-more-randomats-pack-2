@@ -290,7 +290,9 @@ A doncombine spawns where people die, from the "Doncombine summoner" weapon.\
 \
 _ttt_randomat_doncombine_ - Default: 1 - Whether this randomat is enabled\
 \
-Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2457576268>
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2457576268>\
+\
+Idea by eaglelily93 on YouTube
 
 ## UNLIMITED POWEEERRRRRR!
 

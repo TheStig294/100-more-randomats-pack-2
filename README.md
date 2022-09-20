@@ -25,11 +25,11 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. There's a little Doncon inside us all... - Spawn a mini-doncombine when you die
 1. NOT THE BEE BARRELS! - Spawns barrels that explode into bees!
 1. What's the Mud Scientist? - Turns someone into a "Mud Scientist", a joke role
 1. Somehow, Palpatine Returned! - Spawns in a 'Tom' bot for the round
 1. Everyone's a little trickster... - Everyone can use traitor traps!
-2. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
 
 # Randomats
 
@@ -283,6 +283,14 @@ License: https://creativecommons.org/licenses/by/4.0/\
 "Ghost Scream" by onderwish\
 Link: https://freesound.org/people/onderwish/sounds/469141/\
 License: https://creativecommons.org/publicdomain/zero/1.0/
+
+## There's a Doncon inside us all...
+
+A doncombine spawns where people die, from the "Doncombine summoner" weapon.\
+\
+_ttt_randomat_doncombine_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2457576268>
 
 ## UNLIMITED POWEEERRRRRR!
 

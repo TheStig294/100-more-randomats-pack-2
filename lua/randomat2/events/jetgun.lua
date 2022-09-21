@@ -2,17 +2,20 @@ local EVENT = {}
 
 CreateConVar("randomat_jetgun_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons", 0, 1)
 
-CreateConVar("randomat_jetgun_timer", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds between being given a new jet gun", 0, 30)
+CreateConVar("randomat_jetgun_overheat_delay", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until given a new jetgun after overheating", 1, 30)
 
 EVENT.Title = "Suck it!"
-EVENT.Description = "Jetguns only!"
+
+if GetConVar("randomat_jetgun_strip"):GetBool() then
+    EVENT.Description = "Jetguns only!"
+    EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+else
+    EVENT.Description = "Jetguns for all!"
+end
+
 EVENT.id = "jetgun"
 
 EVENT.Categories = {"item", "largeimpact"}
-
-if GetConVar("randomat_jetgun_strip"):GetBool() then
-    EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
-end
 
 function EVENT:HandleRoleWeapons(ply)
     local updated = false
@@ -49,6 +52,12 @@ function EVENT:GiveJetgun(ply)
 end
 
 function EVENT:Begin()
+    if GetConVar("randomat_jetgun_strip"):GetBool() then
+        self.Description = "Jetguns only!"
+    else
+        self.Description = "Jetguns for all!"
+    end
+
     -- Removing role weapons and changing problematic roles to basic ones
     for _, ply in ipairs(self:GetAlivePlayers()) do
         self:HandleRoleWeapons(ply)
@@ -72,12 +81,31 @@ function EVENT:Begin()
     end)
 
     self:AddHook("PlayerDroppedWeapon", function(owner, wep)
-        if wep:GetClass() == "tfa_jetgun" then
-            owner:PrintMessage(HUD_PRINTCENTER, "Overheated! New gun in " .. GetConVar("randomat_jetgun_timer") .. " seconds...")
-            owner:PrintMessage(HUD_PRINTTALK, "Overheated! New gun in " .. GetConVar("randomat_jetgun_timer") .. " seconds...")
+        if not owner:Alive() or owner:IsSpec() then return end
 
-            timer.Create(owner:SteamID64() .. "RandomatGiveJetgunTimer", GetConVar("randomat_jetgun_timer"):GetInt(), 1, function()
-                self:GiveJetgun(owner)
+        if wep:GetClass() == "tfa_jetgun" then
+            -- If the player was forced to drop the jetgun before overheating, give them a new one
+            if owner:GetAmmoCount("ammo_coolant") > 0 then
+                timer.Simple(0.1, function()
+                    self:GiveJetgun(owner)
+                end)
+
+                return
+            end
+
+            -- Else, give them back a jetgun after a delay
+            timer.Create(owner:SteamID64() .. "RandomatGiveJetgunTimer", 1, GetConVar("randomat_jetgun_overheat_delay"):GetInt(), function()
+                if not IsPlayer(owner) then
+                    timer.Remove(owner:SteamID64() .. "RandomatGiveJetgunTimer")
+
+                    return
+                end
+
+                if timer.RepsLeft(owner:SteamID64() .. "RandomatGiveJetgunTimer") == 0 then
+                    self:GiveJetgun(owner)
+                else
+                    owner:PrintMessage(HUD_PRINTCENTER, "Overheated! New jetgun in " .. timer.RepsLeft(owner:SteamID64() .. "RandomatGiveJetgunTimer") .. " seconds...")
+                end
             end)
         end
     end)
@@ -124,13 +152,20 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
-    return weapons.Get("tfa_jetgun") ~= nil
+    -- Prevent this event from running while there is a phantom and phantom haunting is turned on
+    if ConVarExists("ttt_phantom_killer_haunt") and GetConVar("ttt_phantom_killer_haunt"):GetBool() then
+        for _, ply in ipairs(player.GetAll()) do
+            if ply:GetRole() == ROLE_PHANTOM then return false end
+        end
+    end
+
+    return weapons.Get("tfa_jetgun") ~= nil and not Randomat:IsEventActive("elevator")
 end
 
 function EVENT:GetConVars()
     local sliders = {}
 
-    for _, v in ipairs({"timer"}) do
+    for _, v in ipairs({"overheat_delay"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
         if ConVarExists(name) then

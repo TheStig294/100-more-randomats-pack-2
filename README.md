@@ -214,7 +214,7 @@ Everyone is continually given jet guns! If your gun overheats, you'll have to wa
 \
 _ttt_randomat_jetgun_ - Default: 1 - Whether this randomat is enabled\
 _randomat_jetgun_strip_ - Default: 1 - The event strips your other weapons\
-_randomat_jetgun_timer_ - Default: 5 - Seconds between being given a new jet gun\
+_randomat_jetgun_overheat_delay_ - Default: 10 - Seconds until given a new jetgun after overheating\
 \
 Changed name from "Batter Up!", now gives jet guns instead of bats, no longer transforms jesters into innocents\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)\

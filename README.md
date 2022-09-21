@@ -284,9 +284,9 @@ License: https://creativecommons.org/licenses/by/4.0/\
 Link: https://freesound.org/people/onderwish/sounds/469141/\
 License: https://creativecommons.org/publicdomain/zero/1.0/
 
-## There's a Doncon inside us all...
+## There's a little Doncon inside us all...
 
-A doncombine spawns where people die, from the "Doncombine summoner" weapon.\
+A mini version of the doncombine spawns where people die, from the "Doncombine summoner" weapon.\
 \
 _ttt_randomat_doncombine_ - Default: 1 - Whether this randomat is enabled\
 \

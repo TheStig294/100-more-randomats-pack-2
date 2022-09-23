@@ -1,4 +1,4 @@
-_This is the second of my 4 randomat packs. These randomats require "Custom Roles for TTT", a mod that adds new roles like the 'Jester'._\
+_This is the second of my 4 randomat packs. These randomats require ["Custom Roles for TTT"](https://steamcommunity.com/sharedfiles/filedetails/?id=2421039084), a mod that adds new roles like the 'Jester'._\
 _Some extra randomats will activate if have other mods installed, linked below those randomats' descriptions_
 
 # Settings/Options
@@ -25,6 +25,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. You can only run once - Anyone who presses the sprint key a second time dies!
 1. Combo - Triggers a random interesting combo of randomats
 1. There's a little Doncon inside us all... - Spawn a mini-doncombine when you die
 1. NOT THE BEE BARRELS! - Spawns barrels that explode into bees!
@@ -462,6 +463,13 @@ _randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get\
 \
 Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
+
+## You can only run once
+
+Anyone who presses the sprint key a second time dies!\
+Only triggers if CR for TTT is installed, or any mod that adds a "ttt_sprint_enabled" convar.\
+\
+_ttt_randomat_runonce_ - Default: 1 - Whether this randomat is enabled
 
 ## You're on the case, detective...
 

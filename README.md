@@ -25,6 +25,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Get No-Scoped! - 360 no scope AWPs only!
 1. You can only run once - Anyone who presses the sprint key a second time dies!
 1. Combo - Triggers a random interesting combo of randomats
 1. There's a little Doncon inside us all... - Spawn a mini-doncombine when you die
@@ -180,6 +181,17 @@ _ttt_randomat_dna_ - Default: 0 - Whether this randomat is enabled
 Everyone can use traitor traps!\
 \
 _ttt_randomat_trickster_ - Default: 1 - Whether this randomat is enabled
+
+## Get No-Scoped!
+
+Everyone is given infinite 360 No Scope AWPs!\
+Whenever someone no-scopes someone else, they hear a random MLG sound!\
+\
+_ttt_randomat_mlg_ - Default: 1 - Whether this randomat is enabled\
+_randomat_mlg_strip_ - Default: 1 - The event strips your other weapons\
+_randomat_mlg_weaponid_ - Default: weapon_ttt_homebat - Id of the weapon given\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2860986215>
 
 ## Home Run! (a.k.a Cat with a bat!)
 

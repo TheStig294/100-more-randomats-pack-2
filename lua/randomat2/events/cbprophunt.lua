@@ -13,8 +13,9 @@ function EVENT:Begin()
     Randomat:SilentTriggerEvent(event2)
 end
 
+-- Don't run if props joining hunters is a thing anyway with the prop hunt randomat
 function EVENT:Condition()
-    return Randomat:CanEventRun(event1) and Randomat:CanEventRun(event2)
+    return Randomat:CanEventRun(event1) and Randomat:CanEventRun(event2) and ConVarExists("randomat_prophunt_props_join_hunters") and not GetConVar("randomat_prophunt_props_join_hunters"):GetBool()
 end
 
 Randomat:register(EVENT)

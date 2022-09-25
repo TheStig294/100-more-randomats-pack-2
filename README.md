@@ -1,4 +1,4 @@
-_This is the second of my 4 randomat packs. These randomats require "Custom Roles for TTT", a mod that adds new roles like the 'Jester'._\
+_This is the second of my 4 randomat packs. These randomats require ["Custom Roles for TTT"](https://steamcommunity.com/sharedfiles/filedetails/?id=2421039084), a mod that adds new roles like the 'Jester'._\
 _Some extra randomats will activate if have other mods installed, linked below those randomats' descriptions_
 
 # Settings/Options
@@ -25,11 +25,14 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Get No-Scoped! - 360 no scope AWPs only!
+1. You can only run once - Anyone who presses the sprint key a second time dies!
+1. Combo - Triggers a random interesting combo of randomats
+1. There's a little Doncon inside us all... - Spawn a mini-doncombine when you die
 1. NOT THE BEE BARRELS! - Spawns barrels that explode into bees!
 1. What's the Mud Scientist? - Turns someone into a "Mud Scientist", a joke role
 1. Somehow, Palpatine Returned! - Spawns in a 'Tom' bot for the round
 1. Everyone's a little trickster... - Everyone can use traitor traps!
-2. Democracy Intensifies - Everyone votes for a randomat every 30 seconds!
 
 # Randomats
 
@@ -43,6 +46,121 @@ _ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled\
 \
 Changed name from "Who Let The Killer Out?", now gives everyone a knife as well, only innocents can now be the killer (except the detective)\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
+
+## Combo
+
+Triggers a random pair of randomats from a pre-made list.\
+The possible pairs are listed below and and be individually turned on/off.\
+If one of the randomats in the pair is turned off, then any pair using that randomat won't trigger.\
+\
+General idea and some combos suggested by u/venort_ on Reddit.
+
+### "Combo: Looking ridiculous"
+Everyone has small legs + a big head!\
+_ttt_randomat_cbbaby_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
+
+### "Combo: Chaos!"
+When you buy something, everyone gets it + someone else gets a credit!\
+_ttt_randomat_cbchaos_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+### "Combo: Careful there cowboy..."
+A traitor and detective have a pistol showdown + everyone else is a jester\
+_ttt_randomat_cbcowboy_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
+
+### "Combo: Don't forget!"
+You can only jump once + Players explode on death\
+_ttt_randomat_cbforget_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+### "Combo: HARPOON BATTLE ROYALE!"
+LAST ONE STANDING WINS! Everyone is innocent!\
+_ttt_randomat_cbharpoon_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
+
+### "Combo: Hidden Chaos"
+A randomat triggers every 30 seconds + Randomat alerts are hidden!\
+_ttt_randomat_cbhiddenchaos_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+### "Combo: Clock's ticking..."
+No healing + lose health over time\
+_ttt_randomat_cbnoheal_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+### "Combo: Hunted becomes the hunter"
+Prop hunt + killed props become hunters!\
+_ttt_randomat_cbprophunt_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
+
+### "Combo: Retirement fund"
+Get anything you buy on the next round + infinite credits for all!\
+_ttt_randomat_cbretirement_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
+
+### "Combo: Sharkies and Palp!"
+Everyone is sharky + spawns in a 'Tom bot'!\
+_ttt_randomat_cbsharkypalp_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2755239782>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=457212613>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
+
+### "Combo: I am speed."
+Quake pro + everything's fast!\
+_ttt_randomat_cbspeed_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+### "Combo: Speed Bees!"
+Everything's fast + hostile bees!\
+_ttt_randomat_cbspeedbees_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+### "Combo: no u"
+Damage is delayed + everyone has an uno reverse!\
+_ttt_randomat_cbunoreverse_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2329721936>
+
+### "Combo: Weird roles"
+Traitors are bees + Someone's a "Mud Scientist"\
+_ttt_randomat_cbweirdroles_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2577965705>
+
+### "Combo: CoD Zombies"
+Everyone gets a CoD weapon + Some zombies to fight...\
+_ttt_randomat_cbzombies_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2252594978>\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
+
+### "Combo: Weeee!"
+You ragdoll while in the air + moon gravity!\
+_ttt_randomat_cbragdoll_ - Default: 1 - Whether this randomat is enabled\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
 ## Democracy Intensifies
 
 Everyone votes for a randomat every 30 seconds!\
@@ -63,6 +181,17 @@ _ttt_randomat_dna_ - Default: 0 - Whether this randomat is enabled
 Everyone can use traitor traps!\
 \
 _ttt_randomat_trickster_ - Default: 1 - Whether this randomat is enabled
+
+## Get No-Scoped!
+
+Everyone is given infinite 360 No Scope AWPs!\
+Whenever someone no-scopes someone else, they hear a random MLG sound!\
+\
+_ttt_randomat_mlg_ - Default: 1 - Whether this randomat is enabled\
+_randomat_mlg_strip_ - Default: 1 - The event strips your other weapons\
+_randomat_mlg_weaponid_ - Default: weapon_ttt_homebat - Id of the weapon given\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2860986215>
 
 ## Home Run! (a.k.a Cat with a bat!)
 
@@ -284,6 +413,16 @@ License: https://creativecommons.org/licenses/by/4.0/\
 Link: https://freesound.org/people/onderwish/sounds/469141/\
 License: https://creativecommons.org/publicdomain/zero/1.0/
 
+## There's a little Doncon inside us all...
+
+A mini version of the doncombine spawns where people die, from the "Doncombine summoner" weapon.\
+\
+_ttt_randomat_doncombine_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2457576268>\
+\
+Idea by eaglelily93 on YouTube
+
 ## UNLIMITED POWEEERRRRRR!
 
 Everyone gets a stungun with unlimited ammo!\
@@ -336,6 +475,13 @@ _randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get\
 \
 Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
+
+## You can only run once
+
+Anyone who presses the sprint key a second time dies!\
+Only triggers if CR for TTT is installed, or any mod that adds a "ttt_sprint_enabled" convar.\
+\
+_ttt_randomat_runonce_ - Default: 1 - Whether this randomat is enabled
 
 ## You're on the case, detective...
 

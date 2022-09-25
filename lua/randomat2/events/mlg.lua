@@ -4,21 +4,13 @@ CreateConVar("randomat_mlg_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event 
 
 CreateConVar("randomat_mlg_weaponid", "ttt_no_scope_awp", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
-local function GetDescription()
-    if GetConVar("randomat_mlg_strip"):GetBool() then
-        EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
-
-        return "360 no scope AWPs only!"
-    else
-        return "360 no scope AWPs for all!"
-    end
-end
-
-EVENT.Title = "Get No-Scoped!"
-EVENT.Description = GetDescription()
+EVENT.Title = "GET NO SCOPED!!!"
+EVENT.Description = "Spin around to shoot!"
 EVENT.id = "mlg"
 
 EVENT.Categories = {"item", "largeimpact"}
+
+util.AddNetworkString("RandomatMLGGunEffects")
 
 function EVENT:HandleRoleWeapons(ply)
     ply.MLGTripleCount = 0
@@ -35,17 +27,6 @@ function EVENT:HandleRoleWeapons(ply)
 end
 
 function EVENT:Begin()
-    self.Description = GetDescription()
-
-    timer.Simple(5, function()
-        PrintMessage(HUD_PRINTCENTER, "Spin around to shoot!")
-        PrintMessage(HUD_PRINTTALK, "Spin around to shoot!")
-
-        timer.Simple(1.5, function()
-            PrintMessage(HUD_PRINTCENTER, "Spin around to shoot!")
-        end)
-    end)
-
     -- Turning all zombies and mad scientists to innocents
     for _, ply in ipairs(self:GetAlivePlayers()) do
         self:HandleRoleWeapons(ply)
@@ -103,7 +84,7 @@ function EVENT:Begin()
         local activeWeapon = attacker:GetActiveWeapon()
 
         if IsValid(activeWeapon) and activeWeapon:GetClass() == "ttt_no_scope_awp" then
-            local mlgSound = "mlg/mlg" .. math.random(1, 13) .. ".mp3"
+            local mlgSound = "mlg/mlg" .. math.random(1, 10) .. ".mp3"
 
             if not attacker.MLGTripleCount then
                 attacker.MLGTripleCount = 1
@@ -114,6 +95,12 @@ function EVENT:Begin()
 
             attacker.MLGTripleCount = attacker.MLGTripleCount + 1
             attacker:EmitSound(mlgSound)
+            ply:EmitSound(mlgSound)
+
+            local plys = {ply, attacker}
+
+            net.Start("RandomatMLGGunEffects")
+            net.Send(plys)
         end
     end)
 

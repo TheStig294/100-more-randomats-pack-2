@@ -6,19 +6,18 @@ EVENT.id = "cbprophunt"
 EVENT.Categories = {"gamemode", "eventtrigger", "rolechange", "largeimpact"}
 
 local event1 = "prophunt"
+local propsRespawn
 
 function EVENT:Begin()
     Randomat:SilentTriggerEvent(event1)
+    propsRespawn = GetConVar("randomat_prophunt_props_join_hunters"):GetBool()
+    RunConsoleCommand("randomat_prophunt_props_join_hunters", "1")
+end
 
-    self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
-        if not Randomat:IsTraitorTeam(ply) then
-            ply:SpawnForRound(true)
-
-            timer.Simple(1, function()
-                Randomat:SetRole(ply, ROLE_TRAITOR)
-            end)
-        end
-    end)
+function EVENT:End()
+    if propsRespawn ~= nil and propsRespawn == false then
+        RunConsoleCommand("randomat_prophunt_props_join_hunters", "0")
+    end
 end
 
 -- Don't run if props joining hunters is a thing anyway with the prop hunt randomat

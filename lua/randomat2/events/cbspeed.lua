@@ -6,15 +6,19 @@ EVENT.id = "cbspeed"
 EVENT.Categories = {"eventtrigger", "largeimpact"}
 
 local event1 = "fov"
-local event2 = "flash"
 
 function EVENT:Begin()
     Randomat:SilentTriggerEvent(event1)
-    Randomat:SilentTriggerEvent(event2)
+    local ts = game.GetTimeScale()
+    game.SetTimeScale(ts + GetConVar("randomat_flash_scale"):GetInt() / 100)
+end
+
+function EVENT:End()
+    game.SetTimeScale(1)
 end
 
 function EVENT:Condition()
-    return Randomat:CanEventRun(event1) and Randomat:CanEventRun(event2)
+    return Randomat:CanEventRun(event1) and ConVarExists("randomat_flash_scale")
 end
 
 Randomat:register(EVENT)

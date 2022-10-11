@@ -23,6 +23,7 @@ function EVENT:Begin()
     timer.Simple(2, function()
         -- Get the last bot, which will be the one we just spawned
         tom = player.GetBots()[#player.GetBots()]
+        SetGlobalEntity("RandomatTomBot", tom)
         tom:SpawnForRound(true)
 
         if util.IsValidModel("models/player/emperor_palpatine.mdl") then

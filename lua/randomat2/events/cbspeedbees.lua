@@ -5,20 +5,16 @@ EVENT.id = "cbspeedbees"
 
 EVENT.Categories = {"entityspawn", "eventtrigger", "largeimpact"}
 
-local event1 = "bees"
+local event1 = "flash"
+local event2 = "bees"
 
 function EVENT:Begin()
     Randomat:SilentTriggerEvent(event1)
-    local ts = game.GetTimeScale()
-    game.SetTimeScale(ts + GetConVar("randomat_flash_scale"):GetInt() / 100)
-end
-
-function EVENT:End()
-    game.SetTimeScale(1)
+    Randomat:SilentTriggerEvent(event2)
 end
 
 function EVENT:Condition()
-    return Randomat:CanEventRun(event1) and ConVarExists("randomat_flash_scale")
+    return Randomat:CanEventRun(event1) and Randomat:CanEventRun(event2)
 end
 
 Randomat:register(EVENT)

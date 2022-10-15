@@ -25,6 +25,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Randomness Ghostifies - Spectators vote to trigger randomats!
 1. Get No-Scoped! - 360 no scope AWPs only!
 1. You can only run once - Anyone who presses the sprint key a second time dies!
 1. Combo - Triggers a random interesting combo of randomats
@@ -32,7 +33,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. NOT THE BEE BARRELS! - Spawns barrels that explode into bees!
 1. What's the Mud Scientist? - Turns someone into a "Mud Scientist", a joke role
 1. Somehow, Palpatine Returned! - Spawns in a 'Tom' bot for the round
-1. Everyone's a little trickster... - Everyone can use traitor traps!
 
 # Randomats
 
@@ -320,6 +320,15 @@ Transforms any jesters or swappers into innocents.\
 _ttt_randomat_rdm_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=337994500>
+
+## Randomness Ghostifies
+
+Spectators vote for a randomat every 20 seconds!\
+\
+_ttt_randomat_ghostifies_ - Default: 1 - Whether this randomat is enabled\
+_randomat_ghostifies_votetimer_ - Default: 20 - Seconds between votes\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ## Shh... It's a Secret!
 

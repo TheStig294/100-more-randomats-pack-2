@@ -25,6 +25,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Paranoia - Lets spectators play horror sounds on living players
 1. Randomness Ghostifies - Spectators vote to trigger randomats!
 1. Get No-Scoped! - 360 no scope AWPs only!
 1. You can only run once - Anyone who presses the sprint key a second time dies!
@@ -303,6 +304,16 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2237522867>\
 All innocents are deputies, all traitors are impersonators!\
 \
 _ttt_randomat_deputies_ - Default: 1 - Whether this randomat is enabled
+
+## Paranoia
+
+Secret event.\
+Lets spectators play horror sounds on living players. There are 2 cooldowns for playing a sound: one for the spectator, and one for the living player (So they don't continually hear sounds).\
+Only the spectator and player they are spectating hear the sound. The sounds are the same ones as the horror randomat uses.\
+\
+_ttt_randomat_paranoia_ - Default: 1 - Whether this randomat is enabled
+_randomat_paranoia_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again
+_randomat_paranoia_spectator_sound_cooldown_ - Default: 30 - Seconds until someone can hear a spectator sound again
 
 ## Prop Hunt (Yogscast intro)
 

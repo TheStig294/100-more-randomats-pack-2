@@ -25,6 +25,8 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. MEDIC! - Everyone's either a paramedic, hypnotist or mad scientist!
+1. Joke's on you! - Killed players respawn as jesters
 1. Paranoia - Lets spectators play horror sounds on living players
 1. Randomness Ghostifies - Spectators vote to trigger randomats!
 1. Get No-Scoped! - 360 no scope AWPs only!
@@ -32,8 +34,6 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 1. Combo - Triggers a random interesting combo of randomats
 1. There's a little Doncon inside us all... - Spawn a mini-doncombine when you die
 1. NOT THE BEE BARRELS! - Spawns barrels that explode into bees!
-1. What's the Mud Scientist? - Turns someone into a "Mud Scientist", a joke role
-1. Somehow, Palpatine Returned! - Spawns in a 'Tom' bot for the round
 
 # Randomats
 
@@ -234,6 +234,21 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 \
 _ttt_randomat_infected_ - Default: 1 - Whether this randomat is enabled\
 _randomat_infected_timer_ - Default: 90 - Time players must survive in seconds
+
+## Joke's on you!
+
+When you die, you respawn after a short delay, and your role is changed to a jester.\
+Players who have already died come back as well, by default.\
+\
+_ttt_randomat_jokesonyou_ - Default: 1 - Whether this randomat is enabled\
+_randomat_jokesonyou_health_ - Default: 100 - The health that the Jesters respawn with\
+_randomat_jokesonyou_include_dead_ - Default: 1 - Whether to resurrect dead players at the start
+
+## MEDIC!
+
+All innocents become paramedics, all traitors become hypnotists, and someone becomes a mad scientist!\
+\
+_ttt_randomat_medic_ - Default: 1 - Whether this randomat is enabled
 
 ## Murder (Yogscast intro)
 

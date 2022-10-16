@@ -9,9 +9,12 @@ local event1 = "prophunt"
 local propsRespawn
 
 function EVENT:Begin()
-    Randomat:SilentTriggerEvent(event1)
     propsRespawn = GetConVar("randomat_prophunt_props_join_hunters"):GetBool()
     RunConsoleCommand("randomat_prophunt_props_join_hunters", "1")
+
+    timer.Simple(0.1, function()
+        Randomat:SilentTriggerEvent(event1)
+    end)
 end
 
 function EVENT:End()

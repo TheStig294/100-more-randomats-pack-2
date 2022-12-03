@@ -112,9 +112,11 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    if IsValid(tom) then
-        tom:Kick()
-    end
+    timer.Simple(1, function()
+        if IsValid(tom) then
+            tom:Kick()
+        end
+    end)
 end
 
 -- Prevent this event from running if the server is full, as the bot cannot spawn

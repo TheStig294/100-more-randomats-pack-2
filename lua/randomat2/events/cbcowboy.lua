@@ -2,6 +2,7 @@ local EVENT = {}
 EVENT.Title = "Combo: Careful there cowboy..."
 EVENT.Description = "A traitor and detective have a pistol showdown + everyone else is a jester"
 EVENT.id = "cbcowboy"
+EVENT.IsEnabled = false
 
 EVENT.Categories = {"rolechange", "eventtrigger", "largeimpact"}
 

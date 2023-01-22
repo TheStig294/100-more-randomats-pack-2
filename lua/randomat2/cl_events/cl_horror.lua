@@ -1,7 +1,6 @@
 local music
 local cloakSounds
 local horrorEnding
-local killerWinDrawn
 -- Used for expensive calls needing LocalPlayer()
 local client = LocalPlayer()
 
@@ -93,12 +92,10 @@ end
 net.Receive("randomat_horror", function()
     LANG.AddToLanguage("english", "win_horror_killer", string.upper("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
     LANG.AddToLanguage("english", "win_horror_innocent", string.upper(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
-
     music = net.ReadBool()
     cloakSounds = net.ReadBool()
     horrorEnding = net.ReadBool()
     client = LocalPlayer()
-    killerWinDrawn = false
 
     -- Plays a "kikikimamama" sound when the event triggers
     if cloakSounds then
@@ -124,73 +121,30 @@ net.Receive("randomat_horror", function()
 
     ApplyScreenEffects()
 
-    -- Modifies the win screen and plays a sound depending on if the killer or innocents win
-    -- The logic for the killer win title doesn't work in this hook and is instead handled the "randomat_horror_end" net function
+    -- Modifies the win screen depending on if the killer or innocents win
     if horrorEnding then
-        local soundPlayed = false
-
         if CRVersion("1.7.3") then
             hook.Add("TTTScoringWinTitleOverride", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
-                local newTitle = {c = COLOR_BLACK}
+                local newTitle = {
+                    c = COLOR_BLACK
+                }
+
                 if wintype == WIN_KILLER then
                     newTitle.txt = "win_horror_killer"
                 else
                     newTitle.txt = "win_horror_innocent"
                 end
 
-                timer.Simple(0.1, function()
-                    if soundPlayed then return end
-
-                    if wintype == WIN_KILLER then
-                        timer.Simple(10, RemoveHooks)
-
-                        for i = 1, 2 do
-                            surface.PlaySound("horror/moon_laugh_2.mp3")
-                        end
-                    else
-                        timer.Simple(5, RemoveHooks)
-
-                        for i = 1, 2 do
-                            surface.PlaySound("horror/deep_horrors_scare.mp3")
-                        end
-                    end
-
-                    soundPlayed = true
-                end)
-
                 return newTitle
             end)
         else
-        local killerWinPassed = false
-            hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
-                local newTitle = {c = COLOR_BLACK}
-
-                if IsKillerWin() then
-                    newTitle.txt = "win_horror_killer"
-                    killerWinPassed = true
-                else
-                    newTitle.txt = "win_horror_innocent"
-                end
-
-                timer.Simple(0.1, function()
-                    if soundPlayed then return end
-
-                    if killerWinPassed then
-                        timer.Simple(10, RemoveHooks)
-
-                        for i = 1, 2 do
-                            surface.PlaySound("horror/moon_laugh_2.mp3")
-                        end
-                    else
-                        timer.Simple(5, RemoveHooks)
-
-                        for i = 1, 2 do
-                        surface.PlaySound("horror/deep_horrors_scare.mp3")
-                            end
-                    end
-
-                    soundPlayed = true
-                end)
+            -- The logic for the killer win title doesn't work in this hook for Custom Roles versions earlier than 1.7.3,
+            -- so this is handled the "randomat_horror_end" net function instead
+            hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function()
+                local newTitle = {
+                    c = COLOR_BLACK,
+                    txt = "win_horror_innocent"
+                }
 
                 return newTitle
             end)
@@ -273,22 +227,35 @@ local function DrawKillerWin()
 end
 
 net.Receive("randomat_horror_end", function()
-    -- Mutes the music
     if music then
         timer.Remove("HorrorRandomatMusicLoop")
         RunConsoleCommand("stopsound")
-
-        if not horrorEnding then
-            timer.Simple(0.1, function()
-                surface.PlaySound("horror/deep_horrors_scare.mp3")
-            end)
-        end
     end
 
-    -- Draws the killer win text on the win screen by brute-force drawing over the win title
-    -- Since the wintitle hook in CR doesn't work for the killer
-    if horrorEnding and IsKillerWin() then
-        if not CRVersion("1.7.3") then
+    local screenEffectsRemovalDelay = 5
+
+    -- Plays a sound and sets the delay to when the lights are turned back on in the map (and all other screen effects reset)
+    -- Timed to when the sound finishes playing
+    if horrorEnding then
+        timer.Simple(0.1, function()
+            local endingSound
+
+            if IsKillerWin() then
+                screenEffectsRemovalDelay = 10
+                endingSound = "horror/moon_laugh_2.mp3"
+            else
+                screenEffectsRemovalDelay = 5
+                endingSound = "horror/deep_horrors_scare.mp3"
+            end
+
+            for i = 1, 2 do
+                surface.PlaySound(endingSound)
+            end
+        end)
+
+        -- Draws the killer win text on the win screen by brute-force drawing over the win title
+        -- Since the wintitle hook in Custom Roles doesn't work for the killer, before version 1.7.3
+        if not CRVersion("1.7.3") and IsKillerWin() then
             DrawKillerWin()
             hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
 
@@ -298,7 +265,10 @@ net.Receive("randomat_horror_end", function()
                 hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")
             end)
         end
-    else
-        timer.Simple(5, RemoveHooks)
     end
+
+    -- If the horror ending is off, lights are just turned on after 5 seconds
+    -- There is still a delay because render.RedownloadAllLightmaps() in the RemoveHooks() function is an expensive call
+    -- and we don't want to overwhelm the client at round end, and not reset the map lighting
+    timer.Simple(screenEffectsRemovalDelay, RemoveHooks)
 end)

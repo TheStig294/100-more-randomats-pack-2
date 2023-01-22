@@ -91,6 +91,9 @@ local function IsKillerWin()
 end
 
 net.Receive("randomat_horror", function()
+    LANG.AddToLanguage("english", "win_horror_killer", string.upper("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
+    LANG.AddToLanguage("english", "win_horror_innocent", string.upper(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
+
     music = net.ReadBool()
     cloakSounds = net.ReadBool()
     horrorEnding = net.ReadBool()
@@ -124,43 +127,74 @@ net.Receive("randomat_horror", function()
     -- Modifies the win screen and plays a sound depending on if the killer or innocents win
     -- The logic for the killer win title doesn't work in this hook and is instead handled the "randomat_horror_end" net function
     if horrorEnding then
-        local killerWinPassed = false
         local soundPlayed = false
 
-        hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
-            LANG.AddToLanguage("english", "win_horror_killer", string.lower("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
-            LANG.AddToLanguage("english", "win_horror_innocent", string.lower(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
-            local newTitle = {}
-
-            if IsKillerWin() then
-                newTitle.txt = "win_horror_killer"
-                newTitle.c = Color(0, 0, 0)
-                killerWinPassed = true
-            else
-                newTitle.txt = "win_horror_innocent"
-                newTitle.c = Color(0, 0, 0)
-            end
-
-            timer.Simple(0.1, function()
-                if killerWinPassed and not soundPlayed then
-                    timer.Simple(10, RemoveHooks)
-
-                    for i = 1, 2 do
-                        surface.PlaySound("horror/moon_laugh_2.mp3")
-                    end
-                elseif not soundPlayed then
-                    timer.Simple(5, RemoveHooks)
-
-                    for i = 1, 2 do
-                        surface.PlaySound("horror/deep_horrors_scare.mp3")
-                    end
+        if CRVersion("1.7.3") then
+            hook.Add("TTTScoringWinTitleOverride", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
+                local newTitle = {c = COLOR_BLACK}
+                if wintype == WIN_KILLER then
+                    newTitle.txt = "win_horror_killer"
+                else
+                    newTitle.txt = "win_horror_innocent"
                 end
 
-                soundPlayed = true
-            end)
+                timer.Simple(0.1, function()
+                    if soundPlayed then return end
 
-            return newTitle
-        end)
+                    if wintype == WIN_KILLER then
+                        timer.Simple(10, RemoveHooks)
+
+                        for i = 1, 2 do
+                            surface.PlaySound("horror/moon_laugh_2.mp3")
+                        end
+                    else
+                        timer.Simple(5, RemoveHooks)
+
+                        for i = 1, 2 do
+                            surface.PlaySound("horror/deep_horrors_scare.mp3")
+                        end
+                    end
+
+                    soundPlayed = true
+                end)
+
+                return newTitle
+            end)
+        else
+        local killerWinPassed = false
+            hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
+                local newTitle = {c = COLOR_BLACK}
+
+                if IsKillerWin() then
+                    newTitle.txt = "win_horror_killer"
+                    killerWinPassed = true
+                else
+                    newTitle.txt = "win_horror_innocent"
+                end
+
+                timer.Simple(0.1, function()
+                    if soundPlayed then return end
+
+                    if killerWinPassed then
+                        timer.Simple(10, RemoveHooks)
+
+                        for i = 1, 2 do
+                            surface.PlaySound("horror/moon_laugh_2.mp3")
+                        end
+                    else
+                        timer.Simple(5, RemoveHooks)
+
+                        for i = 1, 2 do
+                        surface.PlaySound("horror/deep_horrors_scare.mp3")
+                            end
+                    end
+
+                    soundPlayed = true
+                end)
+
+                return newTitle
+            end)
+        end
     end
 end)
 
@@ -254,14 +288,16 @@ net.Receive("randomat_horror_end", function()
     -- Draws the killer win text on the win screen by brute-force drawing over the win title
     -- Since the wintitle hook in CR doesn't work for the killer
     if horrorEnding and IsKillerWin() then
-        DrawKillerWin()
-        hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
+        if not CRVersion("1.7.3") then
+            DrawKillerWin()
+            hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
 
-        hook.Add("TTTBeginRound", "HorrorRandomatRemoveKillerWin", function()
-            hook.Remove("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin")
-            hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
-            hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")
-        end)
+            hook.Add("TTTBeginRound", "HorrorRandomatRemoveKillerWin", function()
+                hook.Remove("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin")
+                hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
+                hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")
+            end)
+        end
     else
         timer.Simple(5, RemoveHooks)
     end

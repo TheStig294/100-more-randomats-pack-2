@@ -288,14 +288,16 @@ net.Receive("randomat_horror_end", function()
     -- Draws the killer win text on the win screen by brute-force drawing over the win title
     -- Since the wintitle hook in CR doesn't work for the killer
     if horrorEnding and IsKillerWin() then
-        DrawKillerWin()
-        hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
+        if not CRVersion("1.7.3") then
+            DrawKillerWin()
+            hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
 
-        hook.Add("TTTBeginRound", "HorrorRandomatRemoveKillerWin", function()
-            hook.Remove("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin")
-            hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
-            hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")
-        end)
+            hook.Add("TTTBeginRound", "HorrorRandomatRemoveKillerWin", function()
+                hook.Remove("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin")
+                hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
+                hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")
+            end)
+        end
     else
         timer.Simple(5, RemoveHooks)
     end

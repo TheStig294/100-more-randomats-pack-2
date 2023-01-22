@@ -91,8 +91,8 @@ local function IsKillerWin()
 end
 
 net.Receive("randomat_horror", function()
-    LANG.AddToLanguage("english", "win_horror_killer", string.lower("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
-    LANG.AddToLanguage("english", "win_horror_innocent", string.lower(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
+    LANG.AddToLanguage("english", "win_horror_killer", string.upper("the " .. ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " are dead"))
+    LANG.AddToLanguage("english", "win_horror_innocent", string.upper(ROLE_STRINGS_PLURAL[ROLE_INNOCENT] .. " survive"))
 
     music = net.ReadBool()
     cloakSounds = net.ReadBool()

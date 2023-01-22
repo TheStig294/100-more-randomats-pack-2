@@ -122,7 +122,7 @@ function EVENT:Begin()
     end
 
     -- Disable round end sounds and 'Ending Flair' event so ending music can play
-    if musicConvar:GetBool() then
+    if DisableRoundEndSounds and musicConvar:GetBool() then
         DisableRoundEndSounds()
     end
 

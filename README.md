@@ -25,15 +25,13 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. It's Breeh! - Everyone becomes an adorable sheep...
 1. MEDIC! - Everyone's either a paramedic, hypnotist or mad scientist!
 1. Joke's on you! - Killed players respawn as jesters
 1. Paranoia - Lets spectators play horror sounds on living players
 1. Randomness Ghostifies - Spectators vote to trigger randomats!
 1. Get No-Scoped! - 360 no scope AWPs only!
 1. You can only run once - Anyone who presses the sprint key a second time dies!
-1. Combo - Triggers a random interesting combo of randomats
-1. There's a little Doncon inside us all... - Spawn a mini-doncombine when you die
-1. NOT THE BEE BARRELS! - Spawns barrels that explode into bees!
 
 # Randomats
 
@@ -234,6 +232,14 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 \
 _ttt_randomat_infected_ - Default: 1 - Whether this randomat is enabled\
 _randomat_infected_timer_ - Default: 90 - Time players must survive in seconds
+
+## It's Breeh!
+
+Changes everyone into different Breeh sheep playermodels!\
+\
+_ttt_randomat_breeh_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2857493659>
 
 ## Joke's on you!
 

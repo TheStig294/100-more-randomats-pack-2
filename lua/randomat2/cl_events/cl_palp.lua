@@ -7,7 +7,7 @@ net.Receive("RandomatPalpDrawHalo", function()
         if type == "joinleave" then return true end
     end)
 
-    timer.Simple(3, function()
+    timer.Simple(4, function()
         hook.Remove("ChatText", "RandomatPalpSupressJoinMsg")
         local tom = player.GetBots()[#player.GetBots()]
 

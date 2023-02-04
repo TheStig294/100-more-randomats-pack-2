@@ -16,11 +16,11 @@ function EVENT:Begin()
     net.Start("RandomatPalpDrawHalo")
     net.Broadcast()
 
-    timer.Simple(0.5, function()
+    timer.Simple(2, function()
         RunConsoleCommand("bot")
     end)
 
-    timer.Simple(2, function()
+    timer.Simple(2.5, function()
         -- Get the last bot, which will be the one we just spawned
         tom = player.GetBots()[#player.GetBots()]
         SetGlobalEntity("RandomatTomBot", tom)

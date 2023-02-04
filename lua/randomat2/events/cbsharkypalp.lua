@@ -12,11 +12,11 @@ function EVENT:Begin()
     Randomat:SilentTriggerEvent(event1)
     Randomat:SilentTriggerEvent(event2)
 
-    timer.Simple(2, function()
+    timer.Simple(4, function()
         local tom = GetGlobalEntity("RandomatTomBot")
 
         if IsValid(tom) and util.IsValidModel("models/player/emperor_palpatine.mdl") then
-            tom:SetModel("models/player/emperor_palpatine.mdl")
+            Randomat:ForceSetPlayermodel(tom, "models/player/emperor_palpatine.mdl")
         end
     end)
 end

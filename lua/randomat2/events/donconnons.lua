@@ -174,7 +174,7 @@ function EVENT:Begin()
             end
 
             local modelData = table.Random(remainingPlayermodels)
-            ForceSetPlayermodel(ply, modelData)
+            Randomat:ForceSetPlayermodel(ply, modelData)
             -- Remove the selected model from the pool
             table.RemoveByValue(remainingPlayermodels, modelData)
             -- Keep track of who got what model so it can be set when they respawn
@@ -189,7 +189,7 @@ function EVENT:Begin()
             end
 
             timer.Simple(1, function()
-                ForceSetPlayermodel(ply, chosenPlayermodels[ply])
+                Randomat:ForceSetPlayermodel(ply, chosenPlayermodels[ply])
             end)
         end)
 
@@ -256,7 +256,7 @@ function EVENT:End()
     timer.Remove("RandomatDonconnonsTimer")
 
     if donconModelInstalled then
-        ForceResetAllPlayermodels()
+        Randomat:ForceResetAllPlayermodels()
     end
 end
 

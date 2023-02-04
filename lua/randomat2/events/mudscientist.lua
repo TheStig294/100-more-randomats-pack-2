@@ -25,7 +25,7 @@ function EVENT:Begin()
 
     -- Set Mud Scientist to a Monkey playermodel if installed
     if util.IsValidModel("models/player/mokeyfix/nosacz.mdl") then
-        ForceSetPlayermodel(mudScientist, "models/player/mokeyfix/nosacz.mdl")
+        Randomat:ForceSetPlayermodel(mudScientist, "models/player/mokeyfix/nosacz.mdl")
     end
 
     -- Mud scientist gets a unique weapon

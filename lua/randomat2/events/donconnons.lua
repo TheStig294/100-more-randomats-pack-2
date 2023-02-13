@@ -31,13 +31,15 @@ if donconModelInstalled then
     EVENT.Description = "Everyone's Doncon. Donconnons for all!"
 end
 
-if GetConVar("randomat_donconnons_strip"):GetBool() then
+local strip = GetConVar("randomat_donconnons_strip"):GetBool()
+
+if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")
 end
 
 function EVENT:HandleRoleWeapons(ply)
-    if not GetConVar("randomat_donconnons_strip"):GetBool() then return end
+    if not strip then return end
     local updated = false
     local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
 
@@ -59,6 +61,7 @@ function EVENT:HandleRoleWeapons(ply)
 end
 
 function EVENT:Begin()
+    strip = GetConVar("randomat_donconnons_strip"):GetBool()
     local new_traitors = {}
 
     for _, v in ipairs(self:GetAlivePlayers()) do
@@ -71,9 +74,8 @@ function EVENT:Begin()
 
     SendFullStateUpdate()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-    -- Periodically gives everyone donconnons
-    local strip = GetConVar("randomat_donconnons_strip"):GetBool()
 
+    -- Periodically gives everyone donconnons
     timer.Create("RandomatDonconnonsTimer", GetConVar("randomat_donconnons_timer"):GetInt(), 0, function()
         local weaponid = GetConVar("randomat_donconnons_weaponid"):GetString()
         local updated = false

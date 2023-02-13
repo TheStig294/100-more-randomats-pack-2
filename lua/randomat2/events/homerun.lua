@@ -19,13 +19,15 @@ if catModelInstalled then
     EVENT.Description = "Everyone's a cat, with only a bat!"
 end
 
-if GetConVar("randomat_homerun_strip"):GetBool() then
+local strip = GetConVar("randomat_homerun_strip"):GetBool()
+
+if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")
 end
 
 function EVENT:HandleRoleWeapons(ply)
-    if not GetConVar("randomat_homerun_strip"):GetBool() then return end
+    if not strip then return end
     local updated = false
     local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
 
@@ -47,6 +49,7 @@ function EVENT:HandleRoleWeapons(ply)
 end
 
 function EVENT:Begin()
+    strip = GetConVar("randomat_homerun_strip"):GetBool()
     local new_traitors = {}
 
     for _, v in ipairs(self:GetAlivePlayers()) do
@@ -60,7 +63,6 @@ function EVENT:Begin()
     SendFullStateUpdate()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
     table.Empty(new_traitors)
-    local strip = GetConVar("randomat_homerun_strip"):GetBool()
 
     timer.Create("HomerunRoleChangeTimer", 1, 0, function()
         local updated = false
@@ -280,7 +282,7 @@ function EVENT:End()
         ent:Remove()
     end
 
-    if GetConVar("randomat_homerun_strip"):GetBool() then
+    if strip then
         for i, ply in ipairs(self:GetAlivePlayers()) do
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")

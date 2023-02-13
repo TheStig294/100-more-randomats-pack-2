@@ -21,40 +21,66 @@ end
 
 if GetConVar("randomat_homerun_strip"):GetBool() then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+    table.insert(EVENT.Categories, "rolechange")
 end
 
 function EVENT:HandleRoleWeapons(ply)
+    if not GetConVar("randomat_homerun_strip"):GetBool() then return end
     local updated = false
+    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
 
-    if (ply.IsZombie and ply:IsZombie()) or (ply.IsMadScientist and ply:IsMadScientist()) then
+    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
+    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
+        Randomat:SetRole(ply, ROLE_TRAITOR)
+        updated = true
+    elseif Randomat:IsJesterTeam(ply) then
         Randomat:SetRole(ply, ROLE_INNOCENT)
-        self:StripRoleWeapons(ply)
-        ply:ChatPrint("Zombies can't hold bats, so you're now an innocent!")
         updated = true
     end
 
-    return updated
+    -- Remove role weapons from anyone on the traitor team now
+    if Randomat:IsTraitorTeam(ply) then
+        self:StripRoleWeapons(ply)
+    end
+
+    return updated, changing_teams
 end
 
 function EVENT:Begin()
-    -- Turning all zombies and mad scientists to innocents
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        self:HandleRoleWeapons(ply)
+    local new_traitors = {}
+
+    for _, v in ipairs(self:GetAlivePlayers()) do
+        local _, new_traitor = self:HandleRoleWeapons(v)
+
+        if new_traitor then
+            table.insert(new_traitors, v)
+        end
     end
 
     SendFullStateUpdate()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+    table.Empty(new_traitors)
+    local strip = GetConVar("randomat_homerun_strip"):GetBool()
 
     timer.Create("HomerunRoleChangeTimer", 1, 0, function()
         local updated = false
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
             -- Workaround the case where people can respawn as Zombies while this is running
-            updated = updated or self:HandleRoleWeapons(ply)
+            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
+            updated = updated or updatedPly
+
+            if new_traitor then
+                table.insert(new_traitors, ply)
+            end
         end
 
         -- If anyone's role changed, send the update
+        -- If anyone became a traitor, notify all other traitors
         if updated then
             SendFullStateUpdate()
+            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+            table.Empty(new_traitors)
         end
     end)
 
@@ -64,7 +90,7 @@ function EVENT:Begin()
             local activeWeapon = ply:GetActiveWeapon()
 
             if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= GetConVar("randomat_homerun_weaponid"):GetString()) then
-                if GetConVar("randomat_homerun_strip"):GetBool() then
+                if strip then
                     ply:StripWeapons()
                     ply:SetFOV(0, 0.2)
                 end
@@ -84,14 +110,14 @@ function EVENT:Begin()
 
     -- Only allows players to pick up bats
     self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
-        if not GetConVar("randomat_homerun_strip"):GetBool() then return end
+        if not strip then return end
 
         return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_homerun_weaponid"):GetString()
     end)
 
     -- Prevents players from buying non-passive items
     self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
-        if not IsValid(ply) then return end
+        if not strip or not IsValid(ply) then return end
 
         if not is_item then
             ply:PrintMessage(HUD_PRINTCENTER, "Passive items only!")
@@ -267,9 +293,8 @@ function EVENT:End()
     end
 end
 
--- Don't let 'rise from your grave' run at the same time as zombies can't hold guns
 function EVENT:Condition()
-    return weapons.Get(GetConVar("randomat_homerun_weaponid"):GetString()) ~= nil and not Randomat:IsEventActive("grave")
+    return weapons.Get(GetConVar("randomat_homerun_weaponid"):GetString()) ~= nil
 end
 
 function EVENT:GetConVars()

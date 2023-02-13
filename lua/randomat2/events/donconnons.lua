@@ -18,46 +18,109 @@ CreateConVar("randomat_donconnons_turn", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Do
 
 CreateConVar("randomat_donconnons_lockondecaytime", "15", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until homing stops", 0, 60)
 
-EVENT.Title = "O Rubber Tree..."
-EVENT.Description = "Donconnons for all!"
-EVENT.id = "donconnons"
-
-EVENT.Categories = {"item", "moderateimpact"}
-
 local donconModel = "models/player/Doncon/doncon.mdl"
 local donconModelInstalled = util.IsValidModel(donconModel)
+EVENT.Title = "O Rubber Tree..."
+EVENT.Description = "Donconnons for all!"
 
 if donconModelInstalled then
     EVENT.Description = "Everyone's Doncon. Donconnons for all!"
 end
 
+EVENT.id = "donconnons"
+
+EVENT.Categories = {"item", "largeimpact"}
+
 if GetConVar("randomat_donconnons_strip"):GetBool() then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+    table.insert(EVENT.Categories, "rolechange")
+end
+
+function EVENT:HandleRoleWeapons(ply)
+    if not GetConVar("randomat_donconnons_strip"):GetBool() then return end
+    local updated = false
+    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
+
+    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
+    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
+        Randomat:SetRole(ply, ROLE_TRAITOR)
+        updated = true
+    elseif Randomat:IsJesterTeam(ply) then
+        Randomat:SetRole(ply, ROLE_INNOCENT)
+        updated = true
+    end
+
+    -- Remove role weapons from anyone on the traitor team now
+    if Randomat:IsTraitorTeam(ply) then
+        self:StripRoleWeapons(ply)
+    end
+
+    return updated, changing_teams
 end
 
 function EVENT:Begin()
+    local new_traitors = {}
+
+    for _, v in ipairs(self:GetAlivePlayers()) do
+        local _, new_traitor = self:HandleRoleWeapons(v)
+
+        if new_traitor then
+            table.insert(new_traitors, v)
+        end
+    end
+
+    SendFullStateUpdate()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
     -- Periodically gives everyone donconnons
+    local strip = GetConVar("randomat_donconnons_strip"):GetBool()
+
     timer.Create("RandomatDonconnonsTimer", GetConVar("randomat_donconnons_timer"):GetInt(), 0, function()
-        for i, ply in pairs(self:GetAlivePlayers(true)) do
-            if table.Count(ply:GetWeapons()) ~= 1 or (table.Count(ply:GetWeapons()) == 1 and ply:GetActiveWeapon():GetClass() ~= "doncmk2_swep") then
-                if GetConVar("randomat_donconnons_strip"):GetBool() then
-                    ply:StripWeapons()
-                    ply:SetFOV(0, 0.2)
+        local weaponid = GetConVar("randomat_donconnons_weaponid"):GetString()
+        local updated = false
+
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            if strip then
+                for _, wep in ipairs(ply:GetWeapons()) do
+                    local weaponclass = WEPS.GetClass(wep)
+
+                    if weaponclass ~= weaponid then
+                        ply:StripWeapon(weaponclass)
+                    end
                 end
 
-                ply:Give(GetConVar("randomat_donconnons_weaponid"):GetString())
+                -- Reset FOV to unscope
+                ply:SetFOV(0, 0.2)
             end
+
+            if not ply:HasWeapon(weaponid) then
+                ply:Give(weaponid)
+            end
+
+            -- Workaround the case where people can respawn as Zombies while this is running
+            updated = updated or self:HandleRoleWeapons(ply)
+        end
+
+        -- If anyone's role changed, send the update
+        if updated then
+            SendFullStateUpdate()
         end
     end)
 
-    -- Jesters are immune to the donconnon, so make them innocents
-    if GetConVar("randomat_donconnons_strip"):GetBool() then
-        for i, ply in ipairs(self:GetAlivePlayers()) do
-            if Randomat:IsJesterTeam(ply) then
-                Randomat:SetRole(ply, ROLE_INNOCENT)
-            end
+    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+        if not strip then return end
+
+        return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_donconnons_weaponid"):GetString()
+    end)
+
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if not strip or not IsValid(ply) then return end
+
+        if not is_item then
+            ply:ChatPrint("You can only buy passive items during '" .. Randomat:GetEventTitle(EVENT) .. "'!\nYour purchase has been refunded.")
+
+            return false
         end
-    end
+    end)
 
     -- Gives everyone a doncon playermodel if installed
     if donconModelInstalled then

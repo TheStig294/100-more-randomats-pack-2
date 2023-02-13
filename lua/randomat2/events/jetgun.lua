@@ -5,24 +5,30 @@ CreateConVar("randomat_jetgun_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The eve
 CreateConVar("randomat_jetgun_overheat_delay", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until given a new jetgun after overheating", 1, 30)
 
 EVENT.Title = "Suck it!"
-
-if GetConVar("randomat_jetgun_strip"):GetBool() then
-    EVENT.Description = "Jetguns only!"
-    EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
-else
-    EVENT.Description = "Jetguns for all!"
-end
-
+EVENT.Description = "Jetguns for all!"
 EVENT.id = "jetgun"
 
 EVENT.Categories = {"item", "largeimpact"}
 
+local strip = GetConVar("randomat_jetgun_strip"):GetBool()
+
+if strip then
+    EVENT.Description = "Jetguns only!"
+    EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+    table.insert(EVENT.Categories, "rolechange")
+end
+
 function EVENT:HandleRoleWeapons(ply)
+    if not strip then return end
     local updated = false
+    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
 
     -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
-    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply) then
+    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
         Randomat:SetRole(ply, ROLE_TRAITOR)
+        updated = true
+    elseif Randomat:IsJesterTeam(ply) then
+        Randomat:SetRole(ply, ROLE_INNOCENT)
         updated = true
     end
 
@@ -31,14 +37,14 @@ function EVENT:HandleRoleWeapons(ply)
         self:StripRoleWeapons(ply)
     end
 
-    return updated
+    return updated, changing_teams
 end
 
 function EVENT:GiveJetgun(ply)
     local activeWeapon = ply:GetActiveWeapon()
 
     if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= "tfa_jetgun") then
-        if GetConVar("randomat_jetgun_strip"):GetBool() then
+        if strip then
             ply:StripWeapons()
             ply:SetFOV(0, 0.2)
         end
@@ -52,31 +58,49 @@ function EVENT:GiveJetgun(ply)
 end
 
 function EVENT:Begin()
-    if GetConVar("randomat_jetgun_strip"):GetBool() then
+    strip = GetConVar("randomat_jetgun_strip"):GetBool()
+
+    if strip then
         self.Description = "Jetguns only!"
     else
         self.Description = "Jetguns for all!"
     end
 
     -- Removing role weapons and changing problematic roles to basic ones
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        self:HandleRoleWeapons(ply)
-        self:GiveJetgun(ply)
+    local new_traitors = {}
+
+    for _, v in ipairs(self:GetAlivePlayers()) do
+        local _, new_traitor = self:HandleRoleWeapons(v)
+
+        if new_traitor then
+            table.insert(new_traitors, v)
+        end
+
+        self:GiveJetgun(v)
     end
 
     SendFullStateUpdate()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
 
     timer.Create("jetgunRoleChangeTimer", 1, 0, function()
         local updated = false
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
             -- Workaround the case where people can respawn as Zombies while this is running
-            updated = updated or self:HandleRoleWeapons(ply)
+            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
+            updated = updated or updatedPly
+
+            if new_traitor then
+                table.insert(new_traitors, ply)
+            end
         end
 
         -- If anyone's role changed, send the update
+        -- If anyone became a traitor, notify all other traitors
         if updated then
             SendFullStateUpdate()
+            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+            table.Empty(new_traitors)
         end
     end)
 
@@ -111,13 +135,13 @@ function EVENT:Begin()
     end)
 
     self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
-        if not GetConVar("randomat_jetgun_strip"):GetBool() then return end
+        if not strip then return end
 
         return IsValid(wep) and WEPS.GetClass(wep) == "tfa_jetgun"
     end)
 
     self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
-        if not IsValid(ply) then return end
+        if not strip or not IsValid(ply) then return end
 
         if not is_item then
             ply:PrintMessage(HUD_PRINTCENTER, "Passive items only!")
@@ -136,13 +160,16 @@ end
 
 function EVENT:End()
     timer.Remove("jetgunRoleChangeTimer")
-    timer.Remove("jetgunGiveWeaponsTimer")
+
+    for _, ply in ipairs(player.GetAll()) do
+        timer.Remove(ply:SteamID64() .. "RandomatGiveJetgunTimer")
+    end
 
     for i, ent in ipairs(ents.FindByClass("tfa_jetgun")) do
         ent:Remove()
     end
 
-    if GetConVar("randomat_jetgun_strip"):GetBool() then
+    if strip then
         for i, ply in ipairs(self:GetAlivePlayers()) do
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")

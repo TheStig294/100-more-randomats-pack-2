@@ -97,12 +97,20 @@ function EVENT:Begin()
             end
 
             -- Workaround the case where people can respawn as Zombies while this is running
-            updated = updated or self:HandleRoleWeapons(ply)
+            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
+            updated = updated or updatedPly
+
+            if new_traitor then
+                table.insert(new_traitors, ply)
+            end
         end
 
-        -- If anyone's role changed, send the update
+        -- If anyone's role changed, update each client
+        -- If anyone became a traitor, notify all other traitors
         if updated then
             SendFullStateUpdate()
+            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+            table.Empty(new_traitors)
         end
     end)
 

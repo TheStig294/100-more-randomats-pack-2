@@ -18,18 +18,18 @@ CreateConVar("randomat_donconnons_turn", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Do
 
 CreateConVar("randomat_donconnons_lockondecaytime", "15", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until homing stops", 0, 60)
 
-local donconModel = "models/player/Doncon/doncon.mdl"
-local donconModelInstalled = util.IsValidModel(donconModel)
 EVENT.Title = "O Rubber Tree..."
 EVENT.Description = "Donconnons for all!"
+EVENT.id = "donconnons"
+
+EVENT.Categories = {"item", "largeimpact"}
+
+local donconModel = "models/player/Doncon/doncon.mdl"
+local donconModelInstalled = util.IsValidModel(donconModel)
 
 if donconModelInstalled then
     EVENT.Description = "Everyone's Doncon. Donconnons for all!"
 end
-
-EVENT.id = "donconnons"
-
-EVENT.Categories = {"item", "largeimpact"}
 
 if GetConVar("randomat_donconnons_strip"):GetBool() then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE

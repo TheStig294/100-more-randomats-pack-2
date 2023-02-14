@@ -328,7 +328,7 @@ function EVENT:GetConVars()
         end
     end
 
-    return sliders, checks, textboxes
+    return {}, checks, textboxes
 end
 
 Randomat:register(EVENT)

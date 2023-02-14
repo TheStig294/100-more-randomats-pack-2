@@ -1,6 +1,6 @@
 local EVENT = {}
 
-CreateConVar("randomat_homerun_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
+local strip = CreateConVar("randomat_homerun_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
 
 CreateConVar("randomat_homerun_weaponid", "weapon_ttt_homebat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
@@ -18,8 +18,6 @@ if catModelInstalled then
     EVENT.Title = "Cat with a bat!"
     EVENT.Description = "Everyone's a cat, with only a bat!"
 end
-
-local strip = GetConVar("randomat_homerun_strip"):GetBool()
 
 if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE

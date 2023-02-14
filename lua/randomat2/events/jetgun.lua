@@ -1,6 +1,6 @@
 local EVENT = {}
 
-CreateConVar("randomat_jetgun_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons", 0, 1)
+local strip = CreateConVar("randomat_jetgun_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons", 0, 1)
 
 CreateConVar("randomat_jetgun_overheat_delay", 10, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until given a new jetgun after overheating", 1, 30)
 
@@ -9,8 +9,6 @@ EVENT.Description = "Jetguns for all!"
 EVENT.id = "jetgun"
 
 EVENT.Categories = {"item", "largeimpact"}
-
-local strip = GetConVar("randomat_jetgun_strip"):GetBool()
 
 if strip then
     EVENT.Description = "Jetguns only!"
@@ -81,6 +79,7 @@ function EVENT:Begin()
 
     SendFullStateUpdate()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+    table.Empty(new_traitors)
 
     timer.Create("jetgunRoleChangeTimer", 1, 0, function()
         local updated = false

@@ -2,7 +2,7 @@ local EVENT = {}
 
 CreateConVar("randomat_donconnons_timer", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between being given donconnons")
 
-CreateConVar("randomat_donconnons_strip", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
+local strip = CreateConVar("randomat_donconnons_strip", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
 
 CreateConVar("randomat_donconnons_weaponid", "weapon_ttt_donconnon_randomat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
 
@@ -30,8 +30,6 @@ local donconModelInstalled = util.IsValidModel(donconModel)
 if donconModelInstalled then
     EVENT.Description = "Everyone's Doncon. Donconnons for all!"
 end
-
-local strip = GetConVar("randomat_donconnons_strip"):GetBool()
 
 if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE

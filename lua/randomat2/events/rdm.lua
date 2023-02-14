@@ -1,68 +1,176 @@
 local EVENT = {}
+
+local strip = CreateConVar("randomat_rdm_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
+
+CreateConVar("randomat_rdm_weaponid", "weapon_rp_railgun", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
+
 EVENT.Title = "Random Deathmatch"
 EVENT.Description = "Infinite free kill guns only!"
 EVENT.id = "rdm"
-EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
-EVENT.Categories = {"item", "largeimpact"}
+EVENT.Categories = {"item", "biased_innocent", "biased", "largeimpact"}
+
+if strip then
+    EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
+    table.insert(EVENT.Categories, "rolechange")
+end
+
+function EVENT:HandleRoleWeapons(ply)
+    if not strip then return end
+    local updated = false
+    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
+
+    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
+    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
+        Randomat:SetRole(ply, ROLE_TRAITOR)
+        updated = true
+    elseif Randomat:IsJesterTeam(ply) then
+        Randomat:SetRole(ply, ROLE_INNOCENT)
+        updated = true
+    end
+
+    -- Remove role weapons from anyone on the traitor team now
+    if Randomat:IsTraitorTeam(ply) then
+        self:StripRoleWeapons(ply)
+    end
+
+    return updated, changing_teams
+end
 
 function EVENT:Begin()
-    for k, ply in pairs(self:GetAlivePlayers(true)) do
-        if ply:GetRole() == ROLE_SWAPPER then
-            swapper = ply
-            Randomat:SetRole(swapper, ROLE_INNOCENT)
-        end
+    strip = GetConVar("randomat_rdm_strip"):GetBool()
+    local new_traitors = {}
 
-        if ply:GetRole() == ROLE_JESTER then
-            jester = ply
-            Randomat:SetRole(jester, ROLE_INNOCENT)
+    for _, v in ipairs(self:GetAlivePlayers()) do
+        local _, new_traitor = self:HandleRoleWeapons(v)
+
+        if new_traitor then
+            table.insert(new_traitors, v)
         end
     end
 
     SendFullStateUpdate()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+    table.Empty(new_traitors)
 
-    for _, ent in pairs(ents.GetAll()) do
-        if (ent.Base == "weapon_tttbase" or ent.Kind == WEAPON_PISTOL or ent.Kind == WEAPON_HEAVY) and ent.AutoSpawnable then
-            ent:Remove()
+    timer.Create("RDMRoleChangeTimer", 1, 0, function()
+        local updated = false
+
+        for _, ply in ipairs(self:GetAlivePlayers()) do
+            -- Workaround the case where people can respawn as Zombies while this is running
+            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
+            updated = updated or updatedPly
+
+            if new_traitor then
+                table.insert(new_traitors, ply)
+            end
         end
-    end
 
-    for i, ply in pairs(self:GetAlivePlayers()) do
-        timer.Simple(0.1, function()
-            self:HandleWeaponAddAndSelect(ply, function(active_class, active_kind)
-                for _, wep in pairs(ply:GetWeapons()) do
-                    if wep.Kind == WEAPON_HEAVY or wep.Kind == WEAPON_PISTOL then
-                        ply:StripWeapon(wep:GetClass())
-                    end
-                end
+        -- If anyone's role changed, send the update
+        -- If anyone became a traitor, notify all other traitors
+        if updated then
+            SendFullStateUpdate()
+            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+            table.Empty(new_traitors)
+        end
+    end)
 
-                -- Reset FOV to unscope weapons if they were possibly scoped in
-                if active_kind == WEAPON_HEAVY or active_kind == WEAPON_PISTOL then
+    -- Continaully gives everyone Free Kill Guns
+    self:AddHook("Think", function()
+        for i, ply in pairs(self:GetAlivePlayers()) do
+            local activeWeapon = ply:GetActiveWeapon()
+
+            if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= GetConVar("randomat_rdm_weaponid"):GetString()) then
+                if strip then
+                    ply:StripWeapons()
                     ply:SetFOV(0, 0.2)
                 end
 
-                local wep1 = ply:Give("weapon_rp_railgun")
-                ply:SelectWeapon(wep1)
-                wep1.AllowDrop = false
-            end)
-        end)
-    end
+                local givenFKG = ply:Give(GetConVar("randomat_rdm_weaponid"):GetString())
 
-    timer.Simple(1, function()
-        self:AddHook("Think", function()
-            for _, v in pairs(self:GetAlivePlayers()) do
-                if IsValid(v:GetActiveWeapon()) then
-                    if v:GetActiveWeapon():GetClass() == "weapon_rp_railgun" then
-                        v:GetActiveWeapon():SetClip1(v:GetActiveWeapon().Primary.ClipSize)
-                    end
+                if givenFKG then
+                    givenFKG.AllowDrop = false
                 end
             end
-        end)
+
+            if IsValid(activeWeapon) and activeWeapon:GetClass() == GetConVar("randomat_rdm_weaponid"):GetString() then
+                activeWeapon:SetClip1(activeWeapon.Primary.ClipSize)
+            end
+        end
+    end)
+
+    -- Only allows players to pick up Free Kill Guns
+    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+        if not strip then return end
+
+        return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_rdm_weaponid"):GetString()
+    end)
+
+    -- Prevents players from buying non-passive items
+    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+        if not strip or not IsValid(ply) then return end
+
+        if not is_item then
+            ply:PrintMessage(HUD_PRINTCENTER, "Passive items only!")
+            ply:ChatPrint("You can only buy passive items during '" .. Randomat:GetEventTitle(EVENT) .. "'\nYour purchase has been refunded.")
+
+            return false
+        end
     end)
 end
 
+function EVENT:End()
+    timer.Remove("RDMRoleChangeTimer")
+
+    for i, ent in ipairs(ents.FindByClass(GetConVar("randomat_rdm_weaponid"):GetString())) do
+        ent:Remove()
+    end
+
+    if strip then
+        for i, ply in ipairs(self:GetAlivePlayers()) do
+            ply:Give("weapon_zm_improvised")
+            ply:Give("weapon_zm_carry")
+            ply:Give("weapon_ttt_unarmed")
+        end
+    end
+end
+
 function EVENT:Condition()
-    return weapons.Get("weapon_rp_railgun") ~= nil
+    return weapons.Get(GetConVar("randomat_rdm_weaponid"):GetString()) ~= nil
+end
+
+function EVENT:GetConVars()
+    local checks = {}
+
+    for _, v in ipairs({"strip"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(checks, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    local textboxes = {}
+
+    for _, v in ipairs({"weaponid"}) do
+        local name = "randomat_" .. self.id .. "_" .. v
+
+        if ConVarExists(name) then
+            local convar = GetConVar(name)
+
+            table.insert(textboxes, {
+                cmd = v,
+                dsc = convar:GetHelpText()
+            })
+        end
+    end
+
+    return {}, checks, textboxes
 end
 
 Randomat:register(EVENT)

@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "UNLIMITED POWEEERRRRRR!"
-EVENT.Description = "Infinite stunguns for all!"
+EVENT.Description = "Infinite tasers for all!"
 EVENT.id = "stungun"
 
 EVENT.Categories = {"item", "largeimpact"}

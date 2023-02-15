@@ -31,6 +31,8 @@ if donconModelInstalled then
     EVENT.Description = "Everyone's Doncon. Donconnons for all!"
 end
 
+strip = strip:GetBool()
+
 if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")

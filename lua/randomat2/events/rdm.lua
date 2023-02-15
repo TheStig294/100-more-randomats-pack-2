@@ -10,6 +10,8 @@ EVENT.id = "rdm"
 
 EVENT.Categories = {"item", "biased_innocent", "biased", "largeimpact"}
 
+strip = strip:GetBool()
+
 if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")

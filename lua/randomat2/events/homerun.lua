@@ -19,6 +19,8 @@ if catModelInstalled then
     EVENT.Description = "Everyone's a cat, with only a bat!"
 end
 
+strip = strip:GetBool()
+
 if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")

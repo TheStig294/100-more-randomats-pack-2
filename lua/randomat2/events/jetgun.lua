@@ -10,6 +10,8 @@ EVENT.id = "jetgun"
 
 EVENT.Categories = {"item", "largeimpact"}
 
+strip = strip:GetBool()
+
 if strip then
     EVENT.Description = "Jetguns only!"
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE

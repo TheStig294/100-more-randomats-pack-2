@@ -79,6 +79,7 @@ function EVENT:Begin()
     timer.Create("RandomatDonconnonsTimer", GetConVar("randomat_donconnons_timer"):GetInt(), 0, function()
         local weaponid = GetConVar("randomat_donconnons_weaponid"):GetString()
         local updated = false
+        new_traitors = {}
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
             if strip then
@@ -112,7 +113,6 @@ function EVENT:Begin()
         if updated then
             SendFullStateUpdate()
             self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-            table.Empty(new_traitors)
         end
     end)
 

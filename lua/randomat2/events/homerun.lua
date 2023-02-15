@@ -62,10 +62,10 @@ function EVENT:Begin()
 
     SendFullStateUpdate()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-    table.Empty(new_traitors)
 
     timer.Create("HomerunRoleChangeTimer", 1, 0, function()
         local updated = false
+        new_traitors = {}
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
             -- Workaround the case where people can respawn as Zombies while this is running
@@ -82,7 +82,6 @@ function EVENT:Begin()
         if updated then
             SendFullStateUpdate()
             self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-            table.Empty(new_traitors)
         end
     end)
 

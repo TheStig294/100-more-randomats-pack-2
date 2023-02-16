@@ -10,6 +10,8 @@ EVENT.Categories = {"spectator", "eventtrigger", "largeimpact"}
 
 local choiceCount
 local voteTimer
+local vote
+local deadVoters
 
 function EVENT:Begin()
     self.Description = "Spectators vote for a randomat every " .. GetConVar("randomat_ghostifies_votetimer"):GetInt() .. " seconds!"
@@ -17,6 +19,10 @@ function EVENT:Begin()
     GetConVar("randomat_choose_choices"):SetInt(5)
     voteTimer = GetConVar("randomat_choose_votetimer"):GetInt()
     GetConVar("randomat_choose_votetimer"):SetInt(GetConVar("randomat_ghostifies_votetimer"):GetInt())
+    vote = GetConVar("randomat_choose_vote"):GetBool()
+    GetConVar("randomat_choose_vote"):SetBool(true)
+    deadVoters = GetConVar("randomat_choose_deadvoters"):GetBool()
+    GetConVar("randomat_choose_deadvoters"):SetBool(true)
 
     timer.Create("GhostifiesRandomatTimer", GetConVar("randomat_ghostifies_votetimer"):GetInt() + 5, 0, function()
         Randomat:SilentTriggerEvent("choose", nil, true, true, function(ply) return ply:IsSpec() and not ply:Alive() end)
@@ -29,6 +35,8 @@ function EVENT:End()
     if choiceCount then
         GetConVar("randomat_choose_choices"):SetInt(choiceCount)
         GetConVar("randomat_choose_votetimer"):SetInt(voteTimer)
+        GetConVar("randomat_choose_vote"):SetBool(vote)
+        GetConVar("randomat_choose_deadvoters"):SetBool(deadVoters)
     end
 end
 

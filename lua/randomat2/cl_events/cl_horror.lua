@@ -70,6 +70,7 @@ local function RemoveHooks()
     hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
     -- Remove modified win title if it was added
     hook.Remove("TTTScoringWinTitle", "HorrorRandomatWinTitle")
+    hook.Remove("TTTScoringWinTitleOverride", "HorrorRandomatWinTitle")
 
     if client.HorrorRandomatFlashlight then
         client.HorrorRandomatFlashlight:Remove()

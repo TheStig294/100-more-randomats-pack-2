@@ -226,6 +226,16 @@ _ttt_randomat_beback_ - Default: 1 - Whether this randomat is enabled
 Changed name from "We'll Be Back", made to be compatible with custom roles for TTT, changed to only transform ordinary innocents to help prevent RDM\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)
 
+## I'm a mercenary!
+
+Changes all innocents to mercenaries\
+\
+_ttt_randomat_yellow_ - Default: 1 - Whether this randomat is enabled\
+_randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get\
+\
+Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
+Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
+
 ## Infected
 
 1 initial zombie starts with a throwing knife, everyone else is innocent. Zombies respawn after a 5 second delay and innocents win by surviving for a minute and a half.\
@@ -514,16 +524,6 @@ _ttt_randomat_mudscientist_ - Default: 1 - Whether this randomat is enabled
 Turns someone into a clown and someone else into a jester. Whenever someone dies everyone makes a clown activation sound and sprays confetti.\
 \
 _ttt_randomat_yay_ - Default: 1 - Whether this randomat is enabled
-
-## Yellow Is The New Green!
-
-Changes all innocents to mercenaries\
-\
-_ttt_randomat_yellow_ - Default: 1 - Whether this randomat is enabled\
-_randomat_yellow_credits_ - Default: 1 - How many credits the Mercenaries get\
-\
-Changed name from "Shops are open from 8AM to 9PM", mercenaries now get 1 credit\
-Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
 
 ## You can only run once
 

@@ -25,13 +25,13 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. RELEASE THE PLANES! - Spawns many paper planes
 1. It's Breeh! - Everyone becomes an adorable sheep...
 1. MEDIC! - Everyone's either a paramedic, hypnotist or mad scientist!
 1. Joke's on you! - Killed players respawn as jesters
 1. Paranoia - Lets spectators play horror sounds on living players
 1. Randomness Ghostifies - Spectators vote to trigger randomats!
 1. Get No-Scoped! - 360 no scope AWPs only!
-1. You can only run once - Anyone who presses the sprint key a second time dies!
 
 # Randomats
 
@@ -326,24 +326,6 @@ All innocents are deputies, all traitors are impersonators!\
 \
 _ttt_randomat_deputies_ - Default: 1 - Whether this randomat is enabled
 
-## Paranoia
-
-Secret event.\
-Lets spectators play horror sounds on living players. There are 2 cooldowns for playing a sound: one for the spectator, and one for the living player (So they don't continually hear sounds).\
-Only the spectator and player they are spectating hear the sound. The sounds are the same ones as the horror randomat uses.\
-\
-_ttt_randomat_paranoia_ - Default: 1 - Whether this randomat is enabled
-_randomat_paranoia_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again
-_randomat_paranoia_spectator_sound_cooldown_ - Default: 30 - Seconds until someone can hear a spectator sound again
-
-## Prop Hunt (Yogscast intro)
-
-Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat, if installed.\
-\
-_ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled\
-\
-Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
-
 ## Random Deathmatch
 
 Gives everyone an infinite ammo railgun (a.k.a the "Free Kill Gun"), strips all other weapons on the ground and on players. \
@@ -359,6 +341,32 @@ Spectators vote for a randomat every 20 seconds!\
 \
 _ttt_randomat_ghostifies_ - Default: 1 - Whether this randomat is enabled\
 _randomat_ghostifies_votetimer_ - Default: 20 - Seconds between votes\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+## Paranoia
+
+Secret event.\
+Lets spectators play horror sounds on living players. There are 2 cooldowns for playing a sound: one for the spectator, and one for the living player (So they don't continually hear sounds).\
+Only the spectator and player they are spectating hear the sound. The sounds are the same ones as the horror randomat uses.\
+\
+_ttt_randomat_paranoia_ - Default: 1 - Whether this randomat is enabled
+_randomat_paranoia_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again
+_randomat_paranoia_spectator_sound_cooldown_ - Default: 30 - Seconds until someone can hear a spectator sound again
+
+## RELEASE THE PLANES!
+
+Spawns in many paper planes!\
+\
+_ttt_randomat_planes_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/workshop/filedetails/?id=2150978792>
+
+## Prop Hunt (Yogscast intro)
+
+Plays the original Yogscast Prop Hunt theme and the original Yogscast Prop Hunt logo pops up on screen, then triggers the “Prop Hunt” randomat, if installed.\
+\
+_ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 

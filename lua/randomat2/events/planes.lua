@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "RELEASE THE PLANES!"
-EVENT.Description = "Spawns in many paper planes!"
+EVENT.Description = "Forces everyone to throw a paper plane!"
 EVENT.id = "planes"
 
 EVENT.Categories = {"entityspawn", "largeimpact"}
@@ -13,7 +13,7 @@ function EVENT:Begin()
     local printname = weapons.Get("weapon_ttt_paper_plane").PrintName
 
     if printname and printname == "Snail Plane" then
-        self.Description = "Spawns in many snail planes!"
+        self.Description = "Forces everyone to throw a snail plane!"
     end
 
     local cap = capCvar:GetInt()

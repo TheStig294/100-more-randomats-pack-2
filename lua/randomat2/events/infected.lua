@@ -6,14 +6,15 @@ EVENT.Title = "Infected"
 EVENT.Description = "Innocents and respawning zombies, survive for " .. GetConVar("randomat_infected_timer"):GetInt() .. " seconds!"
 EVENT.id = "infected"
 
-EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_RESPAWN}
+EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE, EVENT_TYPE_RESPAWN, EVENT_TYPE_FORCED_DEATH}
 
-EVENT.Categories = {"gamemode", "largeimpact", "deathtrigger"}
+EVENT.Categories = {"gamemode", "rolechange", "largeimpact", "deathtrigger"}
 
 local infectedRandomat = false
 local initialPrimeOnlyWeapons = true
 local hasteMode = false
 local hasteMinutes = 0.5
+local zombieBlockWin
 
 -- Used in removecorpse.
 local function findcorpse(v)
@@ -38,6 +39,12 @@ function EVENT:Begin()
     infectedRandomat = true
     hasteMode = GetConVar("ttt_haste"):GetBool()
     hasteMinutes = GetConVar("ttt_haste_minutes_per_death"):GetFloat()
+
+    -- Prevent the round from being blocked from ending while zombies are dead and respawning
+    if ConVarExists("ttt_zombie_respawn_block_win") then
+        zombieBlockWin = GetConVar("ttt_zombie_respawn_block_win"):GetBool()
+        GetConVar("ttt_zombie_respawn_block_win"):SetBool(false)
+    end
 
     -- Set the round length to what it is in the convar
     if hasteMode then
@@ -80,6 +87,9 @@ function EVENT:Begin()
 
     -- Respawns any zombies that die after a 5 second delay
     self:AddHook("PostPlayerDeath", function(ply)
+        -- Let Custom Roles know someone is respawning as a zombie for any special role logic it needs to do
+        ply:SetNWBool("IsZombifying", true)
+
         timer.Simple(5, function()
             local corpse = findcorpse(ply) -- run the normal respawn code now
             ply:SpawnForRound(true)
@@ -93,6 +103,8 @@ function EVENT:Begin()
                 Randomat:SetRole(ply, ROLE_ZOMBIE)
                 SendFullStateUpdate()
             end
+
+            ply:SetNWBool("IsZombifying", false)
         end)
     end)
 
@@ -164,6 +176,10 @@ function EVENT:End()
         if hasteMode then
             GetConVar("ttt_haste"):SetBool(true)
             GetConVar("ttt_haste_minutes_per_death"):SetFloat(hasteMinutes)
+        end
+
+        if zombieBlockWin ~= nil then
+            GetConVar("ttt_zombie_respawn_block_win"):SetBool(zombieBlockWin)
         end
 
         -- And prevent the end function from being run until this randomat triggers again

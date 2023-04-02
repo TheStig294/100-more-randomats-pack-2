@@ -1,5 +1,6 @@
 AddCSLuaFile()
 ENT.Base = "doncmk2_en"
+ENT.PrintName = "Donconnon"
 
 if SERVER then
     ENT.DonconDamage = GetConVar("randomat_donconnons_damage"):GetFloat()

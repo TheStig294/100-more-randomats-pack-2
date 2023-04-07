@@ -37,7 +37,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 __Randomats that don't have credit were completely made by me__
 
-## A killer in disguise...
+## A killer in disguise
 
 Gives everyone a knife and changes someone to a killer\
 \
@@ -55,6 +55,7 @@ If one of the randomats in the pair is turned off, then any pair using that rand
 General idea and some combos suggested by u/venort_ on Reddit.
 
 ### "Combo: Looking ridiculous"
+
 Everyone has small legs + a big head!\
 _ttt_randomat_cbbaby_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -62,12 +63,14 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: Chaos!"
+
 When you buy something, everyone gets it + someone else gets a credit!\
 _ttt_randomat_cbchaos_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ### "Combo: Careful there cowboy..."
+
 A traitor and detective have a pistol showdown + everyone else is a jester\
 _ttt_randomat_cbcowboy_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -75,12 +78,14 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: Don't forget!"
+
 You can only jump once + Players explode on death\
 _ttt_randomat_cbforget_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ### "Combo: HARPOON BATTLE ROYALE!"
+
 LAST ONE STANDING WINS! Everyone is innocent!\
 _ttt_randomat_cbharpoon_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -88,18 +93,21 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: Hidden Chaos"
+
 A randomat triggers every 30 seconds + Randomat alerts are hidden!\
 _ttt_randomat_cbhiddenchaos_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ### "Combo: Clock's ticking..."
+
 No healing + lose health over time\
 _ttt_randomat_cbnoheal_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ### "Combo: Hunted becomes the hunter"
+
 Prop hunt + killed props become hunters!\
 _ttt_randomat_cbprophunt_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -107,6 +115,7 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: Retirement fund"
+
 Get anything you buy on the next round + infinite credits for all!\
 _ttt_randomat_cbretirement_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -114,6 +123,7 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: Sharkies and Palp!"
+
 Everyone is sharky + spawns in a 'Tom bot'!\
 _ttt_randomat_cbsharkypalp_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -122,18 +132,21 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: I am speed."
+
 Quake pro + everything's fast!\
 _ttt_randomat_cbspeed_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ### "Combo: Speed Bees!"
+
 Everything's fast + hostile bees!\
 _ttt_randomat_cbspeedbees_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
 ### "Combo: no u"
+
 Damage is delayed + everyone has an uno reverse!\
 _ttt_randomat_cbunoreverse_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -141,6 +154,7 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2329721936>
 
 ### "Combo: Weird roles"
+
 Traitors are bees + Someone's a "Mud Scientist"\
 _ttt_randomat_cbweirdroles_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -148,6 +162,7 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2577965705>
 
 ### "Combo: CoD Zombies"
+
 Everyone gets a CoD weapon + Some zombies to fight...\
 _ttt_randomat_cbzombies_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -155,6 +170,7 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: Weeee!"
+
 You ragdoll while in the air + moon gravity!\
 _ttt_randomat_cbragdoll_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
@@ -169,19 +185,31 @@ _randomat_democracyintensifies_timer_ - Default: 30 - Seconds between randomat v
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
+## Drink up
+
+Everyone gets a random zombies perk bottle\
+\
+_ttt_randomat_drinkup_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2243578658>\
+OR\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=273623128>
+
 ## Everyone's a detective
 
 Everyone gains the ability to search bodies and gets a DNA scanner.\
 NOTE: This randomat is disabled by default as it normally doesn't have any impact on the round in practice.\
 \
 _ttt_randomat_dna_ - Default: 0 - Whether this randomat is enabled
+
 ## Everyone's a little trickster
 
 Everyone can use traitor traps!\
 \
 _ttt_randomat_trickster_ - Default: 1 - Whether this randomat is enabled
 
-## Get No-Scoped!
+## Get No-Scoped
 
 Everyone is given infinite 360 No Scope AWPs!\
 Whenever someone no-scopes someone else, they hear a random MLG sound!\
@@ -207,7 +235,7 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 Requires: <https://steamcommunity.com/workshop/filedetails/?id=648957314>\
 (Optional): <https://steamcommunity.com/sharedfiles/filedetails/?id=1187366110>
 
-## Hwapoon!
+## Hwapoon
 
 Everyone gets a 'hwapoon!'\
 If installed, everyone also gets a random "Yogscast Lewis" playermodel.\
@@ -226,7 +254,7 @@ _ttt_randomat_beback_ - Default: 1 - Whether this randomat is enabled
 Changed name from "We'll Be Back", made to be compatible with custom roles for TTT, changed to only transform ordinary innocents to help prevent RDM\
 Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id=2194776699)
 
-## I'm a mercenary!
+## I'm a mercenary
 
 Changes all innocents to mercenaries\
 \
@@ -243,7 +271,7 @@ Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetail
 _ttt_randomat_infected_ - Default: 1 - Whether this randomat is enabled\
 _randomat_infected_timer_ - Default: 90 - Time players must survive in seconds
 
-## It's Breeh!
+## It's Breeh
 
 Changes everyone into different Breeh sheep playermodels!\
 \
@@ -251,7 +279,7 @@ _ttt_randomat_breeh_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2857493659>
 
-## Joke's on you!
+## Joke's on you
 
 When you die, you respawn after a short delay, and your role is changed to a jester.\
 Players who have already died come back as well, by default.\
@@ -260,7 +288,7 @@ _ttt_randomat_jokesonyou_ - Default: 1 - Whether this randomat is enabled\
 _randomat_jokesonyou_health_ - Default: 100 - The health that the Jesters respawn with\
 _randomat_jokesonyou_include_dead_ - Default: 1 - Whether to resurrect dead players at the start
 
-## MEDIC!
+## MEDIC
 
 All innocents become paramedics, all traitors become hypnotists, and someone becomes a mad scientist!\
 \
@@ -282,7 +310,7 @@ _ttt_randomat_mysterybox_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2252594978>
 
-## NOT THE BEE BARRELS!
+## NOT THE BEE BARRELS
 
 Spawns bee barrels around every player repeatedly until the event ends\
 \
@@ -296,7 +324,7 @@ Originally made by [Spaaz](https://github.com/spaaz/Spaaz-s-Randomats)\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=913310851>
 
-## Now, you're thinking with portals.
+## Now, you're thinking with portals
 
 Everyone gets a portal gun!\
 \
@@ -308,7 +336,7 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2315732527>\
 or: <https://steamcommunity.com/sharedfiles/filedetails/?id=954453521>
 
-## O Rubber Tree...
+## O Rubber Tree
 
 Continually gives donconnans to everyone.\
 Also gives everyone a "Doncon" playermodel, if installed.\
@@ -330,7 +358,7 @@ Originally made by [Fate](https://steamcommunity.com/sharedfiles/filedetails/?id
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2237522867>\
 (Optional): <https://steamcommunity.com/sharedfiles/filedetails/?id=1440266287>
 
-## Oops! All deputies!
+## Oops! All deputies
 
 All innocents are deputies, all traitors are impersonators!\
 \
@@ -364,7 +392,7 @@ _ttt_randomat_paranoia_ - Default: 1 - Whether this randomat is enabled
 _randomat_paranoia_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again
 _randomat_paranoia_spectator_sound_cooldown_ - Default: 30 - Seconds until someone can hear a spectator sound again
 
-## RELEASE THE PLANES!
+## RELEASE THE PLANES
 
 Spawns in many paper planes!\
 \
@@ -380,13 +408,13 @@ _ttt_randomat_yogsprophunt_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 
-## Shh... It's a Secret!
+## Shh... It's a Secret
 
 Runs another random Randomat event without notifying the players. Also silences all future Randomat events while this event is active.\
 \
 _ttt_randomat_secret_ - Default: 1 - Whether this event is enabled.
 
-## Somehow, Palpatine returned!
+## Somehow, Palpatine returned
 
 Spawns in a bot, that plays voicelines when hurt, walked near, killed, etc.\
 The bot is a high-health old man if CR for TTT is installed, else is an innocent with normal health.\
@@ -396,7 +424,7 @@ _ttt_randomat_palp_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=457212613>
 
-## Suck it!
+## Suck it
 
 Everyone is continually given jet guns! If your gun overheats, you'll have to wait 5 seconds before being given a new one\
 \
@@ -418,7 +446,7 @@ _ttt_randomat_teambuilding_ - Default: 1 - Whether this randomat is enabled\
 Changed name from "One traitor, One Detective. Everyone else is a Jester. Detective is stronger." Changed jesters to beggars. Detective and traitor are now set to 2 credits.\
 Originally made by [Dem](https://steamcommunity.com/sharedfiles/filedetails/?id=1406495040)
 
-## The detective is acting suspicious...
+## The detective is acting suspicious
 
 A detective has a 50% chance to secretly be turned into a traitor.\
 \
@@ -449,30 +477,30 @@ Code responsible for removing map lighting originally made by [Wasted](https://s
 
 Credit for sounds/music used:\
 "Unseen Horrors" by Kevin MacLeod\
-Link: https://www.youtube.com/watch?v=7URbQvJzztI\
-License: https://filmmusic.io/standard-license\
+Link: <https://www.youtube.com/watch?v=7URbQvJzztI>\
+License: <https://filmmusic.io/standard-license>\
 \
 "Horror Sounds" by GowlerMusic\
-Link: https://freesound.org/people/GowlerMusic/sounds/262257/\
-License: https://creativecommons.org/licenses/by/3.0/\
+Link: <https://freesound.org/people/GowlerMusic/sounds/262257/>\
+License: <https://creativecommons.org/licenses/by/3.0/>\
 \
 "Hand Bells, Reverse Cluster" by InspectorJ\
-Link: https://freesound.org/people/InspectorJ/sounds/339821/\
-License: https://creativecommons.org/licenses/by/4.0/\
+Link: <https://freesound.org/people/InspectorJ/sounds/339821/>\
+License: <https://creativecommons.org/licenses/by/4.0/>\
 \
 "Horror, Violin Tremolo Cluster, B" by InspectorJ\
-Link: https://freesound.org/people/InspectorJ/sounds/370937/\
-License: https://creativecommons.org/licenses/by/4.0/\
+Link: <https://freesound.org/people/InspectorJ/sounds/370937/>\
+License: <https://creativecommons.org/licenses/by/4.0/>\
 \
 "Piano, String Glissando, Low, A" by InspectorJ\
-Link: https://freesound.org/people/InspectorJ/sounds/339671/\
-License: https://creativecommons.org/licenses/by/4.0/\
+Link: <https://freesound.org/people/InspectorJ/sounds/339671/>\
+License: <https://creativecommons.org/licenses/by/4.0/>\
 \
 "Ghost Scream" by onderwish\
-Link: https://freesound.org/people/onderwish/sounds/469141/\
-License: https://creativecommons.org/publicdomain/zero/1.0/
+Link: <https://freesound.org/people/onderwish/sounds/469141/>\
+License: <https://creativecommons.org/publicdomain/zero/1.0/>
 
-## There's a little Doncon inside us all...
+## There's a little Doncon inside us all
 
 A mini version of the doncombine spawns where people die, from the "Doncombine summoner" weapon.\
 \
@@ -482,7 +510,7 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2457576268>\
 \
 Idea by eaglelily93 on YouTube
 
-## UNLIMITED POWEEERRRRRR!
+## UNLIMITED POWEEERRRRRR
 
 Everyone gets a stungun with unlimited ammo!\
 \
@@ -492,7 +520,7 @@ Originally made by [nanz](https://steamcommunity.com/sharedfiles/filedetails/?id
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=785294711>
 
-## Watch your step!
+## Watch your step
 
 Randomly places shark traps around the map\
 \
@@ -519,7 +547,7 @@ Changes the Mud Scientist to this model if installed: <https://steamcommunity.co
 \
 _ttt_randomat_mudscientist_ - Default: 1 - Whether this randomat is enabled
 
-## Yay!
+## Yay
 
 Turns someone into a clown and someone else into a jester. Whenever someone dies everyone makes a clown activation sound and sprays confetti.\
 \
@@ -532,14 +560,14 @@ Only triggers if CR for TTT is installed, or any mod that adds a "ttt_sprint_ena
 \
 _ttt_randomat_runonce_ - Default: 1 - Whether this randomat is enabled
 
-## You're on the case, detective...
+## You're on the case, detective
 
 Only detectives can search bodies, all other players can only call a detective over to search a body.\
 NOTE: This randomat is disabled by default as it normally doesn't have any impact on the round in practice.\
 \
 _ttt_randomat_detectivesearch_ - Default: 0 - Whether this randomat is enabled
 
-## You just triggered my trap card!
+## You just triggered my trap card
 
 Everyone gets an uno reverse card that reflects all damage and lasts for a set amount of time\
 \

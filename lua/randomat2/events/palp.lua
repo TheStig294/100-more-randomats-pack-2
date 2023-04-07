@@ -44,8 +44,9 @@ function EVENT:Begin()
                 -- If a player is somehow damaged by tom, then both the player and tom make a sound
                 if IsValid(dmg:GetAttacker()) and dmg:GetAttacker() == tom then
                     timer.Create("RandomatPalpKillCooldown", 0.5, 1, function()
-                        tom:EmitSound("palp/kill1.mp3")
                         dmgEnt:EmitSound("palp/kill1.mp3")
+                        if not IsValid(tom) then return end
+                        tom:EmitSound("palp/kill1.mp3")
                     end)
                 end
 
@@ -53,6 +54,7 @@ function EVENT:Begin()
             end
 
             timer.Create("RandomatPalpHurtCooldown", 0.5, 1, function()
+                if not IsValid(tom) then return end
                 local randomNum = math.random(1, 12)
                 tom:EmitSound("palp/hurt" .. randomNum .. ".mp3")
                 tom:EmitSound("palp/hurt" .. randomNum .. ".mp3")
@@ -65,6 +67,7 @@ function EVENT:Begin()
             if dmgEnt ~= tom then return end
 
             timer.Create("AHTomDeathCooldown", 0.5, 1, function()
+                if not IsValid(tom) then return end
                 local randomNum = math.random(1, 5)
                 tom:EmitSound("palp/death" .. randomNum .. ".mp3")
                 tom:EmitSound("palp/death" .. randomNum .. ".mp3")

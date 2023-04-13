@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "RELEASE THE PLANES!"
-EVENT.Description = "Forces everyone to throw a paper plane!"
+EVENT.Description = "Forces everyone to throw a plane!"
 EVENT.id = "planes"
 
 EVENT.Categories = {"entityspawn", "largeimpact"}
@@ -10,12 +10,6 @@ local capCvar = CreateConVar("randomat_planes_cap", 12, {FCVAR_NOTIFY, FCVAR_ARC
 local delayCvar = CreateConVar("randomat_planes_delay", 3, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Delay before planes are spawned", 0.1, 5.0)
 
 function EVENT:Begin()
-    local printname = weapons.Get("weapon_ttt_paper_plane").PrintName
-
-    if printname and printname == "Snail Plane" then
-        self.Description = "Forces everyone to throw a snail plane!"
-    end
-
     local cap = capCvar:GetInt()
     local count = 0
 

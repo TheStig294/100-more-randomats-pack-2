@@ -1,6 +1,8 @@
 -- Drawing an outline around the Tom bot when spawned
 net.Receive("RandomatPalpDrawHalo", function()
-    chat.AddText(Color(156, 253, 156), "Player Angor has joined the game")
+    timer.Simple(0.1, function()
+        chat.AddText(Color(156, 253, 156), "Player Angor has joined the game")
+    end)
 
     -- Suppressing the "Bot01 has joined the game" message from appearing
     hook.Add("ChatText", "RandomatPalpSupressJoinMsg", function(index, name, text, type)
@@ -61,9 +63,12 @@ net.Receive("RandomatPalpDrawHalo", function()
 
         -- Removing the halo at the end of the round and displaying a fake leave notification in chat
         hook.Add("TTTEndRound", "RandomatPalpRemoveHalo", function()
-            chat.AddText(Color(156, 253, 156), "Player Angor has left the game")
             hook.Remove("PreDrawHalos", "RandomatPalpHalo")
             hook.Remove("TTTEndRound", "RandomatPalpRemoveHalo")
+
+            timer.Simple(0.1, function()
+                chat.AddText(Color(156, 253, 156), "Player Angor has left the game")
+            end)
         end)
     end)
 end)

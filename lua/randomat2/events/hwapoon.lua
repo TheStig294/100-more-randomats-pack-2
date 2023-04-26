@@ -6,6 +6,11 @@ EVENT.id = "hwapoon"
 EVENT.Categories = {"item", "largeimpact"}
 
 local lewisModel = "models/bradyjharty/yogscast/lewis.mdl"
+
+if util.IsValidModel(lewisModel) then
+    table.insert(EVENT.Categories, 1, "modelchange")
+end
+
 util.AddNetworkString("HwapoonRandomatPlaySound")
 
 function EVENT:Begin()

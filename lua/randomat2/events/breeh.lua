@@ -3,7 +3,7 @@ EVENT.Title = "It's Breeh!"
 EVENT.Description = "Everyone is an adorable sheep..."
 EVENT.id = "breeh"
 
-EVENT.Categories = {"largeimpact"}
+EVENT.Categories = {"modelchange", "largeimpact"}
 
 local breehModel = "models/bradyjharty/yogscast/breeh2.mdl"
 

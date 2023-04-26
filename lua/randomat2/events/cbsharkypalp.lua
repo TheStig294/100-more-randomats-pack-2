@@ -3,7 +3,7 @@ EVENT.Title = "Combo: Sharkies and Palp!"
 EVENT.Description = "Everyone is sharky + spawns in palp!"
 EVENT.id = "cbsharkypalp"
 
-EVENT.Categories = {"eventtrigger", "moderateimpact"}
+EVENT.Categories = {"eventtrigger", "modelchange", "moderateimpact"}
 
 local event1 = "bleghsound"
 local event2 = "palp"

@@ -5,6 +5,10 @@ EVENT.id = "mudscientist"
 
 EVENT.Categories = {"rolechange", "fun", "smallimpact"}
 
+if util.IsValidModel("models/player/mokeyfix/nosacz.mdl") then
+    table.insert(EVENT.Categories, "modelchange")
+end
+
 util.AddNetworkString("MudScientistBegin")
 util.AddNetworkString("MudScientistEnd")
 local rushConvarValue

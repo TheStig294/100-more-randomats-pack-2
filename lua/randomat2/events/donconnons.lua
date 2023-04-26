@@ -29,6 +29,7 @@ local donconModelInstalled = util.IsValidModel(donconModel)
 
 if donconModelInstalled then
     EVENT.Description = "Everyone's Doncon. Donconnons for all!"
+    table.insert(EVENT.Categories, 1, "modelchange")
 end
 
 strip = strip:GetBool()

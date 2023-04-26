@@ -17,6 +17,7 @@ local catModelInstalled = util.IsValidModel(catModel1) and util.IsValidModel(cat
 if catModelInstalled then
     EVENT.Title = "Cat with a bat!"
     EVENT.Description = "Everyone's a cat, with only a bat!"
+    table.insert(EVENT.Categories, "modelchange")
 end
 
 strip = strip:GetBool()

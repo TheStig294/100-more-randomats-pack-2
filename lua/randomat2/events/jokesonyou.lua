@@ -58,7 +58,7 @@ function EVENT:Begin(filter_class)
         timer.Create(victim:SteamID64() .. "RdmtJesterTimer", 0.25, 1, function()
             if not filter_class or (IsValid(killer) and killer:GetClass() == filter_class) then
                 JesterfyPlayer(victim, false, pos)
-                self:StripRoleWeapons(ply)
+                self:StripRoleWeapons(victim)
                 SendFullStateUpdate()
             end
         end)

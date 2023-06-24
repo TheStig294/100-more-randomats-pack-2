@@ -34,6 +34,7 @@ function EVENT:Begin()
         tom:SetHealth(100)
         tom:SetMaxHealth(100)
         tom:SetNWString("PlayerName", "Angor")
+        tom:SetName("Angor")
         SendFullStateUpdate()
 
         -- Whenever tom-bot takes damage, dies, etc. he makes a sound

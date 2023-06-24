@@ -33,8 +33,10 @@ function EVENT:Begin()
         tom:SetRole(ROLE_OLDMAN or ROLE_INNOCENT)
         tom:SetHealth(100)
         tom:SetMaxHealth(100)
-        tom:SetNWString("PlayerName", "Angor")
-        tom:SetName("Angor")
+        timer.Simple(0.5, function()
+            tom:SetNWString("PlayerName", "Angor")
+            tom:SetName("Angor")
+        end)
         SendFullStateUpdate()
 
         -- Whenever tom-bot takes damage, dies, etc. he makes a sound

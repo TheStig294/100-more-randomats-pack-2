@@ -51,6 +51,23 @@ function EVENT:Begin(filter_class)
         end
     end
 
+    local new_traitors = {}
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if Randomat:IsBodyDependentRole(ply) then
+            self:StripRoleWeapons(ply)
+            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
+
+            if isTraitor then
+                table.insert(new_traitors, ply)
+            end
+        end
+    end
+
+    -- Send message to the traitor team if new traitors joined
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+    SendFullStateUpdate()
+
     self:AddHook("PlayerDeath", function(victim, entity, killer)
         if not IsValid(victim) then return end
         local pos = victim:GetPos()
@@ -71,8 +88,19 @@ function EVENT:End()
     end
 end
 
+-- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running
 function EVENT:Condition()
-    return ConVarExists("ttt_jester_enabled")
+    if not ConVarExists("ttt_jester_enabled") then return false end
+    local bodyDependentRoleExists = false
+
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if Randomat:IsBodyDependentRole(ply) then
+            bodyDependentRoleExists = true
+            break
+        end
+    end
+
+    return Randomat:GetRoundCompletePercent() < 5 or not bodyDependentRoleExists
 end
 
 function EVENT:GetConVars()

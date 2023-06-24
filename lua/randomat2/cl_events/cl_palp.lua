@@ -66,7 +66,7 @@ net.Receive("RandomatPalpDrawHalo", function()
             hook.Remove("PreDrawHalos", "RandomatPalpHalo")
             hook.Remove("TTTEndRound", "RandomatPalpRemoveHalo")
 
-            timer.Simple(0.1, function()
+            timer.Simple(4, function()
                 chat.AddText(Color(156, 253, 156), "Player Angor has left the game")
             end)
         end)

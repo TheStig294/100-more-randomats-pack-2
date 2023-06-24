@@ -116,7 +116,7 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    timer.Simple(1, function()
+    timer.Simple(4, function()
         if IsValid(tom) then
             tom:Kick()
         end

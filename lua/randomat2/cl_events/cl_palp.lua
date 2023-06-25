@@ -28,39 +28,6 @@ net.Receive("RandomatPalpDrawHalo", function()
             halo.Add(tomTable, Color(0, 255, 0), 0, 0, 1, true, true)
         end)
 
-        -- Changing the name of the tom bot to "Angor" on the scoreboard
-        hook.Add("TTTScoreboardPlayerName", "RandomatPalpScoreboard", function(ply, client, currentName)
-            if not IsValid(tom) then
-                hook.Remove("TTTScoreboardPlayerName", "RandomatPalpScoreboard")
-
-                return
-            end
-
-            if ply == tom then return "Angor" end
-        end)
-
-        -- Changing the name of the tom bot to "Angor" when players look at them
-        hook.Add("TTTTargetIDPlayerName", "RandomatPalpName", function(ply, client, text, clr)
-            if not IsValid(tom) then
-                hook.Remove("TTTTargetIDPlayerName", "RandomatPalpName")
-
-                return
-            end
-
-            if ply == tom then return "Angor", clr end
-        end)
-
-        -- Changing the name of the tom bot to "Angor" when players look at them
-        hook.Add("TTTScoringSummaryRender", "RandomatPalpNameSummary", function(ply, roleFileName, groupingRole, roleColor, nameLabel, startingRole, finalRole)
-            if not IsValid(tom) then
-                hook.Remove("TTTScoringSummaryRender", "RandomatPalpNameSummary")
-
-                return
-            end
-
-            if ply == tom then return roleFileName, groupingRole, roleColor, "Angor" end
-        end)
-
         -- Removing the halo at the end of the round and displaying a fake leave notification in chat
         hook.Add("TTTEndRound", "RandomatPalpRemoveHalo", function()
             hook.Remove("PreDrawHalos", "RandomatPalpHalo")

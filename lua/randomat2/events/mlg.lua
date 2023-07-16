@@ -8,31 +8,49 @@ EVENT.Title = "GET NO SCOPED!!!"
 EVENT.Description = "Spin around to shoot!"
 EVENT.id = "mlg"
 
-EVENT.Categories = {"item", "largeimpact"}
+EVENT.Type = {EVENT_TYPE_WEAPON_OVERRIDE}
+
+EVENT.Categories = {"item", "rolechange", "largeimpact"}
 
 util.AddNetworkString("RandomatMLGGunEffects")
 
 function EVENT:HandleRoleWeapons(ply)
     ply.MLGTripleCount = 0
     local updated = false
+    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
 
-    if (ply.IsZombie and ply:IsZombie()) or (ply.IsMadScientist and ply:IsMadScientist()) then
+    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
+    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
+        Randomat:SetRole(ply, ROLE_TRAITOR)
+        updated = true
+    elseif Randomat:IsJesterTeam(ply) then
         Randomat:SetRole(ply, ROLE_INNOCENT)
-        self:StripRoleWeapons(ply)
-        ply:ChatPrint("Zombies can't use guns, so you're now an innocent!")
         updated = true
     end
 
-    return updated
+    -- Remove role weapons from anyone on the traitor team now
+    if Randomat:IsTraitorTeam(ply) then
+        self:StripRoleWeapons(ply)
+    end
+
+    return updated, changing_teams
 end
 
 function EVENT:Begin()
-    -- Turning all zombies and mad scientists to innocents
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        self:HandleRoleWeapons(ply)
+    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
+    local new_traitors = {}
+
+    for _, v in ipairs(self:GetAlivePlayers()) do
+        local _, new_traitor = self:HandleRoleWeapons(v)
+
+        if new_traitor then
+            table.insert(new_traitors, v)
+        end
     end
 
     SendFullStateUpdate()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+    table.Empty(new_traitors)
 
     timer.Create("MlgRoleChangeTimer", 1, 0, function()
         local updated = false
@@ -50,6 +68,8 @@ function EVENT:Begin()
 
     -- Continaully gives everyone AWPs
     self:AddHook("Think", function()
+        local updated = false
+
         for i, ply in pairs(self:GetAlivePlayers()) do
             local activeWeapon = ply:GetActiveWeapon()
 
@@ -73,11 +93,27 @@ function EVENT:Begin()
             if IsValid(activeWeapon) and activeWeapon:GetClass() == GetConVar("randomat_mlg_weaponid"):GetString() then
                 activeWeapon:SetClip1(activeWeapon.Primary.ClipSize)
             end
+
+            -- Workaround the case where people can respawn as Zombies while this is running
+            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
+            updated = updated or updatedPly
+
+            if new_traitor then
+                table.insert(new_traitors, ply)
+            end
         end
 
-        -- Removes the hook that plays the normal airhorn sound from the MLG AWP, we want to play our own sounds below
-        hook.Remove("DoPlayerDeath", "airhornTest")
+        -- If anyone's role changed, send the update
+        -- If anyone became a traitor, notify all other traitors
+        if updated then
+            SendFullStateUpdate()
+            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+            table.Empty(new_traitors)
+        end
     end)
+
+    -- Removes the hook that plays the normal airhorn sound from the MLG AWP, we want to play our own sounds below
+    hook.Remove("DoPlayerDeath", "airhornTest")
 
     -- Players hear a random MLG-themed sound on killing someone
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
@@ -140,9 +176,8 @@ function EVENT:End()
     end
 end
 
--- Don't let 'rise from your grave' run at the same time as zombies can't use guns
 function EVENT:Condition()
-    return weapons.Get(GetConVar("randomat_mlg_weaponid"):GetString()) ~= nil and not Randomat:IsEventActive("grave")
+    return weapons.Get(GetConVar("randomat_mlg_weaponid"):GetString()) ~= nil
 end
 
 function EVENT:GetConVars()

@@ -10,13 +10,24 @@ local eventTriggered = false
 
 function EVENT:Begin()
     eventTriggered = true
-    GetConVar("ttt_detective_search_only"):SetBool(true)
-    SetGlobalBool("ttt_detective_search_only", true)
+
+    -- CR Replicated convar
+    Randomat:HandleReplicatedValue(function()
+        GetConVar("ttt_detectives_search_only"):SetBool(true)
+    end, function()
+        GetConVar("ttt_detective_search_only"):SetBool(true)
+        SetGlobalBool("ttt_detective_search_only", true)
+    end)
 end
 
 function EVENT:End()
     if eventTriggered then
-        GetConVar("ttt_detective_search_only"):SetBool(false)
+        -- CR Replicated convar
+        Randomat:HandleReplicatedValue(function()
+            GetConVar("ttt_detectives_search_only"):SetBool(false)
+        end, function()
+            GetConVar("ttt_detective_search_only"):SetBool(false)
+        end)
     end
 end
 
@@ -29,8 +40,9 @@ function EVENT:Condition()
             break
         end
     end
+    -- CR Replicated convar
 
-    return isDetective and ConVarExists("ttt_detective_search_only") and GetConVar("ttt_detective_search_only"):GetBool() == false
+    return isDetective and (ConVarExists("ttt_detectives_search_only") and GetConVar("ttt_detectives_search_only"):GetBool() == false) or (ConVarExists("ttt_detective_search_only") and GetConVar("ttt_detective_search_only"):GetBool() == false)
 end
 
 Randomat:register(EVENT)

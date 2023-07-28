@@ -17,8 +17,13 @@ function EVENT:Begin()
         end)
     end
 
-    GetConVar("ttt_detective_search_only"):SetBool(false)
-    SetGlobalBool("ttt_detective_search_only", false)
+    -- CR Replicated convar
+    Randomat:HandleReplicatedValue(function()
+        GetConVar("ttt_detectives_search_only"):SetBool(false)
+    end, function()
+        GetConVar("ttt_detective_search_only"):SetBool(false)
+        SetGlobalBool("ttt_detective_search_only", false)
+    end)
 
     -- Adds a message to chat when a player looks at a body while they have a DNA scanner to use it
     self:AddHook("TTTOnCorpseCreated", function(corpse)
@@ -47,7 +52,13 @@ end
 
 function EVENT:End()
     if eventTriggered then
-        GetConVar("ttt_detective_search_only"):SetBool(true)
+        -- CR Replicated convar
+        Randomat:HandleReplicatedValue(function()
+            GetConVar("ttt_detectives_search_only"):SetBool(true)
+        end, function()
+            GetConVar("ttt_detective_search_only"):SetBool(true)
+        end)
+
         timer.Remove("RandomatDNAScannerBodyCheck")
 
         for i, ply in ipairs(player.GetAll()) do
@@ -57,7 +68,8 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
-    return ConVarExists("ttt_detective_search_only") and GetConVar("ttt_detective_search_only"):GetBool()
+    -- CR Replicated convar
+    return (ConVarExists("ttt_detectives_search_only") and GetConVar("ttt_detectives_search_only"):GetBool()) or (ConVarExists("ttt_detective_search_only") and GetConVar("ttt_detective_search_only"):GetBool())
 end
 
 Randomat:register(EVENT)

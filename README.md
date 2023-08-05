@@ -468,7 +468,7 @@ _randomat_horror_cloak_sounds_ - Default: 1 - Sounds play as the killer is cloak
 _randomat_horror_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again\
 _randomat_horror_spectator_sound_cooldown_ - Default: 30 - Seconds it takes until someone can hear a spectator sound again\
 _randomat_horror_killer_crowbar_ - Default: 0 - Killer gets a throwable crowbar rather than a normal one\
-_randomat_horror_killer_health_ - Default: 200 - How much health the killer starts with\
+_randomat_horror_killer_starting_health_ - Default: 150 - How much health the killer starts with\
 _randomat_horror_killer_credits_ - Default: 1 - Credits the killer starts with\
 _randomat_horror_killer_cloak_ - Default: 1 - Killer gets a 'Shadow Cloak' item, which makes them appear as a shadow while held\
 _randomat_horror_cloak_sound_timer_ - Default: 10 - Seconds until the cloak sound is heard again while cloaked

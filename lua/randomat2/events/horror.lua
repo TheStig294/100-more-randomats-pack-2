@@ -28,7 +28,7 @@ CreateConVar("randomat_horror_spectator_sound_cooldown", 30, {FCVAR_NOTIFY, FCVA
 
 CreateConVar("randomat_horror_killer_crowbar", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a throwable crowbar rather than a normal one", 0, 1)
 
-CreateConVar("randomat_horror_killer_health", 200, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much health the killer starts with", 1, 500)
+CreateConVar("randomat_horror_killer_starting_health", 150, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much health the killer starts with", 1, 500)
 
 CreateConVar("randomat_horror_killer_credits", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Credits the killer starts with", 0, 5)
 
@@ -75,8 +75,8 @@ end
 local function SetToKiller(ply)
     Randomat:SetRole(ply, ROLE_KILLER)
     ply:SetNWBool("HorrorRandomatKiller", true)
-    ply:SetHealth(GetConVar("randomat_horror_killer_health"):GetInt())
-    ply:SetMaxHealth(GetConVar("randomat_horror_killer_health"):GetInt())
+    ply:SetHealth(GetConVar("randomat_horror_killer_starting_health"):GetInt())
+    ply:SetMaxHealth(GetConVar("randomat_horror_killer_starting_health"):GetInt())
     ply:SetCredits(GetConVar("randomat_horror_killer_credits"):GetInt())
 
     if GetConVar("randomat_horror_killer_cloak"):GetBool() then

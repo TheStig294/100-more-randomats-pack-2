@@ -46,6 +46,22 @@ _ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled\
 Changed name from "Who Let The Killer Out?", now gives everyone a knife as well, only innocents can now be the killer (except the detective)\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
 
+## Bat with a cat
+
+Everyone gets turned into a bat, and is given a cat!
+(Play on words with the '[Cat with a bat!](https://github.com/TheStig294/100-more-randomats-pack-2/blob/master/README.md#home-run-aka-cat-with-a-bat)' event)\
+\
+_ttt_randomat_batcat_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=648957314> and 1 of the following:
+
+- Cat Gun:\
+<https://steamcommunity.com/workshop/filedetails/?id=827320827>
+- Healing Maxwell:\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2917556751>
+- Walick the carryable cat (Joke weapons pack):\
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2568344774>
+
 ## Combo
 
 Triggers a random pair of randomats from a pre-made list.\

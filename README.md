@@ -386,7 +386,7 @@ Everyone's held weapon is upgraded\
 \
 _ttt_randomat_papupgrade_ - Default: 1 - Whether this randomat is enabled\
 \
-Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043406619>
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 
 ## Pack-a-Punch Intensifies
 
@@ -395,7 +395,7 @@ Every 60 seconds (by default), everyone's held weapon is upgraded!\
 _ttt_randomat_papintensifies_ - Default: 1 - Whether this randomat is enabled\
 _randomat_papintensifies_timer_ - Default: 60 - Seconds between upgrading weapons\
 \
-Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043406619>
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 
 ## Random Deathmatch
 
@@ -422,7 +422,7 @@ Allows dead players to give the living a single weapon upgrade\
 _ttt_randomat_papdead_ - Default: 1 - Whether this randomat is enabled\
 _randomat_papdead_charge_time_ - Default: 60 - How many seconds before the dead can give an upgrade\
 \
-Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043406619>
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 
 ## Paranoia
 

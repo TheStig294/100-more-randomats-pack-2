@@ -25,13 +25,13 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Upgrades from the dead - Dead players can upgrade someone's held weapon
+1. Pack-a-Punch Intensifies - Upgrades everyone's held weapon every 60 seconds
+1. Pack-a-Punch for all! - Upgrades the weapon you're holding
 1. RELEASE THE PLANES! - Spawns many paper planes
 1. It's Breeh! - Everyone becomes an adorable sheep...
 1. MEDIC! - Everyone's either a paramedic, hypnotist or mad scientist!
 1. Joke's on you! - Killed players respawn as jesters
-1. Paranoia - Lets spectators play horror sounds on living players
-1. Randomness Ghostifies - Spectators vote to trigger randomats!
-1. Get No-Scoped! - 360 no scope AWPs only!
 
 # Randomats
 
@@ -380,6 +380,23 @@ All innocents are deputies, all traitors are impersonators!\
 \
 _ttt_randomat_deputies_ - Default: 1 - Whether this randomat is enabled
 
+## Pack-a-Punch for all
+
+Everyone's held weapon is upgraded\
+\
+_ttt_randomat_papupgrade_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043406619>
+
+## Pack-a-Punch Intensifies
+
+Every 60 seconds (by default), everyone's held weapon is upgraded!\
+\
+_ttt_randomat_papintensifies_ - Default: 1 - Whether this randomat is enabled\
+_randomat_papintensifies_timer_ - Default: 60 - Seconds between upgrading weapons\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043406619>
+
 ## Random Deathmatch
 
 Gives everyone an infinite ammo railgun (a.k.a the "Free Kill Gun"), strips all other weapons on the ground and on players. \
@@ -397,6 +414,15 @@ _ttt_randomat_ghostifies_ - Default: 1 - Whether this randomat is enabled\
 _randomat_ghostifies_votetimer_ - Default: 20 - Seconds between votes\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+## Upgrades from the dead
+
+Allows dead players to give the living a single weapon upgrade\
+\
+_ttt_randomat_papdead_ - Default: 1 - Whether this randomat is enabled\
+_randomat_papdead_charge_time_ - Default: 60 - How many seconds before the dead can give an upgrade\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043406619>
 
 ## Paranoia
 

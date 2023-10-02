@@ -393,7 +393,7 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 Every 60 seconds (by default), everyone's held weapon is upgraded!\
 \
 _ttt_randomat_papintensifies_ - Default: 1 - Whether this randomat is enabled\
-_randomat_papintensifies_timer_ - Default: 60 - Seconds between upgrading weapons\
+_randomat_papintensifies_time_ - Default: 30 - Seconds between upgrading weapons\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 

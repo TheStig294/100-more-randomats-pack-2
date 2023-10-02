@@ -26,7 +26,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 # Newly added randomats
 
 1. Upgrades from the dead - Dead players can upgrade someone's held weapon
-1. Pack-a-Punch Intensifies - Upgrades everyone's held weapon every 60 seconds
+1. Pack-a-Punch Intensifies - Upgrades everyone's held weapon every 30 seconds
 1. Pack-a-Punch for all! - Upgrades the weapon you're holding
 1. RELEASE THE PLANES! - Spawns many paper planes
 1. It's Breeh! - Everyone becomes an adorable sheep...
@@ -390,7 +390,7 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 
 ## Pack-a-Punch Intensifies
 
-Every 60 seconds (by default), everyone's held weapon is upgraded!\
+Every 30 seconds (by default), everyone's held weapon is upgraded!\
 \
 _ttt_randomat_papintensifies_ - Default: 1 - Whether this randomat is enabled\
 _randomat_papintensifies_time_ - Default: 30 - Seconds between upgrading weapons\
@@ -420,7 +420,7 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 Allows dead players to give the living a single weapon upgrade\
 \
 _ttt_randomat_papdead_ - Default: 1 - Whether this randomat is enabled\
-_randomat_papdead_charge_time_ - Default: 60 - How many seconds before the dead can give an upgrade\
+_randomat_papdead_time_ - Default: 30 - How many seconds before the dead can give an upgrade\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 

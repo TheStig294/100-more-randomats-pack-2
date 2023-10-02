@@ -4,7 +4,7 @@ local EVENT = {}
 util.AddNetworkString("RdmtPAPDeadBegin")
 util.AddNetworkString("RdmtPAPDeadEnd")
 
-CreateConVar("randomat_papdead_charge_time", 60, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many seconds before the dead can give an upgrade", 10, 120)
+CreateConVar("randomat_papdead_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many seconds before the dead can give an upgrade", 10, 120)
 
 EVENT.Title = "Upgrades from the dead"
 EVENT.Description = "Allows dead players to give the living a single weapon upgrade"
@@ -70,7 +70,7 @@ function EVENT:Begin()
         end
     end)
 
-    local tick = GetConVar("randomat_papdead_charge_time"):GetInt() / 100
+    local tick = GetConVar("randomat_papdead_time"):GetInt() / 100
 
     timer.Create("RdmtPAPDeadPowerTimer", tick, 0, function()
         for _, p in ipairs(self:GetDeadPlayers()) do
@@ -94,7 +94,7 @@ end
 function EVENT:GetConVars()
     local sliders = {}
 
-    for _, v in ipairs({"charge_time"}) do
+    for _, v in ipairs({"time"}) do
         local name = "randomat_" .. self.id .. "_" .. v
 
         if ConVarExists(name) then

@@ -408,10 +408,10 @@ Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=337994500>
 
 ## Randomness Ghostifies
 
-Spectators vote for a randomat every 20 seconds!\
+Spectators vote for a randomat every 30 seconds!\
 \
 _ttt_randomat_ghostifies_ - Default: 1 - Whether this randomat is enabled\
-_randomat_ghostifies_votetimer_ - Default: 20 - Seconds between votes\
+_randomat_ghostifies_time_ - Default: 30 - Seconds between votes\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 

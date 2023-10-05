@@ -1,6 +1,6 @@
 local EVENT = {}
 
-CreateConVar("randomat_ghostifies_time", "30", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds between randomat votes", 5, 60)
+local timeCvar = CreateConVar("randomat_ghostifies_time", "30", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds between randomat votes", 5, 60)
 
 EVENT.Title = "Randomness Ghostifies"
 EVENT.Description = "Spectators vote for a randomat every " .. GetConVar("randomat_ghostifies_time"):GetInt() .. " seconds!"
@@ -13,20 +13,28 @@ local time
 local vote
 local deadVoters
 
+local function TriggerEvent()
+    timer.Create("GhostifiesRandomatTimer", timeCvar:GetInt() + 5, 0, function()
+        Randomat:SilentTriggerEvent("choose", nil, true, true, function(ply) return ply:IsSpec() and not ply:Alive() end)
+    end)
+end
+
 function EVENT:Begin()
-    self.Description = "Spectators vote for a randomat every " .. GetConVar("randomat_ghostifies_time"):GetInt() .. " seconds!"
+    self.Description = "Spectators vote for a randomat every " .. timeCvar:GetInt() .. " seconds!"
     choiceCount = GetConVar("randomat_choose_choices"):GetInt()
     GetConVar("randomat_choose_choices"):SetInt(5)
-    time = GetConVar("randomat_choose_time"):GetInt()
-    GetConVar("randomat_choose_time"):SetInt(GetConVar("randomat_ghostifies_time"):GetInt())
+    time = GetConVar("randomat_choose_votetimer"):GetInt()
+    GetConVar("randomat_choose_votetimer"):SetInt(timeCvar:GetInt())
     vote = GetConVar("randomat_choose_vote"):GetBool()
     GetConVar("randomat_choose_vote"):SetBool(true)
     deadVoters = GetConVar("randomat_choose_deadvoters"):GetBool()
     GetConVar("randomat_choose_deadvoters"):SetBool(true)
 
-    timer.Create("GhostifiesRandomatTimer", GetConVar("randomat_ghostifies_time"):GetInt() + 5, 0, function()
-        Randomat:SilentTriggerEvent("choose", nil, true, true, function(ply) return ply:IsSpec() and not ply:Alive() end)
-    end)
+    if #self:GetDeadPlayers() > 0 then
+        TriggerEvent()
+    else
+        self:AddHook("PostPlayerDeath", TriggerEvent)
+    end
 end
 
 function EVENT:End()
@@ -34,9 +42,10 @@ function EVENT:End()
 
     if choiceCount then
         GetConVar("randomat_choose_choices"):SetInt(choiceCount)
-        GetConVar("randomat_choose_time"):SetInt(time)
+        GetConVar("randomat_choose_votetimer"):SetInt(time)
         GetConVar("randomat_choose_vote"):SetBool(vote)
         GetConVar("randomat_choose_deadvoters"):SetBool(deadVoters)
+        GetConVar("randomat_choose_deadvoters"):SetBool(secret)
     end
 end
 

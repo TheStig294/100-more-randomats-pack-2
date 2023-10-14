@@ -1,6 +1,6 @@
 local EVENT = {}
 EVENT.Title = "RELEASE THE PLANES!"
-EVENT.Description = "Forces everyone to throw a plane!"
+EVENT.Description = "Spawns planes that go for anyone but the thrower!"
 EVENT.id = "planes"
 
 EVENT.Categories = {"entityspawn", "largeimpact"}
@@ -25,11 +25,48 @@ function EVENT:Begin()
             plane:SetAngles(ply:GetAimVector():Angle() + Angle(0, 180, 0))
             plane:Spawn()
             plane:SetThrower(ply)
-            local phys = plane:GetPhysicsObject()
+            local po = plane:GetPhysicsObject()
 
-            if IsValid(phys) then
-                phys:SetVelocity(vthrow)
-                phys:SetMass(200)
+            if IsValid(po) then
+                po:SetVelocity(vthrow)
+                po:SetMass(200)
+            end
+
+            function plane:SearchPlayer()
+                if SERVER then
+                    local pos = self:GetPos()
+                    local sphere = ents.FindInSphere(pos, 5000)
+                    local playersInSphere = {}
+                    local thrower = self:GetThrower()
+
+                    -- Go for everyone but the thrower!
+                    -- (Else which player the planes go for most reveals they are a traitor!)
+                    for _, p in pairs(sphere) do
+                        if IsValid(p) and p:IsPlayer() and p ~= thrower and p:Alive() and not p:IsSpec() then
+                            table.insert(playersInSphere, p)
+                        end
+                    end
+
+                    local closestPlayer = self:GetClosestPlayer(self, playersInSphere)
+
+                    if closestPlayer ~= nil then
+                        local tracedata = {}
+                        tracedata.start = closestPlayer:GetShootPos()
+                        tracedata.endpos = self:GetPos()
+
+                        tracedata.filter = {self, closestPlayer}
+
+                        local tr = util.TraceLine(tracedata)
+
+                        if tr.HitPos == tracedata.endpos then
+                            local phys = self:GetPhysicsObject()
+                            phys:ApplyForceCenter((self:GetPos() - closestPlayer:GetShootPos()) * -200)
+                            phys:SetAngles((self:GetPos() - closestPlayer:GetShootPos()):Angle())
+                        end
+                    end
+
+                    table.Empty(playersInSphere)
+                end
             end
 
             count = count + 1

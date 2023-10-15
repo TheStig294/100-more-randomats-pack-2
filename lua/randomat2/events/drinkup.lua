@@ -18,7 +18,7 @@ function EVENT:Begin()
             Randomat:CallShopHooks(true, perk, ply)
         end
     elseif hoffPerks then
-        local perks = {"zombies_perk_doubletap", "zombies_perk_electriccherry", "zombies_perk_juggernog", "zombies_perk_phdflopper", "zombies_perk_staminup", "zombies_perk_tombstone", "zombies_perk_vultureaid"}
+        local perks = {"zombies_perk_doubletap", "zombies_perk_juggernog", "zombies_perk_phdflopper", "zombies_perk_staminup", "zombies_perk_vultureaid"}
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
             local perk = perks[math.random(1, #perks)]

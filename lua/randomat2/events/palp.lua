@@ -33,10 +33,12 @@ function EVENT:Begin()
         tom:SetRole(ROLE_OLDMAN or ROLE_INNOCENT)
         tom:SetHealth(100)
         tom:SetMaxHealth(100)
+
         timer.Simple(0.5, function()
             tom:SetNWString("PlayerName", "Angor")
             tom:SetName("Angor")
         end)
+
         SendFullStateUpdate()
 
         -- Whenever tom-bot takes damage, dies, etc. he makes a sound
@@ -58,7 +60,7 @@ function EVENT:Begin()
 
             timer.Create("RandomatPalpHurtCooldown", 0.5, 1, function()
                 if not IsValid(tom) then return end
-                local randomNum = math.random(1, 12)
+                local randomNum = math.random(12)
                 tom:EmitSound("palp/hurt" .. randomNum .. ".mp3")
                 tom:EmitSound("palp/hurt" .. randomNum .. ".mp3")
             end)
@@ -71,7 +73,7 @@ function EVENT:Begin()
 
             timer.Create("AHTomDeathCooldown", 0.5, 1, function()
                 if not IsValid(tom) then return end
-                local randomNum = math.random(1, 5)
+                local randomNum = math.random(5)
                 tom:EmitSound("palp/death" .. randomNum .. ".mp3")
                 tom:EmitSound("palp/death" .. randomNum .. ".mp3")
             end)
@@ -106,7 +108,7 @@ function EVENT:Begin()
                         end
                     end
 
-                    local randomNum = math.random(1, 10)
+                    local randomNum = math.random(10)
                     tom:EmitSound("palp/bump" .. randomNum .. ".mp3")
                     tom:EmitSound("palp/bump" .. randomNum .. ".mp3")
 

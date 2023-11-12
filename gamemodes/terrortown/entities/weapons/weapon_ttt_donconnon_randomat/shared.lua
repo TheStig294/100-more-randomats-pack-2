@@ -33,7 +33,7 @@ function SWEP:PrimaryAttack()
     ent.DonconRange = self.DonconRange
     ent.DonconScale = self.DonconScale
     ent.DonconTurn = self.DonconTurn
-    ent.Sound = "donc_rubber_0" .. tostring(math.random(1, 3))
+    ent.Sound = "donc_rubber_0" .. tostring(math.random(3))
     ent:Spawn()
     self:UpdateHalo("none")
     self:Remove()

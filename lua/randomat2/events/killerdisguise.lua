@@ -30,7 +30,7 @@ function EVENT:Begin()
 
     -- Pick a random innocent and set them to the killer, if there isn't one already
     if killer == nil then
-        killer = table.Random(innocent)
+        killer = innocent[math.random(#innocent)]
         self:StripRoleWeapons(killer)
         Randomat:SetRole(killer, ROLE_KILLER)
         killer:SetDefaultCredits()

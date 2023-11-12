@@ -103,7 +103,7 @@ function SWEP:ShowMessage()
     end
 
     timer.Create("MudScientistScanMessageCooldown", 0.1, 1, function()
-        local message = messages[math.random(1, #messages)]
+        local message = messages[math.random(#messages)]
         owner:PrintMessage(HUD_PRINTCENTER, message)
         owner:PrintMessage(HUD_PRINTTALK, message)
         owner:PrintMessage(HUD_PRINTTALK, "No. of unique scanned objects: " .. table.Count(self.ScannedEnts))

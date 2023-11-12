@@ -65,9 +65,10 @@ function EVENT:Begin()
     end
 
     -- For all alive players,
-    local firstInfectedPlayer = table.Random(self.GetAlivePlayers())
+    local alivePlys = self:GetAlivePlayers(true)
+    local firstInfectedPlayer = alivePlys[1]
 
-    for i, ply in pairs(self.GetAlivePlayers()) do
+    for i, ply in pairs(alivePlys) do
         -- Set the chosen player to be the first zombie,
         if ply == firstInfectedPlayer then
             self:StripRoleWeapons(ply)
@@ -122,7 +123,7 @@ function EVENT:Begin()
         infectedCount = 0
 
         -- Count the number of zombies,
-        for i, p in pairs(self.GetAlivePlayers()) do
+        for i, p in pairs(self:GetAlivePlayers()) do
             if p:GetRole() == ROLE_ZOMBIE then
                 infectedCount = infectedCount + 1
             end
@@ -209,8 +210,8 @@ function EVENT:GetConVars()
     return sliders
 end
 
+-- Check if the zombie exists
 function EVENT:Condition()
-    -- Check if the zombie exists
     return ConVarExists("ttt_zombie_enabled")
 end
 

@@ -30,7 +30,7 @@ function EVENT:Begin()
         if not IsFirstTimePredicted() then return end
 
         if button == MOUSE_LEFT and IsValid(ply:GetActiveWeapon()) and (ply:GetActiveWeapon():GetClass() == "ttt_m9k_harpoon" or ply:GetActiveWeapon():GetClass() == "weapon_ttt_hwapoon") then
-            local hwapoonSound = "hwapoon/hwapoon" .. math.random(1, 4) .. ".mp3"
+            local hwapoonSound = "hwapoon/hwapoon" .. math.random(4) .. ".mp3"
             net.Start("HwapoonRandomatPlaySound")
             net.WriteString(hwapoonSound)
             net.Broadcast()
@@ -44,7 +44,7 @@ function EVENT:Begin()
         -- Special models that aren't just the yogs lewis model with a random colour
         local playerModelSets = {}
 
-        playerModelSets.lewisRed = {
+        local lewisRed = {
             model = lewisModel,
             skin = 1,
             playerColor = Color(255, 0, 0):ToVector(),
@@ -54,7 +54,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.lewisBlue = {
+        table.insert(playerModelSets, lewisRed)
+
+        local lewisBlue = {
             model = lewisModel,
             skin = 1,
             playerColor = Color(0, 0, 255):ToVector(),
@@ -64,7 +66,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.lewisPink = {
+        table.insert(playerModelSets, lewisBlue)
+
+        local lewisPink = {
             model = lewisModel,
             skin = 1,
             playerColor = Color(255, 0, 255):ToVector(),
@@ -74,7 +78,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.lewisWhite = {
+        table.insert(playerModelSets, lewisPink)
+
+        local lewisWhite = {
             model = lewisModel,
             skin = 0,
             playerColor = Color(255, 255, 255):ToVector(),
@@ -84,7 +90,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.beeLewis = {
+        table.insert(playerModelSets, lewisWhite)
+
+        local beeLewis = {
             model = lewisModel,
             skin = 0,
             playerColor = Color(255, 229, 0):ToVector(),
@@ -94,7 +102,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.dressLewis = {
+        table.insert(playerModelSets, beeLewis)
+
+        local dressLewis = {
             model = lewisModel,
             skin = 0,
             playerColor = Color(0, 88, 0):ToVector(),
@@ -104,7 +114,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.rainbowLewis = {
+        table.insert(playerModelSets, dressLewis)
+
+        local rainbowLewis = {
             model = lewisModel,
             skin = 1,
             playerColor = Color(255, 0, 0):ToVector(),
@@ -114,8 +126,10 @@ function EVENT:Begin()
             }
         }
 
+        table.insert(playerModelSets, rainbowLewis)
+
         if util.IsValidModel("models/player/Yahtzee.mdl") then
-            playerModelSets.ogLewisModel = {
+            local ogLewisModel = {
                 model = "models/player/Yahtzee.mdl",
                 skin = 10,
                 playerColor = Color(255, 255, 255):ToVector(),
@@ -125,6 +139,8 @@ function EVENT:Begin()
                     [2] = 2
                 }
             }
+
+            table.insert(playerModelSets, ogLewisModel)
         end
 
         -- Randomly assign unique playermodels to everyone
@@ -138,7 +154,7 @@ function EVENT:Begin()
                 table.Add(remainingPlayermodels, playerModelSets)
             end
 
-            local modelData = table.Random(remainingPlayermodels)
+            local modelData = remainingPlayermodels[math.random(#remainingPlayermodels)]
             Randomat:ForceSetPlayermodel(ply, modelData)
             -- Remove the selected model from the pool
             table.RemoveByValue(remainingPlayermodels, modelData)
@@ -149,7 +165,7 @@ function EVENT:Begin()
         self:AddHook("PlayerSpawn", function(ply)
             -- If they weren't in the round when the event triggered, set their chosen model to a random one
             if not chosenPlayermodels[ply] then
-                chosenPlayermodels[ply] = table.Random(playerModelSets)
+                chosenPlayermodels[ply] = playerModelSets[math.random(#playerModelSets)]
             end
 
             -- Sets someone's playermodel again when respawning
@@ -163,7 +179,7 @@ function EVENT:Begin()
 
         self:AddHook("Think", function()
             for _, ply in ipairs(self:GetAlivePlayers()) do
-                if chosenPlayermodels[ply] == playerModelSets.rainbowLewis then
+                if chosenPlayermodels[ply] == rainbowLewis then
                     local vector = ply:GetPlayerColor()
 
                     if rainbowPhase == 1 then

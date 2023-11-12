@@ -97,7 +97,7 @@ function EVENT:Begin()
                 end)
 
                 -- Sound plays for the spectator and target player
-                local randomSound = table.Random(target.remainingSpectatorSounds)
+                local randomSound = target.remainingSpectatorSounds[math.random(#target.remainingSpectatorSounds)]
                 table.RemoveByValue(target.remainingSpectatorSounds, randomSound)
 
                 -- Resets the choosable sounds if all have been played before for that player

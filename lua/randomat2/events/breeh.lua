@@ -14,7 +14,7 @@ function EVENT:Begin()
         local viewOffsetBreeh = Vector(0, 0, 56)
         local viewOffsetDuckedBreeh = Vector(0, 0, 28)
 
-        playerModelSets.dolphin = {
+        local dolphin = {
             model = breehModel,
             viewOffset = viewOffsetBreeh,
             viewOffsetDucked = viewOffsetDuckedBreeh,
@@ -32,7 +32,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.strawhat = {
+        table.insert(playerModelSets, dolphin)
+
+        local strawhat = {
             model = breehModel,
             viewOffset = viewOffsetBreeh,
             viewOffsetDucked = viewOffsetDuckedBreeh,
@@ -50,7 +52,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.jacket = {
+        table.insert(playerModelSets, strawhat)
+
+        local jacket = {
             model = breehModel,
             viewOffset = viewOffsetBreeh,
             viewOffsetDucked = viewOffsetDuckedBreeh,
@@ -68,7 +72,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.dealer = {
+        table.insert(playerModelSets, jacket)
+
+        local dealer = {
             model = breehModel,
             viewOffset = viewOffsetBreeh,
             viewOffsetDucked = viewOffsetDuckedBreeh,
@@ -86,7 +92,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.christmas = {
+        table.insert(playerModelSets, dealer)
+
+        local christmas = {
             model = breehModel,
             viewOffset = viewOffsetBreeh,
             viewOffsetDucked = viewOffsetDuckedBreeh,
@@ -104,7 +112,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.goku = {
+        table.insert(playerModelSets, christmas)
+
+        local goku = {
             model = breehModel,
             viewOffset = viewOffsetBreeh,
             viewOffsetDucked = viewOffsetDuckedBreeh,
@@ -122,7 +132,9 @@ function EVENT:Begin()
             }
         }
 
-        playerModelSets.rainbowBreeh = {
+        table.insert(playerModelSets, goku)
+
+        local rainbowBreeh = {
             model = breehModel,
             viewOffset = viewOffsetBreeh,
             viewOffsetDucked = viewOffsetDuckedBreeh,
@@ -140,6 +152,7 @@ function EVENT:Begin()
             }
         }
 
+        table.insert(playerModelSets, rainbowBreeh)
         -- Randomly assign unique playermodels to everyone
         local remainingPlayermodels = {}
         local chosenPlayermodels = {}
@@ -151,7 +164,7 @@ function EVENT:Begin()
                 table.Add(remainingPlayermodels, playerModelSets)
             end
 
-            local modelData = table.Random(remainingPlayermodels)
+            local modelData = remainingPlayermodels[math.random(#remainingPlayermodels)]
             Randomat:ForceSetPlayermodel(ply, modelData)
             -- Remove the selected model from the pool
             table.RemoveByValue(remainingPlayermodels, modelData)
@@ -162,7 +175,7 @@ function EVENT:Begin()
         self:AddHook("PlayerSpawn", function(ply)
             -- If they weren't in the round when the event triggered, set their chosen model to a random one
             if not chosenPlayermodels[ply] then
-                chosenPlayermodels[ply] = table.Random(playerModelSets)
+                chosenPlayermodels[ply] = playerModelSets[math.random(#playerModelSets)]
             end
 
             -- Sets someone's playermodel again when respawning
@@ -176,7 +189,7 @@ function EVENT:Begin()
 
         self:AddHook("Think", function()
             for _, ply in ipairs(self:GetAlivePlayers()) do
-                if chosenPlayermodels[ply] == playerModelSets.rainbowBreeh then
+                if chosenPlayermodels[ply] == rainbowBreeh then
                     local vector = ply:GetPlayerColor()
 
                     if rainbowPhase == 1 then

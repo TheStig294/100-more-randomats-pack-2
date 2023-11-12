@@ -13,7 +13,7 @@ function EVENT:Begin()
         local perks = {EQUIP_DOUBLETAP, EQUIP_JUGGERNOG, EQUIP_PHD, EQUIP_SPEEDCOLA, EQUIP_STAMINUP}
 
         for _, ply in pairs(self:GetAlivePlayers()) do
-            local perk = perks[math.random(1, #perks)]
+            local perk = perks[math.random(#perks)]
             ply:GiveEquipmentItem(tonumber(perk))
             Randomat:CallShopHooks(true, perk, ply)
         end
@@ -21,7 +21,7 @@ function EVENT:Begin()
         local perks = {"zombies_perk_doubletap", "zombies_perk_juggernog", "zombies_perk_phdflopper", "zombies_perk_staminup", "zombies_perk_vultureaid"}
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
-            local perk = perks[math.random(1, #perks)]
+            local perk = perks[math.random(#perks)]
             ply:Give(perk)
             ply:SelectWeapon(perk)
             Randomat:CallShopHooks(false, perk, ply)

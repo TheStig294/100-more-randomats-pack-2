@@ -120,7 +120,7 @@ function EVENT:Begin()
         local activeWeapon = attacker:GetActiveWeapon()
 
         if IsValid(activeWeapon) and activeWeapon:GetClass() == "ttt_no_scope_awp" then
-            local mlgSound = "mlg/mlg" .. math.random(1, 10) .. ".mp3"
+            local mlgSound = "mlg/mlg" .. math.random(10) .. ".mp3"
 
             if not attacker.MLGTripleCount then
                 attacker.MLGTripleCount = 1

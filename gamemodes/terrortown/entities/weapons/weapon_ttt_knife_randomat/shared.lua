@@ -41,9 +41,9 @@ SWEP.DeploySpeed = 2
 
 -- This is normally under SWEP:SecondaryAttack()
 function SWEP:PrimaryAttack()
-    self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-    self.Weapon:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
-    self.Weapon:SendWeaponAnim(ACT_VM_MISSCENTER)
+    self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+    self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
+    self:SendWeaponAnim(ACT_VM_MISSCENTER)
 
     if SERVER then
         local ply = self:GetOwner()
@@ -86,8 +86,8 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:Equip()
-    self.Weapon:SetNextPrimaryFire(CurTime() + (self.Primary.Delay * 1.5))
-    self.Weapon:SetNextSecondaryFire(CurTime() + (self.Secondary.Delay * 1.5))
+    self:SetNextPrimaryFire(CurTime() + (self.Primary.Delay * 1.5))
+    self:SetNextSecondaryFire(CurTime() + (self.Secondary.Delay * 1.5))
 end
 
 function SWEP:PreDrop()

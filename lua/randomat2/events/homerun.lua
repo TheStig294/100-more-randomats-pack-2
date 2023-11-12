@@ -253,7 +253,7 @@ function EVENT:Begin()
                 table.Add(remainingPlayermodels, playerModelSets)
             end
 
-            local modelData = table.Random(remainingPlayermodels)
+            local modelData = remainingPlayermodels[math.random(#remainingPlayermodels)]
             Randomat:ForceSetPlayermodel(ply, modelData)
             -- Remove the selected model from the pool
             table.RemoveByValue(remainingPlayermodels, modelData)
@@ -265,7 +265,7 @@ function EVENT:Begin()
         -- if they weren't in the round when the event triggered, set their chosen model to a random one
         self:AddHook("PlayerSpawn", function(ply)
             if not chosenPlayermodels[ply] then
-                chosenPlayermodels[ply] = table.Random(playerModelSets)
+                chosenPlayermodels[ply] = playerModelSets[math.random(#playerModelSets)]
             end
 
             timer.Simple(1, function()

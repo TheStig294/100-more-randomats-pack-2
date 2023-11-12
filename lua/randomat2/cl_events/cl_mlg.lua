@@ -10,7 +10,7 @@ net.Receive("RandomatMLGGunEffects", function()
     frame:SetTitle("")
     frame.Paint = function(self, w, h) end
     local image = vgui.Create("DImage", frame)
-    image:SetImage("vgui/ttt/mlg/mlg" .. math.random(1, 6) .. ".jpg")
+    image:SetImage("vgui/ttt/mlg/mlg" .. math.random(6) .. ".jpg")
     image:SetPos(0, 0)
     image:SetSize(xSize, ySize)
 

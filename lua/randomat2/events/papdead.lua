@@ -91,6 +91,11 @@ function EVENT:End()
     net.Broadcast()
 end
 
+-- Check the Pack-a-Punch item is installed
+function EVENT:Condition()
+    return TTTPAP and TTTPAP.OrderPAP
+end
+
 function EVENT:GetConVars()
     local sliders = {}
 

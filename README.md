@@ -96,7 +96,8 @@ Requires:\
 ### "Combo: Careful there cowboy..."
 
 A traitor and detective have a pistol showdown + everyone else is a jester\
-_ttt_randomat_cbcowboy_ - Default: 1 - Whether this randomat is enabled\
+NOTE: This randomat is disabled by default as it's a bit too overwhelming.\
+_ttt_randomat_cbcowboy_ - Default: 0 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>

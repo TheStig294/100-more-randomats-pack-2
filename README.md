@@ -25,13 +25,13 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 
 # Newly added randomats
 
+1. Doom Goblin - A Loot Goblin triggers bad randomats until killed
 1. Auto-PaP - All weapons are upgraded
 1. Upgrades from the dead - Dead players can upgrade someone's held weapon
 1. Pack-a-Punch Intensifies - Upgrades everyone's held weapon every 30 seconds
 1. Pack-a-Punch for all! - Upgrades the weapon you're holding
 1. RELEASE THE PLANES! - Spawns planes that go for anyone but the thrower
 1. It's Breeh! - Everyone becomes an adorable sheep...
-1. MEDIC! - Everyone's either a paramedic, hypnotist or mad scientist!
 
 # Randomats
 
@@ -207,6 +207,14 @@ Everyone votes for a randomat every 30 seconds!\
 \
 _ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled\
 _randomat_democracyintensifies_timer_ - Default: 30 - Seconds between randomat votes\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
+
+## Doom Goblin
+
+Spawns a loot goblin who can trigger bad randomats until killed!\
+\
+_ttt_randomat_doomgoblin_ - Default: 1 - Whether this randomat is enabled\
 \
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
 

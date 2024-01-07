@@ -1,17 +1,31 @@
 local EVENT = {}
 EVENT.Title = "Doom Goblin"
-EVENT.Description = "Spawns a loot goblin, they can trigger bad randomats until killed!"
+EVENT.Description = "Spawns a loot goblin who can trigger bad randomats until killed!"
 EVENT.id = "doomgoblin"
 
 EVENT.Categories = {"rolechange", "fun", "largeimpact"}
 
+local badRandomats = {"butter", "cantstop", "downunder", "fogofwar", "fov", "looseclips", "opposite", "ragdoll", "wasteful", "crabwalk", "doomed", "elevator", "friction", "hud", "make", "runonce", "thirdperson"}
+
 local function TriggerChoose(goblin)
-    if not IsValid(goblin) or not goblin:IsLootGoblin() or not goblin:Alive() or goblin:IsSpec() then return end
+    if IsValid(goblin) and goblin:IsLootGoblin() and goblin:Alive() and not goblin:IsSpec() then
+        local atLeastOneCanTrigger = false
+
+        for _, e in ipairs(badRandomats) do
+            if Randomat:CanEventRun(e) then
+                atLeastOneCanTrigger = true
+                break
+            end
+        end
+
+        if atLeastOneCanTrigger then
+            Randomat:SilentTriggerEvent("choose", goblin, false, false, nil, nil, badRandomats)
+        end
+    end
 end
 
 function EVENT:Begin()
     local goblin
-    local jester
     local alivePlys = self:GetAlivePlayers(true)
 
     -- First, search for an existing loot goblin, or a jester
@@ -19,16 +33,23 @@ function EVENT:Begin()
         if ply:IsLootGoblin() then
             goblin = ply
             break
-        elseif ply:IsJester() then
-            jester = ply
-            break
         end
     end
 
-    -- If no jester or loot goblin is found, choose a random player
-    -- (Player table was shuffled by the "true" argument passed to self:GetAlivePlayers())
     if not IsValid(goblin) then
-        goblin = jester or alivePlys[1]
+        for _, ply in ipairs(alivePlys) do
+            if ply:IsJesterTeam() then
+                goblin = ply
+                break
+            end
+        end
+
+        -- If no jester or loot goblin is found, choose a random player
+        -- (Player table was shuffled by the "true" argument passed to self:GetAlivePlayers())
+        if not IsValid(goblin) then
+            goblin = alivePlys[1]
+        end
+
         Randomat:SetRole(goblin, ROLE_LOOTGOBLIN)
     end
 
@@ -48,6 +69,7 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
-    return ConVarExists("ttt_lootgoblin_enabled")
+    return ConVarExists("ttt_lootgoblin_enabled") and Randomat:CanEventRun("choose")
 end
--- Randomat:register(EVENT)
+
+Randomat:register(EVENT)

@@ -4,7 +4,7 @@ EVENT.Description = "Everyone's a bat, with a cat!"
 EVENT.id = "batcat"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
-EVENT.Categories = {"modelchange", "item", "largelimpact"}
+EVENT.Categories = {"modelchange", "item", "largeimpact"}
 
 local batModel = "models/weapons/gamefreak/w_nessbat.mdl"
 

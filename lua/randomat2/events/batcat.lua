@@ -6,7 +6,6 @@ EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 EVENT.Categories = {"modelchange", "item", "largeimpact"}
 
-util.AddNetworkString("BatCatRandomatSetBatModel")
 local batModel = "models/weapons/gamefreak/w_nessbat.mdl"
 
 local catSWEPs = {"weapon_catgun", "weapon_valenok", "weapon_cat"}
@@ -15,24 +14,17 @@ local bats = {}
 
 -- Changes a player into a bat...
 local function SetBatModel(ent)
-    if ent:IsPlayer() then
-        net.Start("BatCatRandomatSetBatModel")
-        net.WriteEntity(ent)
-        net.WriteBool(true)
-        net.Broadcast()
-    else
-        ent:SetNoDraw(true)
-        local bat = ents.Create("prop_dynamic")
-        bat:SetModel(batModel)
-        local pos = ent:GetPos()
-        pos.z = pos.z + 20
-        bat:SetPos(pos)
-        bat:SetAngles(Angle(90, 0, 0))
-        bat:SetParent(ent)
-        bat:Spawn()
-        bat:PhysWake()
-        bats[ent] = bat
-    end
+    ent:SetNoDraw(true)
+    local bat = ents.Create("prop_dynamic")
+    bat:SetModel(batModel)
+    local pos = ent:GetPos()
+    pos.z = pos.z + 20
+    bat:SetPos(pos)
+    bat:SetAngles(Angle(90, 0, 0))
+    bat:SetParent(ent)
+    bat:Spawn()
+    bat:PhysWake()
+    bats[ent] = bat
 end
 
 function EVENT:Begin()
@@ -71,10 +63,8 @@ function EVENT:Begin()
 
     -- Remove parented bat models when players die
     self:AddHook("PostPlayerDeath", function(ply)
-        net.Start("BatCatRandomatSetBatModel")
-        net.WriteEntity(ply)
-        net.WriteBool(false)
-        net.Broadcast()
+        bats[ply]:Remove()
+        bats[ply] = nil
     end)
 
     -- If the installed weapon is the cat gun, force everyone to use it and give it infinite ammo!

@@ -26,7 +26,7 @@ _ttt_randomat_event_history_ - Default: 10 - How many events should be kept in h
 # Newly added randomats
 
 1. Doom Goblin - A Loot Goblin triggers bad randomats until killed
-1. Auto-PaP - All weapons are upgraded
+1. Everything's Upgraded! - All weapons are automatically upgraded
 1. Upgrades from the dead - Dead players can upgrade someone's held weapon
 1. Pack-a-Punch Intensifies - Upgrades everyone's held weapon every 30 seconds
 1. Pack-a-Punch for all! - Upgrades the weapon you're holding
@@ -45,14 +45,6 @@ _ttt_randomat_killerdisguise_ - Default: 1 - Whether this randomat is enabled\
 \
 Changed name from "Who Let The Killer Out?", now gives everyone a knife as well, only innocents can now be the killer (except the detective)\
 Originally made by [ruiner189](https://steamcommunity.com/sharedfiles/filedetails/?id=1988901134)
-
-## Auto-PaP
-
-All weapons are upgraded\
-\
-_ttt_randomat_papauto_ - Default: 1 - Whether this randomat is enabled\
-\
-Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 
 ## Bat with a cat
 
@@ -241,6 +233,14 @@ _ttt_randomat_dna_ - Default: 0 - Whether this randomat is enabled
 Everyone can use traitor traps!\
 \
 _ttt_randomat_trickster_ - Default: 1 - Whether this randomat is enabled
+
+## Everything's Upgraded
+
+All weapons are automatically upgraded\
+\
+_ttt_randomat_papauto_ - Default: 1 - Whether this randomat is enabled\
+\
+Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=3043605644>
 
 ## Get No-Scoped
 

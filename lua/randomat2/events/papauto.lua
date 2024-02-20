@@ -1,6 +1,6 @@
 local EVENT = {}
-EVENT.Title = "Auto-PaP"
-EVENT.Description = "All weapons are upgraded"
+EVENT.Title = "Everything's Upgraded!"
+EVENT.Description = "All weapons are automatically upgraded"
 EVENT.id = "papauto"
 
 EVENT.Categories = {"largeimpact", "item"}

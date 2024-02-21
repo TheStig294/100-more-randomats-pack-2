@@ -51,7 +51,7 @@ function EVENT:Condition()
     local has_beggar = false
 
     -- Check if the beggar exists and is enabled
-    if ConVarExists("ttt_beggar_enabled") and GetConVar("ttt_beggar_enabled"):GetBool() then
+    if Randomat:CanRoleSpawn(ROLE_BEGGAR) then
         has_beggar = true
     end
 

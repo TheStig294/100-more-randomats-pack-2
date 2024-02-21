@@ -69,7 +69,7 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
-    return ConVarExists("ttt_lootgoblin_enabled") and Randomat:CanEventRun("choose")
+    return Randomat:CanRoleSpawn(ROLE_LOOTGOBLIN) and Randomat:CanEventRun("choose")
 end
 
 Randomat:register(EVENT)

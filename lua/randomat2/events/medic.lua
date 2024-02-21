@@ -46,7 +46,7 @@ function EVENT:Begin()
 end
 
 function EVENT:Condition()
-    return ConVarExists("ttt_hypnotist_enabled") and ConVarExists("ttt_paramedic_enabled") and ConVarExists("ttt_madscientist_enabled")
+    return Randomat:CanRoleSpawn(ROLE_HYPNOTIST) and Randomat:CanRoleSpawn(ROLE_PARAMEDIC) and Randomat:CanRoleSpawn(ROLE_MADSCIENTIST)
 end
 
 Randomat:register(EVENT)

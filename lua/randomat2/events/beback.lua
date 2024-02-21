@@ -16,9 +16,9 @@ function EVENT:Begin()
     SendFullStateUpdate()
 end
 
+-- Check if the phantom exists and is enabled
 function EVENT:Condition()
-    -- Check if the phantom exists and is enabled
-    return ConVarExists("ttt_phantom_enabled") and GetConVar("ttt_phantom_enabled"):GetBool()
+    return Randomat:CanRoleSpawn(ROLE_PHANTOM)
 end
 
 Randomat:register(EVENT)

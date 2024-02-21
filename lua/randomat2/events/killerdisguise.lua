@@ -53,7 +53,7 @@ function EVENT:Condition()
     end
     -- Check if the killer exists, is enabled, and that there is an alive innocent
 
-    return ConVarExists("ttt_killer_enabled") and GetConVar("ttt_killer_enabled"):GetBool() and has_innocent
+    return Randomat:CanRoleSpawn(ROLE_KILLER) and has_innocent
 end
 
 Randomat:register(EVENT)

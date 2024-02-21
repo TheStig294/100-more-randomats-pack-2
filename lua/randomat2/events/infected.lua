@@ -212,7 +212,7 @@ end
 
 -- Check if the zombie exists
 function EVENT:Condition()
-    return ConVarExists("ttt_zombie_enabled")
+    return Randomat:CanRoleSpawn(ROLE_ZOMBIE)
 end
 
 Randomat:register(EVENT)

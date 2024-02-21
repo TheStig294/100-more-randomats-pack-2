@@ -36,7 +36,7 @@ function EVENT:Condition()
     end
 
     -- Check if the mercenary exists and is enabled
-    if ConVarExists("ttt_mercenary_enabled") and GetConVar("ttt_mercenary_enabled"):GetBool() then
+    if Randomat:CanRoleSpawn(ROLE_MERCENARY) then
         isMercenary = true
     end
     -- Only trigger this randomat if there is an innocent and the mercenary exists

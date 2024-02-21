@@ -37,7 +37,7 @@ function EVENT:Condition()
         end
     end
 
-    return ConVarExists("ttt_deputy_enabled") and GetConVar("ttt_deputy_enabled"):GetBool() and ConVarExists("ttt_impersonator_enabled") and GetConVar("ttt_impersonator_enabled"):GetBool() and innocentCount > 1 and traitorCount > 1
+    return Randomat:CanRoleSpawn(ROLE_DEPUTY) and Randomat:CanRoleSpawn(ROLE_IMPERSONATOR) and innocentCount > 1 and traitorCount > 1
 end
 
 Randomat:register(EVENT)

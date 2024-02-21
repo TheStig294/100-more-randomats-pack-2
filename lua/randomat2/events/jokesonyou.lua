@@ -90,7 +90,7 @@ end
 
 -- Checking if someone is a body dependent role and if it isn't at the start of the round, prevent the event from running
 function EVENT:Condition()
-    if not ConVarExists("ttt_jester_enabled") then return false end
+    if not Randomat:CanRoleSpawn(ROLE_JESTER) then return false end
     local bodyDependentRoleExists = false
 
     for _, ply in ipairs(self:GetAlivePlayers()) do

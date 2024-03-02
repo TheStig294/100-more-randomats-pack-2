@@ -14,30 +14,30 @@ util.AddNetworkString("randomat_horror_spectator")
 util.AddNetworkString("randomat_horror_respawn")
 util.AddNetworkString("randomat_horror_spectator_sound")
 
-local musicConvar = CreateConVar("randomat_horror_music", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
+local musicConvar = CreateConVar("randomat_horror_music", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Play music during this randomat", 0, 1)
 
-CreateConVar("randomat_horror_ending", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Win screen plays a horror sound and ending title is changed", 0, 1)
+local endingCvar = CreateConVar("randomat_horror_ending", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Win screen plays a horror sound and ending title is changed", 0, 1)
 
-CreateConVar("randomat_horror_spectator_sounds", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Spectators can play horror sounds", 0, 1)
+local specSoundsCvar = CreateConVar("randomat_horror_spectator_sounds", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Spectators can play horror sounds", 0, 1)
 
-CreateConVar("randomat_horror_cloak_sounds", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Sounds play as the killer is cloaked/uncloaks", 0, 1)
+local cloakSoundsCvar = CreateConVar("randomat_horror_cloak_sounds", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Sounds play as the killer is cloaked/uncloaks", 0, 1)
 
-CreateConVar("randomat_horror_spectator_charge_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until a spectator can play a sound again", 10, 120)
+local chargeTimeCvar = CreateConVar("randomat_horror_spectator_charge_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until a spectator can play a sound again", 10, 120)
 
-CreateConVar("randomat_horror_spectator_sound_cooldown", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until someone can hear a spectator sound again", 10, 120)
+local soundCooldownCvar = CreateConVar("randomat_horror_spectator_sound_cooldown", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until someone can hear a spectator sound again", 10, 120)
 
-CreateConVar("randomat_horror_killer_crowbar", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a throwable crowbar rather than a normal one", 0, 1)
+local crowbarCvar = CreateConVar("randomat_horror_killer_crowbar", 0, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a throwable crowbar rather than a normal one", 0, 1)
 
-CreateConVar("randomat_horror_killer_starting_health", 150, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much health the killer starts with", 1, 500)
+local healthCvar = CreateConVar("randomat_horror_killer_starting_health", 150, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much health the killer starts with", 1, 500)
 
-CreateConVar("randomat_horror_killer_credits", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Credits the killer starts with", 0, 5)
+local creditsCvar = CreateConVar("randomat_horror_killer_credits", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Credits the killer starts with", 0, 5)
 
-CreateConVar("randomat_horror_killer_cloak", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a 'Shadow Cloak' item. Makes them appear as a shadow while held", 0, 1)
+local cloakCvar = CreateConVar("randomat_horror_killer_cloak", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Killer gets a 'Shadow Cloak' item. Makes them appear as a shadow while held", 0, 1)
 
 CreateConVar("randomat_horror_cloak_sound_timer", 10, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until the cloak sound is heard again while cloaked", 5, 60)
 
 -- Removes the spectator category if spectator sounds are turned off
-if not GetConVar("randomat_horror_spectator_sounds"):GetBool() then
+if not specSoundsCvar:GetBool() then
     table.remove(EVENT.Categories, 1)
 end
 
@@ -75,11 +75,11 @@ end
 local function SetToKiller(ply)
     Randomat:SetRole(ply, ROLE_KILLER)
     ply:SetNWBool("HorrorRandomatKiller", true)
-    ply:SetHealth(GetConVar("randomat_horror_killer_starting_health"):GetInt())
-    ply:SetMaxHealth(GetConVar("randomat_horror_killer_starting_health"):GetInt())
-    ply:SetCredits(GetConVar("randomat_horror_killer_credits"):GetInt())
+    ply:SetHealth(healthCvar:GetInt())
+    ply:SetMaxHealth(healthCvar:GetInt())
+    ply:SetCredits(creditsCvar:GetInt())
 
-    if GetConVar("randomat_horror_killer_cloak"):GetBool() then
+    if cloakCvar:GetBool() then
         ply:Give("weapon_ttt_cloak_randomat")
     end
 
@@ -98,10 +98,11 @@ function EVENT:Begin()
     engine.LightStyle(0, "a")
     net.Start("randomat_horror")
     net.WriteBool(musicConvar:GetBool())
-    net.WriteBool(GetConVar("randomat_horror_cloak_sounds"):GetBool())
-    net.WriteBool(GetConVar("randomat_horror_ending"):GetBool())
-    SetGlobalBool("randomat_horror_cloak_sounds", GetConVar("randomat_horror_cloak_sounds"):GetBool())
+    net.WriteBool(cloakSoundsCvar:GetBool())
+    net.WriteBool(endingCvar:GetBool())
     net.Broadcast()
+    -- Used for the shadow cloak scare sound if a player sees a killer as they uncloak
+    SetGlobalBool("randomat_horror_cloak_sounds", GetConVar("randomat_horror_cloak_sounds"):GetBool())
 
     for _, ply in ipairs(player.GetAll()) do
         -- Preparing variables for the spectator sounds
@@ -127,7 +128,7 @@ function EVENT:Begin()
     end
 
     -- Turns off the killer crowbar if it isn't enabled for the event
-    if not GetConVar("randomat_horror_killer_crowbar"):GetBool() then
+    if not crowbarCvar:GetBool() then
         killerCrowbar = GetConVar("ttt_killer_crowbar_enabled"):GetBool()
         GetConVar("ttt_killer_crowbar_enabled"):SetBool(false)
     end
@@ -222,7 +223,7 @@ function EVENT:Begin()
                 -- Players can only hear sounds on a cooldown
                 target:SetNWBool("HorrorRandomatSpectatorCooldown", true)
 
-                timer.Simple(GetConVar("randomat_horror_spectator_sound_cooldown"):GetInt(), function()
+                timer.Simple(soundCooldownCvar:GetInt(), function()
                     target:SetNWBool("HorrorRandomatSpectatorCooldown", false)
                 end)
 
@@ -247,7 +248,7 @@ function EVENT:Begin()
     end)
 
     -- Updates the spectator charge bar
-    local tick = GetConVar("randomat_horror_spectator_charge_time"):GetInt() / 100
+    local tick = chargeTimeCvar:GetInt() / 100
 
     timer.Create("HorrorRandomatPowerTimer", tick, 0, function()
         for _, ply in ipairs(self:GetDeadPlayers()) do
@@ -256,6 +257,17 @@ function EVENT:Begin()
             if power < 100 then
                 ply:SetNWInt("HorrorRandomatSpectatorPower", power + 1)
             end
+        end
+    end)
+
+    -- Disabling damage between killers
+    self:AddHook("PlayerShouldTakeDamage", function(victim, attacker)
+        if not IsValid(victim) or not IsValid(attacker) or not attacker:IsPlayer() then return end
+
+        if victim:GetRole() == ROLE_KILLER and attacker:GetRole() == ROLE_KILLER then
+            attacker:PrintMessage(HUD_PRINTCENTER, "Don't hurt your partner!")
+
+            return false
         end
     end)
 end
@@ -267,7 +279,7 @@ function EVENT:End()
         EVENT.Title = ""
 
         -- Resetting the killer crowbar convar to what is was before the event triggered
-        if not GetConVar("randomat_horror_killer_crowbar") then
+        if not crowbarCvar:GetBool() then
             GetConVar("ttt_killer_crowbar_enabled"):SetBool(killerCrowbar)
         end
 
@@ -293,7 +305,7 @@ end
 
 -- This event can only run if the "killer" role exists
 function EVENT:Condition()
-    return ConVarExists("ttt_killer_enabled")
+    return self:CanRoleSpawn(ROLE_KILLER)
 end
 
 function EVENT:GetConVars()

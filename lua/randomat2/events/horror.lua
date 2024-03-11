@@ -305,7 +305,7 @@ end
 
 -- This event can only run if the "killer" role exists
 function EVENT:Condition()
-    return self:CanRoleSpawn(ROLE_KILLER)
+    return Randomat:CanRoleSpawn(ROLE_KILLER)
 end
 
 function EVENT:GetConVars()

@@ -63,7 +63,10 @@ function EVENT:Begin()
 
     -- Remove parented bat models when players die
     self:AddHook("PostPlayerDeath", function(ply)
-        bats[ply]:Remove()
+        if IsValid(bats[ply]) then
+            bats[ply]:Remove()
+        end
+
         bats[ply] = nil
     end)
 

@@ -7,10 +7,12 @@ EVENT.Categories = {"largeimpact", "item"}
 
 function EVENT:Begin()
     timer.Create("AutoPaPRandomat", 1, 0, function()
-        for _, SWEP in ipairs(ents.GetAll()) do
+        for _, ent in ipairs(ents.GetAll()) do
             -- Check for a valid entity, if the entity is a weapon, if the entity is a TTT weapon, and not the "holstered" weapon
-            if IsValid(SWEP) and SWEP:IsWeapon() and SWEP.Kind and WEPS.GetClass(SWEP) ~= "weapon_ttt_unarmed" then
-                TTTPAP:ApplyRandomUpgrade(SWEP)
+            -- Don't try to upgrade weapons more than once, as a weapon could error from being upgraded off the ground, and block this for loop from looping though all weapons
+            if IsValid(ent) and not ent.PAPAutoUpgrade and ent.Kind and ent:IsWeapon() and WEPS.GetClass(ent) ~= "weapon_ttt_unarmed" then
+                ent.PAPAutoUpgrade = true
+                TTTPAP:ApplyRandomUpgrade(ent)
             end
         end
     end)

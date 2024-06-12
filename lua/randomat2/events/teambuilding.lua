@@ -6,66 +6,42 @@ EVENT.id = "teambuilding"
 EVENT.Categories = {"rolechange", "largeimpact", "biased_traitor", "biased"}
 
 function EVENT:Begin()
-    local tx = 0
-    local dx = 0
+    local detective
+    local traitor
 
-    -- For all alive players,
-    for _, ply in pairs(self:GetAlivePlayers(true)) do
-        -- If the credits and health of the traitor and detective haven't been set yet, and they're a detective or a traitor,
-        if (ply:GetRole() == ROLE_TRAITOR and tx == 0) or (ply:GetRole() == ROLE_DETECTIVE and dx == 0) then
-            -- If they're not the detective, (and thus the traitor)
-            if ply:GetRole() ~= ROLE_DETECTIVE then
-                -- Say the traitor's credits have been changed and set them to 2
-                tx = 1
-                ply:SetCredits(2)
-            else
-                -- Else, they must be the detective, and change their credits and health
-                dx = 1
-                ply:SetCredits(2)
-                -- Detective is set to 200 health to compensate for the traitor knowing who the detective is but not the other way around
-                ply:SetHealth(200)
-                ply:SetMaxHealth(200)
-            end
-        else
-            -- Set everyone else to beggars
-            self:StripRoleWeapons(ply)
+    -- Set the detective and traitor to their vanilla variants so they have the most chance of actually having giftable items in their buy menus
+    for _, ply in ipairs(self:GetAlivePlayers(true)) do
+        self:StripRoleWeapons(ply)
+
+        if not detective and ply ~= traitor then
+            detective = ply
+            Randomat:SetRole(ply, ROLE_DETECTIVE)
+            ply:SetCredits(2)
+            -- Detective gets 200 health to balance the fact that the traitor knows who is a beggar or not
+            ply:SetHealth(200)
+            ply:SetMaxHealth(200)
+        elseif not traitor and ply ~= detective then
+            traitor = ply
+            Randomat:SetRole(ply, ROLE_TRAITOR)
+            ply:SetCredits(2)
+        elseif ply ~= detective and ply ~= traitor then
             Randomat:SetRole(ply, ROLE_BEGGAR)
 
-            -- And remove any bought weapons or role weapons
-            for _, wep in pairs(ply:GetWeapons()) do
-                -- Checking this way instead of wep.Kind ~= WEAPON_ROLE or wep.Kind ~= WEAPON_EQUIP for compatibility with my slot removal mod
-                if wep.Kind ~= WEAPON_PISTOL and wep.Kind ~= WEAPON_HEAVY and wep.Kind ~= WEAPON_NADE and wep.Kind ~= WEAPON_MELEE and wep.Kind ~= WEAPON_CARRY and wep.Kind ~= WEAPON_UNARMED then
-                    ply:StripWeapon(wep:GetClass())
+            -- Remove any giftable bought weapons the beggars may have
+            for _, wep in ipairs(ply:GetWeapons()) do
+                -- .BoughtBy is a special property set by Custom Roles itself and used by the beggar role to determine if a given weapon should convert the beggar's role
+                if wep.BoughtBy then
+                    wep:Remove()
                 end
             end
         end
     end
 
-    -- Let end-of-round report know roles have changed
     SendFullStateUpdate()
 end
 
 function EVENT:Condition()
-    local has_detective = false
-    local has_traitor = false
-    local has_beggar = false
-
-    -- Check if the beggar exists and is enabled
-    if Randomat:CanRoleSpawn(ROLE_BEGGAR) then
-        has_beggar = true
-    end
-
-    -- Check if there is a detective and a traitor in the round
-    for _, v in pairs(self:GetAlivePlayers()) do
-        if v:GetRole() == ROLE_DETECTIVE then
-            has_detective = true
-        elseif v:GetRole() == ROLE_TRAITOR then
-            has_traitor = true
-        end
-    end
-    -- Let this randomat trigger if there is a traitor and detective and the beggar role is enabled
-
-    return has_traitor and has_detective and has_beggar
+    return Randomat:CanRoleSpawn(ROLE_BEGGAR)
 end
 
 Randomat:register(EVENT)

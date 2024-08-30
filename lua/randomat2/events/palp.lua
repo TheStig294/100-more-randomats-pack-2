@@ -6,6 +6,7 @@ EVENT.id = "palp"
 EVENT.Categories = {"fun", "smallimpact"}
 
 util.AddNetworkString("RandomatPalpDrawHalo")
+util.AddNetworkString("RandomatPalpSuppressLeaveMessage")
 local palpModel = "models/player/emperor_palpatine.mdl"
 local tom
 
@@ -120,7 +121,12 @@ function EVENT:Begin()
 end
 
 function EVENT:End()
-    timer.Simple(4, function()
+    if IsValid(tom) then
+        net.Start("RandomatPalpSuppressLeaveMessage")
+        net.Broadcast()
+    end
+
+    timer.Simple(3, function()
         if IsValid(tom) then
             tom:Kick()
         end

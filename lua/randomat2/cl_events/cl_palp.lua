@@ -5,12 +5,12 @@ net.Receive("RandomatPalpDrawHalo", function()
     end)
 
     -- Suppressing the "Bot01 has joined the game" message from appearing
-    hook.Add("ChatText", "RandomatPalpSupressJoinMsg", function(index, name, text, type)
+    hook.Add("ChatText", "RandomatPalpSuppressJoinMsg", function(index, name, text, type)
         if type == "joinleave" then return true end
     end)
 
     timer.Simple(4, function()
-        hook.Remove("ChatText", "RandomatPalpSupressJoinMsg")
+        hook.Remove("ChatText", "RandomatPalpSuppressJoinMsg")
         local tom = player.GetBots()[#player.GetBots()]
 
         local tomTable = {tom}
@@ -37,5 +37,16 @@ net.Receive("RandomatPalpDrawHalo", function()
                 chat.AddText(Color(156, 253, 156), "Player Angor has left the game")
             end)
         end)
+    end)
+end)
+
+net.Receive("RandomatPalpSuppressLeaveMessage", function()
+    -- Suppressing the "Bot01 has left the game" message from appearing
+    hook.Add("ChatText", "RandomatPalpSuppressLeaveMsg", function(index, name, text, type)
+        if type == "joinleave" then return true end
+    end)
+
+    timer.Simple(4, function()
+        hook.Remove("ChatText", "RandomatPalpSuppressLeaveMsg")
     end)
 end)

@@ -1,5 +1,5 @@
-_This is the second of my 4 randomat packs. These randomats require ["Custom Roles for TTT"](https://steamcommunity.com/sharedfiles/filedetails/?id=2421039084), a mod that adds new roles like the 'Jester'._\
-_Some extra randomats will activate if have other mods installed, linked below those randomats' descriptions_
+_This is the second of my 3 randomat packs._\
+_These randomats require other popular mods to work, many of which you likely already have installed, linked in the list of randomats below._
 
 # Settings/Options
 
@@ -447,8 +447,8 @@ Secret event.\
 Lets spectators play horror sounds on living players. There are 2 cooldowns for playing a sound: one for the spectator, and one for the living player (So they don't continually hear sounds).\
 Only the spectator and player they are spectating hear the sound. The sounds are the same ones as the horror randomat uses.\
 \
-_ttt_randomat_paranoia_ - Default: 1 - Whether this randomat is enabled
-_randomat_paranoia_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again
+_ttt_randomat_paranoia_ - Default: 1 - Whether this randomat is enabled\
+_randomat_paranoia_spectator_charge_time_ - Default: 30 - Seconds until a spectator can play a sound again\
 _randomat_paranoia_spectator_sound_cooldown_ - Default: 30 - Seconds until someone can hear a spectator sound again
 
 ## RELEASE THE PLANES

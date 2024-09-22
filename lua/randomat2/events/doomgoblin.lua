@@ -51,6 +51,7 @@ function EVENT:Begin()
         end
 
         Randomat:SetRole(goblin, ROLE_LOOTGOBLIN)
+        SendFullStateUpdate()
     end
 
     -- Now that we have our goblin, trigger the "Choose an event!" randomat on them on a timer

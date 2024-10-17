@@ -1,24 +1,28 @@
--- Creates the prop hunt popup
+local popup
+
+-- Shows the Yogscast Murder popup for the 'Prop Hunt (Yogscast Intro)' randomat
 net.Receive("YogsPropHuntRandomat", function()
-    yogsprophuntpopup = vgui.Create("DFrame")
+    popup = vgui.Create("DFrame")
+    -- Resolution of the popup image file, so the popup frame is covered by the popup itself
     local xSize = 712
     local ySize = 178
-    -- Places the frame at the centre of the screen
     local pos1 = (ScrW() - xSize) / 2
     local pos2 = (ScrH() - ySize) / 2
-    yogsprophuntpopup:SetPos(pos1, pos2)
-    yogsprophuntpopup:SetSize(xSize, ySize)
-    yogsprophuntpopup:ShowCloseButton(false)
-    yogsprophuntpopup:MakePopup()
-    yogsprophuntpopup.Paint = function(self, w, h) end
-    -- Places the popup image in the centre of the frame
-    local image = vgui.Create("DImage", yogsprophuntpopup)
+    popup:SetPos(pos1, pos2)
+    popup:SetSize(xSize, ySize)
+    popup:ShowCloseButton(false)
+    popup:MakePopup()
+    popup.Paint = function(self, w, h) end
+    -- The image covers the whole frame window
+    local image = vgui.Create("DImage", popup)
     image:SetImage("materials/vgui/ttt/yogsprophunt/yogsprophunt.png")
     image:SetPos(0, 0)
     image:SetSize(xSize, ySize)
 end)
 
--- Closes the popup once time is up
 net.Receive("YogsPropHuntRandomatEnd", function()
-    yogsprophuntpopup:Close()
+    if IsValid(popup) then
+        popup:Close()
+        popup = nil
+    end
 end)

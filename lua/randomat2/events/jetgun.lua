@@ -20,41 +20,32 @@ end
 
 function EVENT:HandleRoleWeapons(ply)
     if not strip then return end
-    local updated = false
-    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
 
-    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
-    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
-        Randomat:SetRole(ply, ROLE_TRAITOR)
-        updated = true
-    elseif Randomat:IsJesterTeam(ply) then
+    -- Convert all zombie-like roles to innocents so we don't have to worry about fighting with special weapon replacement logic
+    if Randomat:IsMeleeDamageRole(ply) then
         Randomat:SetRole(ply, ROLE_INNOCENT)
-        updated = true
-    end
-
-    -- Remove role weapons from anyone on the traitor team now
-    if Randomat:IsTraitorTeam(ply) then
+        ply:ChatPrint("Your role was incompatible with the \"" .. self.Title .. "\" randomat as was changed")
         self:StripRoleWeapons(ply)
-    end
 
-    return updated, changing_teams
+        return true
+    end
 end
 
 function EVENT:GiveJetgun(ply)
-    local activeWeapon = ply:GetActiveWeapon()
+    for _, wep in ipairs(ply:GetWeapons()) do
+        local class = WEPS.GetClass(wep)
 
-    if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= "tfa_jetgun") then
-        if strip then
-            ply:StripWeapons()
-            ply:SetFOV(0, 0.2)
-        end
-
-        local wep = ply:Give("tfa_jetgun")
-
-        if wep then
-            wep.AllowDrop = false
+        if class ~= "tfa_jetgun" and class ~= "weapon_ttt_unarmed" then
+            wep:Remove()
         end
     end
+
+    ply:Give("weapon_ttt_unarmed")
+    ply:Give("tfa_jetgun").AllowDrop = false
+
+    timer.Simple(0.1, function()
+        ply:SelectWeapon("tfa_jetgun")
+    end)
 end
 
 function EVENT:Begin()
@@ -67,40 +58,26 @@ function EVENT:Begin()
     end
 
     -- Removing role weapons and changing problematic roles to basic ones
-    local new_traitors = {}
-
     for _, v in ipairs(self:GetAlivePlayers()) do
-        local _, new_traitor = self:HandleRoleWeapons(v)
-
-        if new_traitor then
-            table.insert(new_traitors, v)
-        end
-
+        self:HandleRoleWeapons(v)
         self:GiveJetgun(v)
     end
 
     SendFullStateUpdate()
-    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
 
     timer.Create("jetgunRoleChangeTimer", 1, 0, function()
         local updated = false
-        new_traitors = {}
 
         for _, ply in ipairs(self:GetAlivePlayers()) do
             -- Workaround the case where people can respawn as Zombies while this is running
             updatedPly, new_traitor = self:HandleRoleWeapons(ply)
             updated = updated or updatedPly
-
-            if new_traitor then
-                table.insert(new_traitors, ply)
-            end
         end
 
         -- If anyone's role changed, send the update
         -- If anyone became a traitor, notify all other traitors
         if updated then
             SendFullStateUpdate()
-            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
         end
     end)
 
@@ -136,8 +113,10 @@ function EVENT:Begin()
 
     self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
         if not strip then return end
+        if not IsValid(wep) then return false end
+        local class = WEPS.GetClass(wep)
 
-        return IsValid(wep) and WEPS.GetClass(wep) == "tfa_jetgun"
+        return class == "tfa_jetgun" or class == "weapon_ttt_unarmed"
     end)
 
     self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
@@ -161,7 +140,7 @@ end
 function EVENT:End()
     timer.Remove("jetgunRoleChangeTimer")
 
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         timer.Remove(ply:SteamID64() .. "RandomatGiveJetgunTimer")
     end
 
@@ -181,7 +160,7 @@ end
 function EVENT:Condition()
     -- Prevent this event from running while there is a phantom and phantom haunting is turned on
     if ConVarExists("ttt_phantom_killer_haunt") and GetConVar("ttt_phantom_killer_haunt"):GetBool() then
-        for _, ply in ipairs(player.GetAll()) do
+        for _, ply in player.Iterator() do
             if ply:GetRole() == ROLE_PHANTOM then return false end
         end
     end

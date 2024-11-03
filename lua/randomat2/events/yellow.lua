@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_yellow_credits", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many credits the Mercenaries get", 0, 5)
-
+CreateConVar("randomat_yellow_credits", 1, FCVAR_ARCHIVE, "How many credits the Mercenaries get", 0, 5)
 EVENT.Title = "I'm a mercenary!"
 EVENT.Description = "Ordinary innocents are now mercenaries"
 EVENT.id = "yellow"

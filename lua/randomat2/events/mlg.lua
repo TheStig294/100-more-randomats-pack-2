@@ -1,9 +1,6 @@
 local EVENT = {}
-
-CreateConVar("randomat_mlg_strip", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons", 0, 1)
-
-CreateConVar("randomat_mlg_weaponid", "ttt_no_scope_awp", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
-
+CreateConVar("randomat_mlg_strip", 1, FCVAR_ARCHIVE, "The event strips your other weapons", 0, 1)
+CreateConVar("randomat_mlg_weaponid", "ttt_no_scope_awp", FCVAR_ARCHIVE, "Id of the weapon given")
 EVENT.Title = "GET NO SCOPED!!!"
 EVENT.Description = "Spin around to shoot!"
 EVENT.id = "mlg"

@@ -1,7 +1,5 @@
 local EVENT = {}
-
-local timerCvar = CreateConVar("randomat_papintensifies_time", 30, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds between upgrading weapons", 10, 180)
-
+local timerCvar = CreateConVar("randomat_papintensifies_time", 30, FCVAR_ARCHIVE, "Seconds between upgrading weapons", 10, 180)
 EVENT.Title = "Pack-a-Punch Intensifies"
 EVENT.Description = "Upgrades everyone's held weapon every " .. timerCvar:GetInt() .. " seconds!"
 EVENT.id = "papintensifies"

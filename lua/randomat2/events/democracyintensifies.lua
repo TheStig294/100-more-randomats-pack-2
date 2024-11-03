@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_democracyintensifies_timer", 30, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds between randomat votes", 10, 90)
-
+CreateConVar("randomat_democracyintensifies_timer", 30, FCVAR_ARCHIVE, "Seconds between randomat votes", 10, 90)
 EVENT.Title = "Democracy Intensifies"
 EVENT.Description = "Everyone votes for a randomat every " .. GetConVar("randomat_democracyintensifies_timer"):GetInt() .. " seconds!"
 EVENT.id = "democracyintensifies"

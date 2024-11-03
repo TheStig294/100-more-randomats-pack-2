@@ -1,23 +1,13 @@
 local EVENT = {}
-
-CreateConVar("randomat_donconnons_timer", 5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Time between being given donconnons")
-
-local strip = CreateConVar("randomat_donconnons_strip", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The event strips your other weapons")
-
-CreateConVar("randomat_donconnons_weaponid", "weapon_ttt_donconnon_randomat", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Id of the weapon given")
-
-CreateConVar("randomat_donconnons_damage", "1000", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Donconnon Damage", 0, 1000)
-
-CreateConVar("randomat_donconnons_speed", "350", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Donconnon Speed", 0, 1000)
-
-CreateConVar("randomat_donconnons_range", "2000", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Donconnon Range", 0, 10000)
-
-CreateConVar("randomat_donconnons_scale", "0.2", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Donconnon Size", 0, 5)
-
-CreateConVar("randomat_donconnons_turn", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Donconnon Turn Speed, set to 0 to disable homing", 0, 0.001)
-
-CreateConVar("randomat_donconnons_lockondecaytime", "15", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Seconds until homing stops", 0, 60)
-
+CreateConVar("randomat_donconnons_timer", 5, FCVAR_ARCHIVE, "Time between being given donconnons")
+local strip = CreateConVar("randomat_donconnons_strip", 0, FCVAR_ARCHIVE, "The event strips your other weapons")
+CreateConVar("randomat_donconnons_weaponid", "weapon_ttt_donconnon_randomat", FCVAR_ARCHIVE, "Id of the weapon given")
+CreateConVar("randomat_donconnons_damage", "1000", FCVAR_ARCHIVE, "Donconnon Damage", 0, 1000)
+CreateConVar("randomat_donconnons_speed", "350", FCVAR_ARCHIVE, "Donconnon Speed", 0, 1000)
+CreateConVar("randomat_donconnons_range", "2000", FCVAR_ARCHIVE, "Donconnon Range", 0, 10000)
+CreateConVar("randomat_donconnons_scale", "0.2", FCVAR_ARCHIVE, "Donconnon Size", 0, 5)
+CreateConVar("randomat_donconnons_turn", "0", FCVAR_ARCHIVE, "Donconnon Turn Speed, set to 0 to disable homing", 0, 0.001)
+CreateConVar("randomat_donconnons_lockondecaytime", "15", FCVAR_ARCHIVE, "Seconds until homing stops", 0, 60)
 EVENT.Title = "O Rubber Tree..."
 EVENT.Description = "Donconnons for all!"
 EVENT.id = "donconnons"

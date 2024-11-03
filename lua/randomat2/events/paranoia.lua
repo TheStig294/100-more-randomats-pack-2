@@ -1,9 +1,6 @@
 local EVENT = {}
-
-CreateConVar("randomat_paranoia_spectator_charge_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until a spectator can play a sound again", 10, 120)
-
-CreateConVar("randomat_paranoia_spectator_sound_cooldown", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Seconds until someone can hear a spectator sound again", 10, 120)
-
+CreateConVar("randomat_paranoia_spectator_charge_time", 30, FCVAR_ARCHIVE, "Seconds until a spectator can play a sound again", 10, 120)
+CreateConVar("randomat_paranoia_spectator_sound_cooldown", 30, FCVAR_ARCHIVE, "Seconds until someone can hear a spectator sound again", 10, 120)
 EVENT.Title = "Paranoia"
 EVENT.Description = "Lets spectators play horror sounds on living players"
 EVENT.id = "paranoia"

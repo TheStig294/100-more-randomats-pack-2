@@ -1,7 +1,5 @@
 local EVENT = {}
-
-CreateConVar("randomat_uno_time", 3, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How long the uno reverse card lasts", 1, 10)
-
+CreateConVar("randomat_uno_time", 3, FCVAR_ARCHIVE, "How long the uno reverse card lasts", 1, 10)
 EVENT.Title = "You just triggered my trap card!"
 EVENT.Description = "Everyone gets an UNO reverse card"
 EVENT.id = "uno"

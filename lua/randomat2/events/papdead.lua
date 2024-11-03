@@ -3,9 +3,7 @@
 local EVENT = {}
 util.AddNetworkString("RdmtPAPDeadBegin")
 util.AddNetworkString("RdmtPAPDeadEnd")
-
-CreateConVar("randomat_papdead_time", 30, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How many seconds before the dead can give an upgrade", 10, 120)
-
+CreateConVar("randomat_papdead_time", 30, FCVAR_ARCHIVE, "How many seconds before the dead can give an upgrade", 10, 120)
 EVENT.Title = "Upgrades from the dead"
 EVENT.Description = "Allows dead players to give the living a single weapon upgrade"
 EVENT.id = "papdead"

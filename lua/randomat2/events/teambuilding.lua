@@ -5,7 +5,16 @@ EVENT.id = "teambuilding"
 
 EVENT.Categories = {"rolechange", "largeimpact", "biased_traitor", "biased"}
 
+local keepBeggingConvarEnabled = false
+
 function EVENT:Begin()
+    -- Preventing all beggars changing team if one beggar picks up an item, happens when this convar is enabled
+    keepBeggingConvarEnabled = cvars.Bool("ttt_beggar_keep_begging", false)
+
+    if keepBeggingConvarEnabled then
+        GetConVar("ttt_beggar_keep_begging"):SetBool(false)
+    end
+
     local detective
     local traitor
 
@@ -38,6 +47,12 @@ function EVENT:Begin()
     end
 
     SendFullStateUpdate()
+end
+
+function EVENT:End()
+    if keepBeggingConvarEnabled then
+        GetConVar("ttt_beggar_keep_begging"):SetBool(true)
+    end
 end
 
 function EVENT:Condition()

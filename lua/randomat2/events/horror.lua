@@ -63,7 +63,6 @@ end
 
 local function SetToKiller(ply)
     Randomat:SetRole(ply, ROLE_KILLER)
-    ply:SetNWBool("HorrorRandomatKiller", true)
     ply:SetHealth(healthCvar:GetInt())
     ply:SetMaxHealth(healthCvar:GetInt())
     ply:SetCredits(creditsCvar:GetInt())
@@ -93,7 +92,7 @@ function EVENT:Begin()
     -- Used for the shadow cloak scare sound if a player sees a killer as they uncloak
     SetGlobalBool("randomat_horror_cloak_sounds", GetConVar("randomat_horror_cloak_sounds"):GetBool())
 
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         -- Preparing variables for the spectator sounds
         ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
         ply:SetNWBool("HorrorRandomatSpectatorCooldown", false)
@@ -276,8 +275,7 @@ function EVENT:End()
         net.Start("randomat_horror_end")
         net.Broadcast()
 
-        for _, ply in ipairs(player.GetAll()) do
-            ply:SetNWBool("HorrorRandomatKiller", false)
+        for _, ply in player.Iterator() do
             ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
         end
 

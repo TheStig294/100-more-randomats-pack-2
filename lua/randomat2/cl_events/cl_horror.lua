@@ -2,7 +2,7 @@ local music
 local cloakSounds
 local horrorEnding
 -- Used for expensive calls needing LocalPlayer()
-local client = LocalPlayer()
+local client
 
 local function IsPlayerValid(p)
     return IsPlayer(p) and p:Alive() and not p:IsSpec()
@@ -15,7 +15,7 @@ local function ApplyScreenEffects()
         render.FogColor(0, 0, 0)
         render.FogMaxDensity(1)
 
-        if LocalPlayer():GetNWBool("HorrorRandomatKiller") then
+        if client:IsKiller() then
             render.FogStart(300 * 1.5)
             render.FogEnd(600 * 1.5)
         else
@@ -26,13 +26,13 @@ local function ApplyScreenEffects()
         return true
     end)
 
-    --If a map has a 3D skybox, apply a fog effect to that too
+    -- If a map has a 3D skybox, apply a fog effect to that too
     hook.Add("SetupSkyboxFog", "HorrorRandomatSkyboxFog", function(scale)
         render.FogMode(MATERIAL_FOG_LINEAR)
         render.FogColor(0, 0, 0)
         render.FogMaxDensity(1)
 
-        if LocalPlayer():GetNWBool("HorrorRandomatKiller") then
+        if client:IsKiller() then
             render.FogStart(300 * 1.5 * scale)
             render.FogEnd(600 * 1.5 * scale)
         else
@@ -53,6 +53,20 @@ local function ApplyScreenEffects()
         if not IsPlayerValid(cli) or not IsPlayerValid(ply) then return end
         if ply:GetNWBool("RdmtInvisible") then return true end
     end)
+
+    -- Add a green outline to fellow Killers, to prevent fellow killers hurting each other
+    hook.Add("PreDrawHalos", "HorrorRandomatKillerOutline", function()
+        if not client:IsKiller() then return end
+        local killers = {}
+
+        for _, ply in player.Iterator() do
+            if ply:IsKiller() then
+                table.insert(killers, ply)
+            end
+        end
+
+        halo.Add(killers, COLOR_GREEN, 1, 1, 2, true, true)
+    end)
 end
 
 local function RemoveHooks()
@@ -69,7 +83,6 @@ local function RemoveHooks()
     hook.Remove("HUDPaint", "HorrorRandomatUI")
     hook.Remove("Think", "HorrorRandomatSpectatorFlashlight")
     -- Remove modified win title if it was added
-    hook.Remove("TTTScoringWinTitle", "HorrorRandomatWinTitle")
     hook.Remove("TTTScoringWinTitleOverride", "HorrorRandomatWinTitle")
 
     if client.HorrorRandomatFlashlight then
@@ -83,7 +96,7 @@ local function RemoveHooks()
 end
 
 local function IsKillerWin()
-    for _, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         if ply:GetRole() == ROLE_INNOCENT and ply:Alive() and not ply:IsSpec() then return false end
     end
 
@@ -124,32 +137,19 @@ net.Receive("randomat_horror", function()
 
     -- Modifies the win screen depending on if the killer or innocents win
     if horrorEnding then
-        if CRVersion("1.7.3") then
-            hook.Add("TTTScoringWinTitleOverride", "HorrorRandomatWinTitle", function(wintype, wintitles, title)
-                local newTitle = {
-                    c = COLOR_BLACK
-                }
+        hook.Add("TTTScoringWinTitleOverride", "HorrorRandomatWinTitle", function(wintype)
+            local newTitle = {
+                c = COLOR_BLACK
+            }
 
-                if wintype == WIN_KILLER then
-                    newTitle.txt = "win_horror_killer"
-                else
-                    newTitle.txt = "win_horror_innocent"
-                end
+            if wintype == WIN_KILLER then
+                newTitle.txt = "win_horror_killer"
+            else
+                newTitle.txt = "win_horror_innocent"
+            end
 
-                return newTitle
-            end)
-        else
-            -- The logic for the killer win title doesn't work in this hook for Custom Roles versions earlier than 1.7.3,
-            -- so this is handled the "randomat_horror_end" net function instead
-            hook.Add("TTTScoringWinTitle", "HorrorRandomatWinTitle", function()
-                local newTitle = {
-                    c = COLOR_BLACK,
-                    txt = "win_horror_innocent"
-                }
-
-                return newTitle
-            end)
-        end
+            return newTitle
+        end)
     end
 end)
 
@@ -210,23 +210,6 @@ surface.CreateFont("HorrorRandomatKillerWin", {
     weight = 1000
 })
 
-local function DrawKillerWin()
-    local xPos = (ScrW() / 2) - 345
-    local yPos = (ScrH() / 2) - 228
-    local width = 691
-    local height = 87
-
-    hook.Add("DrawOverlay", "HorrorRandomatDrawKillerWin", function()
-        if not IsValid(vgui.GetHoveredPanel()) then return end
-        surface.SetDrawColor(0, 0, 0)
-        surface.DrawRect(xPos, yPos, width, height)
-        surface.SetFont("HorrorRandomatKillerWin")
-        surface.SetTextColor(255, 255, 255)
-        surface.SetTextPos(xPos + 75, yPos + 15)
-        surface.DrawText("the innocents are dead")
-    end)
-end
-
 net.Receive("randomat_horror_end", function()
     if music then
         timer.Remove("HorrorRandomatMusicLoop")
@@ -253,19 +236,6 @@ net.Receive("randomat_horror_end", function()
                 surface.PlaySound(endingSound)
             end
         end)
-
-        -- Draws the killer win text on the win screen by brute-force drawing over the win title
-        -- Since the wintitle hook in Custom Roles doesn't work for the killer, before version 1.7.3
-        if not CRVersion("1.7.3") and IsKillerWin() then
-            DrawKillerWin()
-            hook.Add("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin", DrawKillerWin)
-
-            hook.Add("TTTBeginRound", "HorrorRandomatRemoveKillerWin", function()
-                hook.Remove("OnContextMenuOpen", "HorrorRandomatStartDrawKillerWin")
-                hook.Remove("DrawOverlay", "HorrorRandomatDrawKillerWin")
-                hook.Remove("TTTBeginRound", "HorrorRandomatRemoveKillerWin")
-            end)
-        end
     end
 
     -- If the horror ending is off, lights are just turned on after 5 seconds

@@ -1,5 +1,5 @@
 local EVENT = {}
-CreateConVar("randomat_infected_timer", 90, FCVAR_ARCHIVE, "Time players must survive in seconds", 30, 180)
+CreateConVar("randomat_infected_timer", 90, FCVAR_NONE, "Time players must survive in seconds", 30, 180)
 EVENT.Title = "Infected"
 EVENT.Description = "Innocents and respawning zombies, survive for " .. GetConVar("randomat_infected_timer"):GetInt() .. " seconds!"
 EVENT.id = "infected"

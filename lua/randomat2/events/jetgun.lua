@@ -1,6 +1,6 @@
 local EVENT = {}
-local strip = CreateConVar("randomat_jetgun_strip", 1, FCVAR_ARCHIVE, "The event strips your other weapons", 0, 1)
-CreateConVar("randomat_jetgun_overheat_delay", 10, FCVAR_ARCHIVE, "Seconds until given a new jetgun after overheating", 1, 30)
+local strip = CreateConVar("randomat_jetgun_strip", 1, FCVAR_NONE, "The event strips your other weapons", 0, 1)
+CreateConVar("randomat_jetgun_overheat_delay", 10, FCVAR_NONE, "Seconds until given a new jetgun after overheating", 1, 30)
 EVENT.Title = "Suck it!"
 EVENT.Description = "Jetguns for all!"
 EVENT.id = "jetgun"

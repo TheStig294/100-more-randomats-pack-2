@@ -6,7 +6,7 @@ EVENT.SingleUse = false
 
 EVENT.Categories = {"entityspawn", "largeimpact"}
 
-CreateConVar("randomat_sharktrap_chance", 20, FCVAR_ARCHIVE, "% of possible spawns replaced with shark traps", 1, 100)
+CreateConVar("randomat_sharktrap_chance", 20, FCVAR_NONE, "% of possible spawns replaced with shark traps", 1, 100)
 
 function EVENT:Begin()
     timer.Create("SharkTrapRandomatTimer", 5, 1, function()

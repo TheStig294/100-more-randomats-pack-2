@@ -1,6 +1,6 @@
 local EVENT = {}
-local strip = CreateConVar("randomat_homerun_strip", 1, FCVAR_ARCHIVE, "The event strips your other weapons")
-CreateConVar("randomat_homerun_weaponid", "weapon_ttt_homebat", FCVAR_ARCHIVE, "Id of the weapon given")
+local strip = CreateConVar("randomat_homerun_strip", 1, FCVAR_NONE, "The event strips your other weapons")
+CreateConVar("randomat_homerun_weaponid", "weapon_ttt_homebat", FCVAR_NONE, "Id of the weapon given")
 EVENT.Title = "Home Run!"
 EVENT.Description = "Homerun bats only!"
 EVENT.id = "homerun"

@@ -1,5 +1,5 @@
 local EVENT = {}
-local timeCvar = CreateConVar("randomat_ghostifies_time", "30", FCVAR_ARCHIVE, "Seconds between randomat votes", 5, 60)
+local timeCvar = CreateConVar("randomat_ghostifies_time", "30", FCVAR_NONE, "Seconds between randomat votes", 5, 60)
 EVENT.Title = "Randomness Ghostifies"
 EVENT.Description = "Spectators vote for a randomat every " .. GetConVar("randomat_ghostifies_time"):GetInt() .. " seconds!"
 EVENT.id = "ghostifies"

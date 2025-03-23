@@ -1,6 +1,6 @@
 local EVENT = {}
-local strip = CreateConVar("randomat_rdm_strip", 1, FCVAR_ARCHIVE, "The event strips your other weapons")
-CreateConVar("randomat_rdm_weaponid", "weapon_rp_railgun", FCVAR_ARCHIVE, "Id of the weapon given")
+local strip = CreateConVar("randomat_rdm_strip", 1, FCVAR_NONE, "The event strips your other weapons")
+CreateConVar("randomat_rdm_weaponid", "weapon_rp_railgun", FCVAR_NONE, "Id of the weapon given")
 EVENT.Title = "Random Deathmatch"
 EVENT.Description = "Infinite free kill guns only!"
 EVENT.id = "rdm"

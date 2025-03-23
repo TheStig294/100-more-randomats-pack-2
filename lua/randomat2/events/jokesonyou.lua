@@ -7,8 +7,8 @@ EVENT.Type = {EVENT_TYPE_RESPAWN}
 
 EVENT.Categories = {"rolechange", "deathtrigger", "largeimpact"}
 
-CreateConVar("randomat_jokesonyou_health", 100, FCVAR_ARCHIVE, "The health that the Jesters respawn with", 1, 200)
-CreateConVar("randomat_jokesonyou_include_dead", 1, FCVAR_ARCHIVE, "Whether to resurrect dead players at the start")
+CreateConVar("randomat_jokesonyou_health", 100, FCVAR_NONE, "The health that the Jesters respawn with", 1, 200)
+CreateConVar("randomat_jokesonyou_include_dead", 1, FCVAR_NONE, "Whether to resurrect dead players at the start")
 
 local function JesterfyPlayer(ply, skip_missing_corpse, pos)
     local body = ply.server_ragdoll or ply:GetRagdollEntity()

@@ -5,8 +5,8 @@ EVENT.id = "planes"
 
 EVENT.Categories = {"entityspawn", "largeimpact"}
 
-local capCvar = CreateConVar("randomat_planes_cap", 12, FCVAR_ARCHIVE, "Maximum number of planes spawned", 0, 20)
-local delayCvar = CreateConVar("randomat_planes_delay", 3, FCVAR_ARCHIVE, "Delay before planes are spawned", 0.1, 5.0)
+local capCvar = CreateConVar("randomat_planes_cap", 12, FCVAR_NONE, "Maximum number of planes spawned", 0, 20)
+local delayCvar = CreateConVar("randomat_planes_delay", 3, FCVAR_NONE, "Delay before planes are spawned", 0.1, 5.0)
 
 function EVENT:Begin()
     local cap = capCvar:GetInt()

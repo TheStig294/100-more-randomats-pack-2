@@ -114,6 +114,7 @@ function EVENT:Begin()
 
     -- Players hear a random MLG-themed sound on killing someone
     self:AddHook("DoPlayerDeath", function(ply, attacker, dmg)
+        if not IsValid(attacker) then return end
         local activeWeapon = attacker:GetActiveWeapon()
 
         if IsValid(activeWeapon) and activeWeapon:GetClass() == "ttt_no_scope_awp" then

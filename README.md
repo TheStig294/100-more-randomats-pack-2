@@ -1,4 +1,5 @@
 # 100 More Randomats Pack 2
+
 The randomat is a mechanic for TTT that triggers a random effect either when the "Randomat-4000" item is bought and used by a detective, or automatically at the start of every round.\
 This mod adds many new "randomats" that could happen.\
 This is the second of my 3 randomat packs. These randomats require other popular mods to work, many of which you likely already have installed, linked in the list of randomats below.
@@ -86,15 +87,6 @@ When you buy something, everyone gets it + someone else gets a credit!\
 _ttt_randomat_cbchaos_ - Default: 1 - Whether this randomat is enabled\
 Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>
-
-### "Combo: Careful there cowboy..."
-
-A traitor and detective have a pistol showdown + everyone else is a jester\
-NOTE: This randomat is disabled by default as it's a bit too overwhelming.\
-_ttt_randomat_cbcowboy_ - Default: 0 - Whether this randomat is enabled\
-Requires:\
-<https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086>\
-<https://steamcommunity.com/sharedfiles/filedetails/?id=2428342861>
 
 ### "Combo: Don't forget!"
 
@@ -222,13 +214,6 @@ Requires:\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=2243578658>\
 OR\
 <https://steamcommunity.com/sharedfiles/filedetails/?id=273623128>
-
-## Everyone's a detective
-
-Everyone gains the ability to search bodies and gets a DNA scanner.\
-NOTE: This randomat is disabled by default as it normally doesn't have any impact on the round in practice.\
-\
-_ttt_randomat_dna_ - Default: 0 - Whether this randomat is enabled
 
 ## Everyone's a little trickster
 
@@ -621,13 +606,6 @@ Only triggers if CR for TTT is installed, or any mod that adds a "ttt_sprint_ena
 \
 _ttt_randomat_runonce_ - Default: 1 - Whether this randomat is enabled
 
-## You're on the case, detective
-
-Only detectives can search bodies, all other players can only call a detective over to search a body.\
-NOTE: This randomat is disabled by default as it normally doesn't have any impact on the round in practice.\
-\
-_ttt_randomat_detectivesearch_ - Default: 0 - Whether this randomat is enabled
-
 ## You just triggered my trap card
 
 Everyone gets an uno reverse card that reflects all damage and lasts for a set amount of time\
@@ -638,4 +616,5 @@ _randomat_uno_time_ - Default: 3 - How long the uno reverse card lasts\
 Requires: <https://steamcommunity.com/sharedfiles/filedetails/?id=2329721936>
 
 ## Steam Workshop Link
-https://steamcommunity.com/sharedfiles/filedetails/?id=2428350426
+
+<https://steamcommunity.com/sharedfiles/filedetails/?id=2428350426>

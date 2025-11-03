@@ -175,6 +175,11 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
+    -- Do not trigger passive item only events when there is a Faker
+    for _, ply in player.Iterator() do
+        if ply.IsFaker and ply:IsFaker() then return false end
+    end
+
     return weapons.Get(GetConVar("randomat_mlg_weaponid"):GetString()) ~= nil
 end
 

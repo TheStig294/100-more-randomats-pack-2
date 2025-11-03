@@ -117,6 +117,7 @@ function EVENT:Begin()
         if not strip or not IsValid(ply) then return end
 
         if not is_item then
+            ply:PrintMessage(HUD_PRINTCENTER, "Passive items only!")
             ply:ChatPrint("You can only buy passive items during '" .. Randomat:GetEventTitle(EVENT) .. "'!\nYour purchase has been refunded.")
 
             return false
@@ -325,6 +326,11 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
+    -- Do not trigger passive item only events when there is a Faker
+    for _, ply in player.Iterator() do
+        if ply.IsFaker and ply:IsFaker() then return false end
+    end
+
     return weapons.Get(GetConVar("randomat_donconnons_weaponid"):GetString()) ~= nil
 end
 

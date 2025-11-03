@@ -155,6 +155,11 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
+    -- Do not trigger passive item only events when there is a Faker
+    for _, ply in player.Iterator() do
+        if ply.IsFaker and ply:IsFaker() then return false end
+    end
+
     -- Prevent this event from running while there is a phantom and phantom haunting is turned on
     if ConVarExists("ttt_phantom_killer_haunt") and GetConVar("ttt_phantom_killer_haunt"):GetBool() then
         for _, ply in player.Iterator() do

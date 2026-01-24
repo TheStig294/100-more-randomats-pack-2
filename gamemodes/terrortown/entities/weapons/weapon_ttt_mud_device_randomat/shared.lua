@@ -90,7 +90,7 @@ function SWEP:Think()
     end
 end
 
-local messages = {"Hmmm... yes, this mud here is made out of mud.", "Ah, mud. Finally.", "Could it be? The mud my research was leading to?", "I need more time! This mud won't analyse itself!", "Yes, this mud will make a great discovery!", "No mud, no matter. Research must continue!", "Wait until researchers see this mud!", "Yes, this mud will change the world!", "...in this world nothing can be said to be certain, except mud and science", "Ah, what a fine mud sample!", "The mud must flow...", "I an one with the mud, the mud is with me...", "Ah, this sample will progress science!", "This mud will be seen by a great many people of science!", "The research must go on!", "So much mud, so little time...", "Careful! This is a delicate mud sample!", "This mud is forwarding a great scientific endeavour!"}
+local messages = {"Hmmm... yes, this mud here is made out of mud.", "Ah, mud. Finally.", "Could it be? The mud my research was leading to?", "I need more time! This mud won't analyse itself!", "Yes, this mud will make a great discovery!", "No mud, no matter. Research must continue!", "Wait until researchers see this mud!", "Yes, this mud will change the world!", "...in this world nothing can be said to be certain, except mud and science", "Ah, what a fine mud sample!", "The mud must flow...", "I am one with the mud, the mud is with me...", "Ah, this sample will progress science!", "This mud will be seen by a great many people of science!", "The research must go on!", "So much mud, so little time...", "Careful! This is a delicate mud sample!", "This mud is forwarding a great scientific endeavour!"}
 
 function SWEP:ShowMessage()
     if not IsFirstTimePredicted() then return end
@@ -102,16 +102,17 @@ function SWEP:ShowMessage()
         self.ScannedEnts[self.Target] = true
     end
 
-    timer.Create("MudScientistScanMessageCooldown", 0.1, 1, function()
-        local message = messages[math.random(#messages)]
-        owner:PrintMessage(HUD_PRINTCENTER, message)
-        owner:PrintMessage(HUD_PRINTTALK, message)
-        owner:PrintMessage(HUD_PRINTTALK, "No. of unique scanned objects: " .. table.Count(self.ScannedEnts))
-
-        timer.Simple(1.5, function()
+    if SERVER then
+        timer.Create("MudScientistScanMessageCooldown", 0.1, 1, function()
+            local message = messages[math.random(#messages)]
             owner:PrintMessage(HUD_PRINTCENTER, message)
+            owner:PrintMessage(HUD_PRINTTALK, "No. of unique scanned objects: " .. table.Count(self.ScannedEnts))
+
+            timer.Simple(1.5, function()
+                owner:PrintMessage(HUD_PRINTCENTER, message)
+            end)
         end)
-    end)
+    end
 
     self.State = IDLE
 end

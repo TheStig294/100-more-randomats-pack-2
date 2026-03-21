@@ -1,7 +1,7 @@
 -- Drawing an outline around the Tom bot when spawned
 net.Receive("RandomatPalpDrawHalo", function()
     timer.Simple(0.1, function()
-        chat.AddText(Color(156, 253, 156), "Player Angor has joined the game")
+        chat.AddText(CustomChat and Color(0, 128, 255) or Color(156, 253, 156), "Player Angor has joined the game")
     end)
 
     -- Suppressing the "Bot01 has joined the game" message from appearing
@@ -9,7 +9,19 @@ net.Receive("RandomatPalpDrawHalo", function()
         if type == "joinleave" then return true end
     end)
 
+    -- Support for the Custom Chat mod, which returns true in the "ChatText" hook and prevents the hook above from running
+    local customChatOldConnect
+
+    if CustomChat and CustomChat.JoinLeave then
+        customChatOldConnect = CustomChat.JoinLeave.showConnect
+        CustomChat.JoinLeave.showConnect = true
+    end
+
     timer.Simple(4, function()
+        if CustomChat and CustomChat.JoinLeave then
+            CustomChat.JoinLeave.showConnect = customChatOldConnect
+        end
+
         hook.Remove("ChatText", "RandomatPalpSuppressJoinMsg")
         local tom = player.GetBots()[#player.GetBots()]
 
@@ -34,7 +46,7 @@ net.Receive("RandomatPalpDrawHalo", function()
             hook.Remove("TTTEndRound", "RandomatPalpRemoveHalo")
 
             timer.Simple(4, function()
-                chat.AddText(Color(156, 253, 156), "Player Angor has left the game")
+                chat.AddText(CustomChat and Color(0, 128, 255) or Color(156, 253, 156), "Player Angor has left the game")
             end)
         end)
     end)
@@ -46,7 +58,19 @@ net.Receive("RandomatPalpSuppressLeaveMessage", function()
         if type == "joinleave" then return true end
     end)
 
+    -- Support for the Custom Chat mod, which returns true in the "ChatText" hook and prevents the hook above from running
+    local customChatOldDisconnect
+
+    if CustomChat and CustomChat.JoinLeave then
+        customChatOldDisconnect = CustomChat.JoinLeave.showDisconnect
+        CustomChat.JoinLeave.showDisconnect = true
+    end
+
     timer.Simple(4, function()
+        if CustomChat and CustomChat.JoinLeave then
+            CustomChat.JoinLeave.showDisconnect = customChatOldDisconnect
+        end
+
         hook.Remove("ChatText", "RandomatPalpSuppressLeaveMsg")
     end)
 end)

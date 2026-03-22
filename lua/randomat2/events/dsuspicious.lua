@@ -12,7 +12,7 @@ function EVENT:Begin()
     -- Changing the description if there is more than one detective
     local detectiveCount = 0
 
-    for i, ply in ipairs(player.GetAll()) do
+    for _, ply in player.Iterator() do
         if Randomat:IsGoodDetectiveLike(ply) then
             detectiveCount = detectiveCount + 1
         end
@@ -28,9 +28,9 @@ function EVENT:Begin()
 
     -- 50% chance to transform the/a detective
     if math.random() < 0.5 then
-        for k, ply in pairs(self:GetAlivePlayers(true)) do
+        for _, ply in ipairs(self:GetAlivePlayers(true)) do
             -- Choose an ordinary detective, or any detective if detective roles are hidden
-            if ply:GetRole() == ROLE_DETECTIVE or (GetConVar("ttt_detective_hide_special_mode"):GetInt() ~= 0 and Randomat:IsGoodDetectiveLike(ply)) then
+            if ply:GetRole() == ROLE_DETECTIVE or (GetConVar("ttt_detectives_hide_special_mode"):GetInt() ~= 0 and Randomat:IsGoodDetectiveLike(ply)) then
                 -- If the detraitor exists, use it, as the impersonator doesn't exist on that version of Custom Roles
                 if isDetraitor then
                     self:StripRoleWeapons(ply)
@@ -69,25 +69,25 @@ function EVENT:Condition()
     local isIcon = true
 
     -- Check there is an ordinary detective alive, or any kind of detective when detective roles are hidden
-    for k, ply in pairs(self:GetAlivePlayers()) do
-        if ply:GetRole() == ROLE_DETECTIVE or (ConVarExists("ttt_detective_hide_special_mode") and GetConVar("ttt_detective_hide_special_mode"):GetInt() ~= 0 and Randomat:IsGoodDetectiveLike(ply)) then
+    for _, ply in ipairs(self:GetAlivePlayers()) do
+        if ply:GetRole() == ROLE_DETECTIVE or (cvars.Number("ttt_detectives_hide_special_mode", 0) ~= 0 and Randomat:IsGoodDetectiveLike(ply)) then
             isDetective = true
             break
         end
     end
 
     -- Check the detraitor role exists...
-    if isnumber(ROLE_DETRAITOR) and ROLE_DETRAITOR ~= -1 then
+    if ROLE_DETRAITOR ~= -1 then
         isDetraitor = true
     end
 
     -- ...or the impersonator role exists
-    if isnumber(ROLE_IMPERSONATOR) and ROLE_IMPERSONATOR ~= -1 then
+    if ROLE_IMPERSONATOR ~= -1 then
         isImpersonator = true
     end
 
     -- Check the deputy icon won't instantly out the impersonator
-    if ConVarExists("ttt_deputy_use_detective_icon") and GetConVar("ttt_deputy_use_detective_icon"):GetBool() == false then
+    if not cvars.Bool("ttt_deputy_use_detective_icon", false) then
         isIcon = false
     end
 

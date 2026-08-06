@@ -34,7 +34,6 @@ SWEP.Secondary.Automatic = true
 SWEP.Secondary.Ammo = "none"
 SWEP.Secondary.Delay = 1.4
 SWEP.Kind = WEAPON_EQUIP
-SWEP.WeaponID = AMMO_KNIFE
 SWEP.IsSilent = true
 -- Pull out faster than standard guns
 SWEP.DeploySpeed = 2
@@ -52,7 +51,7 @@ function SWEP:PrimaryAttack()
         local ang = ply:EyeAngles()
 
         if ang.p < 90 then
-            ang.p = -10 + ang.p * ((90 + 10) / 90)
+            ang.p = -10 + ang.p * (90 + 10) / 90
         else
             ang.p = 360 - ang.p
             ang.p = -10 + ang.p * -((90 + 10) / 90)
@@ -62,7 +61,7 @@ function SWEP:PrimaryAttack()
         local vfw = ang:Forward()
         local vrt = ang:Right()
         local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())
-        src = src + (vfw * 1) + (vrt * 3)
+        src = src + vfw * 1 + vrt * 3
         local thr = vfw * vel + ply:GetVelocity()
         local knife_ang = Angle(-28, 0, 0) + ang
         knife_ang:RotateAroundAxis(knife_ang:Right(), -90)
@@ -86,8 +85,8 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:Equip()
-    self:SetNextPrimaryFire(CurTime() + (self.Primary.Delay * 1.5))
-    self:SetNextSecondaryFire(CurTime() + (self.Secondary.Delay * 1.5))
+    self:SetNextPrimaryFire(CurTime() + self.Primary.Delay * 1.5)
+    self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay * 1.5)
 end
 
 function SWEP:PreDrop()
@@ -107,7 +106,7 @@ if CLIENT then
     function SWEP:DrawHUD()
         local tr = self:GetOwner():GetEyeTrace(MASK_SHOT)
 
-        if tr.HitNonWorld and IsValid(tr.Entity) and tr.Entity:IsPlayer() and tr.Entity:Health() < (self.Primary.Damage + 10) then
+        if tr.HitNonWorld and IsValid(tr.Entity) and tr.Entity:IsPlayer() and tr.Entity:Health() < self.Primary.Damage + 10 then
             local x = ScrW() / 2.0
             local y = ScrH() / 2.0
             surface.SetDrawColor(255, 0, 0, 255)

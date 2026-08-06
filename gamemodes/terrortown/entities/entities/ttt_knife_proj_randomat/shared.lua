@@ -15,7 +15,6 @@ ENT.Weaponised = false
 ENT.CanHavePrints = false
 ENT.IsSilent = true
 ENT.CanPickup = false
-ENT.WeaponID = AMMO_KNIFE
 ENT.Damage = 50
 
 function ENT:Initialize()
@@ -77,7 +76,7 @@ function ENT:KillPlayer(other, tr)
     local norm = tr.Normal
     local ang = Angle(-28, 0, 0) + norm:Angle()
     ang:RotateAroundAxis(ang:Right(), -90)
-    pos = pos - (ang:Forward() * 8)
+    pos = pos - ang:Forward() * 8
     local knife = self
     local prints = self.fingerprints
 

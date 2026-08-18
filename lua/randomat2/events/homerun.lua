@@ -83,39 +83,38 @@ function EVENT:Begin()
         end
     end)
 
-    -- Continaully gives everyone bats
-    self:AddHook("Think", function()
-        for i, ply in pairs(self:GetAlivePlayers()) do
-            local activeWeapon = ply:GetActiveWeapon()
+    -- Continually gives everyone bats
+    self:AddHook("PlayerPostThink", function(ply)
+        if not ply:Alive() or ply:IsSpec() then return end
+        local activeWeapon = ply:GetActiveWeapon()
 
-            if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= GetConVar("randomat_homerun_weaponid"):GetString()) then
-                if strip then
-                    ply:StripWeapons()
-                    ply:SetFOV(0, 0.2)
-                end
-
-                local givenBat = ply:Give(GetConVar("randomat_homerun_weaponid"):GetString())
-
-                if givenBat then
-                    givenBat.AllowDrop = false
-                end
+        if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= GetConVar("randomat_homerun_weaponid"):GetString()) then
+            if strip then
+                ply:StripWeapons()
+                ply:SetFOV(0, 0.2)
             end
 
-            if IsValid(activeWeapon) and activeWeapon:GetClass() == GetConVar("randomat_homerun_weaponid"):GetString() then
-                activeWeapon:SetClip1(activeWeapon.Primary.ClipSize)
+            local givenBat = ply:Give(GetConVar("randomat_homerun_weaponid"):GetString())
+
+            if givenBat then
+                givenBat.AllowDrop = false
             end
+        end
+
+        if IsValid(activeWeapon) and activeWeapon:GetClass() == GetConVar("randomat_homerun_weaponid"):GetString() then
+            activeWeapon:SetClip1(activeWeapon.Primary.ClipSize)
         end
     end)
 
     -- Only allows players to pick up bats
-    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+    self:AddHook("PlayerCanPickupWeapon", function(_, wep)
         if not strip then return end
 
         return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_homerun_weaponid"):GetString()
     end)
 
     -- Prevents players from buying non-passive items
-    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+    self:AddHook("TTTCanOrderEquipment", function(ply, _, is_item)
         if not strip or not IsValid(ply) then return end
 
         if not is_item then
@@ -244,7 +243,9 @@ function EVENT:Begin()
         local chosenPlayermodels = {}
         table.Add(remainingPlayermodels, playerModelSets)
 
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
+
             -- But if all playermodels have been used, reset the pool of playermodels
             if table.IsEmpty(remainingPlayermodels) then
                 table.Add(remainingPlayermodels, playerModelSets)
@@ -272,22 +273,22 @@ function EVENT:Begin()
     end
 end
 
-function EVENT:End()
+function EVENT:End(isActive)
     timer.Remove("HomerunRoleChangeTimer")
 
-    for i, ent in ipairs(ents.FindByClass(GetConVar("randomat_homerun_weaponid"):GetString())) do
+    for _, ent in ipairs(ents.FindByClass(GetConVar("randomat_homerun_weaponid"):GetString())) do
         ent:Remove()
     end
 
     if strip then
-        for i, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in ipairs(self:GetAlivePlayers()) do
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")
             ply:Give("weapon_ttt_unarmed")
         end
     end
 
-    if catModelInstalled then
+    if isActive and catModelInstalled then
         Randomat:ForceResetAllPlayermodels()
     end
 end

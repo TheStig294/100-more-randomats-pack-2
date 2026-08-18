@@ -55,11 +55,12 @@ function EVENT:Begin()
     strip = GetConVar("randomat_donconnons_strip"):GetBool()
     local new_traitors = {}
 
-    for _, v in ipairs(self:GetAlivePlayers()) do
-        local _, new_traitor = self:HandleRoleWeapons(v)
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
+        local _, new_traitor = self:HandleRoleWeapons(ply)
 
         if new_traitor then
-            table.insert(new_traitors, v)
+            table.insert(new_traitors, ply)
         end
     end
 
@@ -107,13 +108,13 @@ function EVENT:Begin()
         end
     end)
 
-    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+    self:AddHook("PlayerCanPickupWeapon", function(_, wep)
         if not strip then return end
 
         return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_donconnons_weaponid"):GetString()
     end)
 
-    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+    self:AddHook("TTTCanOrderEquipment", function(ply, _, is_item)
         if not strip or not IsValid(ply) then return end
 
         if not is_item then
@@ -232,7 +233,9 @@ function EVENT:Begin()
         local chosenPlayermodels = {}
         table.Add(remainingPlayermodels, playerModelSets)
 
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
+
             -- But if all playermodels have been used, reset the pool of playermodels
             if table.IsEmpty(remainingPlayermodels) then
                 table.Add(remainingPlayermodels, playerModelSets)
@@ -261,66 +264,66 @@ function EVENT:Begin()
         -- Rainbow Doncon logic to change colours over time
         local rainbowPhase = 1
 
-        self:AddHook("Think", function()
-            for _, ply in ipairs(self:GetAlivePlayers()) do
-                if chosenPlayermodels[ply] == rainbowDoncon then
-                    local vector = ply:GetPlayerColor()
+        self:AddHook("PlayerPostThink", function(ply)
+            if not ply:Alive() or ply:IsSpec() then return end
 
-                    if rainbowPhase == 1 then
-                        vector.z = vector.z + (1 / 128)
+            if chosenPlayermodels[ply] == rainbowDoncon then
+                local vector = ply:GetPlayerColor()
 
-                        if vector.z + (1 / 128) > 1 then
-                            vector.z = 1
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 2 then
-                        vector.x = vector.x - (1 / 128)
+                if rainbowPhase == 1 then
+                    vector.z = vector.z + (1 / 128)
 
-                        if vector.x - (1 / 128) < 0 then
-                            vector.x = 0
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 3 then
-                        vector.y = vector.y + (1 / 128)
-
-                        if vector.y + (1 / 128) > 1 then
-                            vector.y = 1
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 4 then
-                        vector.z = vector.z - (1 / 128)
-
-                        if vector.z - (1 / 128) < 0 then
-                            vector.z = 0
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 5 then
-                        vector.x = vector.x + (1 / 128)
-
-                        if vector.x + (1 / 128) > 1 then
-                            vector.x = 1
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 6 then
-                        vector.y = vector.y - (1 / 128)
-
-                        if vector.y - (1 / 128) < 0 then
-                            vector.y = 0
-                            rainbowPhase = 1
-                        end
+                    if vector.z + (1 / 128) > 1 then
+                        vector.z = 1
+                        rainbowPhase = rainbowPhase + 1
                     end
+                elseif rainbowPhase == 2 then
+                    vector.x = vector.x - (1 / 128)
 
-                    ply:SetPlayerColor(vector)
+                    if vector.x - (1 / 128) < 0 then
+                        vector.x = 0
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 3 then
+                    vector.y = vector.y + (1 / 128)
+
+                    if vector.y + (1 / 128) > 1 then
+                        vector.y = 1
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 4 then
+                    vector.z = vector.z - (1 / 128)
+
+                    if vector.z - (1 / 128) < 0 then
+                        vector.z = 0
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 5 then
+                    vector.x = vector.x + (1 / 128)
+
+                    if vector.x + (1 / 128) > 1 then
+                        vector.x = 1
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 6 then
+                    vector.y = vector.y - (1 / 128)
+
+                    if vector.y - (1 / 128) < 0 then
+                        vector.y = 0
+                        rainbowPhase = 1
+                    end
                 end
+
+                ply:SetPlayerColor(vector)
             end
         end)
     end
 end
 
-function EVENT:End()
+function EVENT:End(isActive)
     timer.Remove("RandomatDonconnonsTimer")
 
-    if donconModelInstalled then
+    if isActive and donconModelInstalled then
         Randomat:ForceResetAllPlayermodels()
     end
 end

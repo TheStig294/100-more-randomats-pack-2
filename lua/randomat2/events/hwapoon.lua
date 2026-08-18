@@ -148,7 +148,9 @@ function EVENT:Begin()
         local chosenPlayermodels = {}
         table.Add(remainingPlayermodels, playerModelSets)
 
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
+
             -- But if all playermodels have been used, reset the pool of playermodels
             if table.IsEmpty(remainingPlayermodels) then
                 table.Add(remainingPlayermodels, playerModelSets)
@@ -177,64 +179,66 @@ function EVENT:Begin()
         -- Rainbow Lewis logic to change colours over time
         local rainbowPhase = 1
 
-        self:AddHook("Think", function()
-            for _, ply in ipairs(self:GetAlivePlayers()) do
-                if chosenPlayermodels[ply] == rainbowLewis then
-                    local vector = ply:GetPlayerColor()
+        self:AddHook("PlayerPostThink", function(ply)
+            if not ply:Alive() or ply:IsSpec() then return end
 
-                    if rainbowPhase == 1 then
-                        vector.z = vector.z + (1 / 128)
+            if chosenPlayermodels[ply] == rainbowLewis then
+                local vector = ply:GetPlayerColor()
 
-                        if vector.z + (1 / 128) > 1 then
-                            vector.z = 1
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 2 then
-                        vector.x = vector.x - (1 / 128)
+                if rainbowPhase == 1 then
+                    vector.z = vector.z + (1 / 128)
 
-                        if vector.x - (1 / 128) < 0 then
-                            vector.x = 0
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 3 then
-                        vector.y = vector.y + (1 / 128)
-
-                        if vector.y + (1 / 128) > 1 then
-                            vector.y = 1
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 4 then
-                        vector.z = vector.z - (1 / 128)
-
-                        if vector.z - (1 / 128) < 0 then
-                            vector.z = 0
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 5 then
-                        vector.x = vector.x + (1 / 128)
-
-                        if vector.x + (1 / 128) > 1 then
-                            vector.x = 1
-                            rainbowPhase = rainbowPhase + 1
-                        end
-                    elseif rainbowPhase == 6 then
-                        vector.y = vector.y - (1 / 128)
-
-                        if vector.y - (1 / 128) < 0 then
-                            vector.y = 0
-                            rainbowPhase = 1
-                        end
+                    if vector.z + (1 / 128) > 1 then
+                        vector.z = 1
+                        rainbowPhase = rainbowPhase + 1
                     end
+                elseif rainbowPhase == 2 then
+                    vector.x = vector.x - (1 / 128)
 
-                    ply:SetPlayerColor(vector)
+                    if vector.x - (1 / 128) < 0 then
+                        vector.x = 0
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 3 then
+                    vector.y = vector.y + (1 / 128)
+
+                    if vector.y + (1 / 128) > 1 then
+                        vector.y = 1
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 4 then
+                    vector.z = vector.z - (1 / 128)
+
+                    if vector.z - (1 / 128) < 0 then
+                        vector.z = 0
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 5 then
+                    vector.x = vector.x + (1 / 128)
+
+                    if vector.x + (1 / 128) > 1 then
+                        vector.x = 1
+                        rainbowPhase = rainbowPhase + 1
+                    end
+                elseif rainbowPhase == 6 then
+                    vector.y = vector.y - (1 / 128)
+
+                    if vector.y - (1 / 128) < 0 then
+                        vector.y = 0
+                        rainbowPhase = 1
+                    end
                 end
+
+                ply:SetPlayerColor(vector)
             end
         end)
     end
 end
 
-function EVENT:End()
-    Randomat:ForceResetAllPlayermodels()
+function EVENT:End(isActive)
+    if isActive then
+        Randomat:ForceResetAllPlayermodels()
+    end
 end
 
 function EVENT:Condition()

@@ -273,7 +273,7 @@ function EVENT:Begin()
     end
 end
 
-function EVENT:End(isActive)
+function EVENT:End()
     timer.Remove("HomerunRoleChangeTimer")
 
     for _, ent in ipairs(ents.FindByClass(GetConVar("randomat_homerun_weaponid"):GetString())) do
@@ -288,7 +288,7 @@ function EVENT:End(isActive)
         end
     end
 
-    if isActive and catModelInstalled then
+    if catModelInstalled then
         Randomat:ForceResetAllPlayermodels()
     end
 end

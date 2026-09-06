@@ -320,10 +320,10 @@ function EVENT:Begin()
     end
 end
 
-function EVENT:End(isActive)
+function EVENT:End()
     timer.Remove("RandomatDonconnonsTimer")
 
-    if isActive and donconModelInstalled then
+    if donconModelInstalled then
         Randomat:ForceResetAllPlayermodels()
     end
 end

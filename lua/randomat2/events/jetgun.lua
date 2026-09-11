@@ -22,7 +22,6 @@ function EVENT:HandleRoleWeapons(ply)
     if Randomat:IsMeleeDamageRole(ply) then
         Randomat:SetRole(ply, ROLE_INNOCENT)
         ply:ChatPrint("Your role was incompatible with the \"" .. self.Title .. "\" randomat as was changed")
-        self:StripRoleWeapons(ply)
 
         return true
     end

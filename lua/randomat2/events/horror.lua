@@ -136,8 +136,6 @@ function EVENT:Begin()
         ply:Flashlight(true)
         -- Reset FOV to unscope
         ply:SetFOV(0, 0.2)
-        -- Role weapons were stripped earlier, but just in case there are some that don't use WEAPON_ROLE...
-        self:StripRoleWeapons(ply)
 
         -- Turn the traitors into killers
         -- Gives the killer(s) extra health, an invisibility cloak, and shows hints in the centre of the screen

@@ -54,7 +54,6 @@ function EVENT:Begin(filter_class)
 
     for _, ply in ipairs(self:GetAlivePlayers()) do
         if Randomat:IsBodyDependentRole(ply) then
-            self:StripRoleWeapons(ply)
             local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
 
             if isTraitor then
@@ -74,7 +73,6 @@ function EVENT:Begin(filter_class)
         timer.Create(victim:SteamID64() .. "RdmtJesterTimer", 0.25, 1, function()
             if not filter_class or (IsValid(killer) and killer:GetClass() == filter_class) then
                 JesterfyPlayer(victim, false, pos)
-                self:StripRoleWeapons(victim)
                 SendFullStateUpdate()
             end
         end)

@@ -69,14 +69,12 @@ function EVENT:Begin()
     for i, ply in pairs(alivePlys) do
         -- Set the chosen player to be the first zombie,
         if ply == firstInfectedPlayer then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_ZOMBIE)
             -- And set them to be the zombie prime so they can be given the throwing knife
             ply:SetNWBool("zombie_prime", true)
             ply:Give("weapon_ttt_knife_randomat")
         else
             -- Else, set everyone else to be innocent
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_INNOCENT)
         end
     end

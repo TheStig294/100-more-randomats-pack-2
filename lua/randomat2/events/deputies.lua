@@ -9,11 +9,9 @@ function EVENT:Begin()
     for k, ply in pairs(self:GetAlivePlayers()) do
         -- True argument is to skip the detective
         if Randomat:IsInnocentTeam(ply, true) then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_DEPUTY)
             ply:SetDefaultCredits()
         elseif Randomat:IsTraitorTeam(ply) then
-            self:StripRoleWeapons(ply)
             Randomat:SetRole(ply, ROLE_IMPERSONATOR)
             ply:SetDefaultCredits()
         end

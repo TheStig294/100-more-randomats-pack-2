@@ -31,14 +31,11 @@ function EVENT:Begin()
     -- Pick a random innocent and set them to the killer, if there isn't one already
     if killer == nil then
         killer = innocent[math.random(#innocent)]
-        self:StripRoleWeapons(killer)
         Randomat:SetRole(killer, ROLE_KILLER)
         killer:SetDefaultCredits()
         SetRoleHealth(killer)
         -- Let the end-of-round scoreboard know roles have changed
         SendFullStateUpdate()
-        -- Give the killer their loadout weapons
-        hook.Run("PlayerLoadout", killer)
     end
 end
 

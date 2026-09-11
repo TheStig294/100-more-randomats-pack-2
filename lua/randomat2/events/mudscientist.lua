@@ -24,7 +24,6 @@ function EVENT:Begin()
     GetConVar("ttt_oldman_adrenaline_rush"):SetInt(0)
     -- Changed name of old man to mud scientist in net message
     local mudScientist = self:GetAlivePlayers(true)[1]
-    self:StripRoleWeapons(mudScientist)
     mudScientist:SetRole(ROLE_OLDMAN)
 
     -- Set Mud Scientist to a Monkey playermodel if installed

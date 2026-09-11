@@ -20,7 +20,6 @@ function EVENT:Begin()
 
     for _, ply in ipairs(alivePlys) do
         local message
-        self:StripRoleWeapons(ply)
 
         if not madScientistChosen and not Randomat:IsTraitorTeam(ply) then
             Randomat:SetRole(ply, ROLE_MADSCIENTIST)

@@ -33,7 +33,6 @@ function EVENT:Begin()
             if ply:GetRole() == ROLE_DETECTIVE or (GetConVar("ttt_detectives_hide_special_mode"):GetInt() ~= 0 and Randomat:IsGoodDetectiveLike(ply)) then
                 -- If the detraitor exists, use it, as the impersonator doesn't exist on that version of Custom Roles
                 if isDetraitor then
-                    self:StripRoleWeapons(ply)
                     Randomat:SetRole(ply, ROLE_DETRAITOR)
 
                     timer.Simple(1, function()
@@ -43,7 +42,6 @@ function EVENT:Begin()
                     break
                 else
                     -- Else if the latest version of Custom Roles is being used, set them to an impersonator
-                    self:StripRoleWeapons(ply)
                     Randomat:SetRole(ply, ROLE_IMPERSONATOR)
                     -- And promote them to a detective
                     ply:SetNWBool("HasPromotion", true)

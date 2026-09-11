@@ -20,8 +20,6 @@ function EVENT:Begin()
 
     -- Set the detective and traitor to their vanilla variants so they have the most chance of actually having giftable items in their buy menus
     for _, ply in ipairs(self:GetAlivePlayers(true)) do
-        self:StripRoleWeapons(ply)
-
         if not detective and ply ~= traitor then
             detective = ply
             Randomat:SetRole(ply, ROLE_DETECTIVE)

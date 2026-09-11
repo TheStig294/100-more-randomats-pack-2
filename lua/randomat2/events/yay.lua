@@ -24,7 +24,6 @@ function EVENT:Begin()
     if not clown then
         for i, ply in ipairs(self:GetAlivePlayers(true)) do
             if ply:GetRole() ~= ROLE_JESTER and not Randomat:IsTraitorTeam(ply) then
-                self:StripRoleWeapons(ply)
                 Randomat:SetRole(ply, ROLE_CLOWN)
                 ply:SetCredits(GetConVar("ttt_clown_credits_starting"):GetInt())
                 break
@@ -35,7 +34,6 @@ function EVENT:Begin()
     if not jester then
         for i, ply in ipairs(self:GetAlivePlayers(true)) do
             if ply:GetRole() ~= ROLE_CLOWN and not Randomat:IsTraitorTeam(ply) then
-                self:StripRoleWeapons(ply)
                 Randomat:SetRole(ply, ROLE_JESTER)
                 break
             end

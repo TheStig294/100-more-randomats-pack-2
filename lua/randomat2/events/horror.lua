@@ -81,7 +81,6 @@ local function SetToKiller(ply)
 end
 
 function EVENT:Begin()
-    horrorRandomat = true
     -- Draws screen effects to hinder each player's view and plays music if enabled
     engine.LightStyle(0, "a")
     net.Start("randomat_horror")
@@ -122,7 +121,7 @@ function EVENT:Begin()
     end
 
     -- Removes all role and shop weapons
-    for _, ent in ipairs(ents.GetAll()) do
+    for _, ent in ents.Iterator() do
         if ent.Kind and ent.Kind >= WEAPON_EQUIP1 then
             ent:Remove()
         end
@@ -258,34 +257,33 @@ function EVENT:Begin()
     end)
 end
 
-function EVENT:End()
+function EVENT:End(isActive)
     -- Checking if the randomat has run before trying to end the event, else causes an error
-    if horrorRandomat then
-        horrorRandomat = false
-        EVENT.Title = ""
+    if not isActive then return end
+    EVENT.Title = ""
 
-        -- Resetting the killer crowbar convar to what is was before the event triggered
-        if not crowbarCvar:GetBool() then
-            GetConVar("ttt_killer_crowbar_enabled"):SetBool(killerCrowbar)
-        end
+    -- Resetting the killer crowbar convar to what is was before the event triggered
+    if not crowbarCvar:GetBool() then
+        GetConVar("ttt_killer_crowbar_enabled"):SetBool(killerCrowbar)
+    end
 
-        -- Playing ending sound if music was enabled
-        net.Start("randomat_horror_end")
-        net.Broadcast()
+    -- Playing ending sound if music was enabled
+    net.Start("randomat_horror_end")
+    net.Broadcast()
+
+    for _, ply in player.Iterator() do
+        ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
+    end
+
+    -- Resets map lighting and turns everyone's flashlight off
+    timer.Simple(5, function()
+        engine.LightStyle(0, "m")
 
         for _, ply in player.Iterator() do
-            ply:SetNWInt("HorrorRandomatSpectatorPower", 0)
+            if not ply:Alive() or ply:IsSpec() then continue end
+            ply:Flashlight(false)
         end
-
-        -- Resets map lighting and turns everyone's flashlight off
-        timer.Simple(5, function()
-            engine.LightStyle(0, "m")
-
-            for _, ply in ipairs(self:GetAlivePlayers()) do
-                ply:Flashlight(false)
-            end
-        end)
-    end
+    end)
 end
 
 -- This event can only run if the "killer" role exists

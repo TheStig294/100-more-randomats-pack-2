@@ -7,8 +7,8 @@ EVENT.Type = {EVENT_TYPE_RESPAWN}
 
 EVENT.Categories = {"rolechange", "deathtrigger", "largeimpact"}
 
-CreateConVar("randomat_jokesonyou_health", 100, FCVAR_NONE, "The health that the Jesters respawn with", 1, 200)
-CreateConVar("randomat_jokesonyou_include_dead", 1, FCVAR_NONE, "Whether to resurrect dead players at the start")
+local healthCvar = CreateConVar("randomat_jokesonyou_health", 100, FCVAR_NONE, "The health that the Jesters respawn with", 1, 200)
+local includeDeadCvar = CreateConVar("randomat_jokesonyou_include_dead", 1, FCVAR_NONE, "Whether to resurrect dead players at the start")
 
 local function JesterfyPlayer(ply, skip_missing_corpse, pos)
     local body = ply.server_ragdoll or ply:GetRagdollEntity()
@@ -21,8 +21,8 @@ local function JesterfyPlayer(ply, skip_missing_corpse, pos)
         ply:SetPos(pos)
     end
 
-    ply:SetHealth(GetConVar("randomat_jokesonyou_health"):GetInt())
-    ply:SetMaxHealth(GetConVar("randomat_jokesonyou_health"):GetInt())
+    ply:SetHealth(healthCvar:GetInt())
+    ply:SetMaxHealth(includeDeadCvar:GetInt())
 
     if IsValid(body) then
         ply:SetEyeAngles(Angle(0, body:GetAngles().y, 0))
@@ -50,23 +50,11 @@ function EVENT:Begin(filter_class)
         end
     end
 
-    local new_traitors = {}
-
-    for _, ply in ipairs(self:GetAlivePlayers()) do
-        if Randomat:IsBodyDependentRole(ply) then
-            local isTraitor = Randomat:SetToBasicRole(ply, "Traitor", true)
-
-            if isTraitor then
-                table.insert(new_traitors, ply)
-            end
-        end
-    end
-
+    local _, _, new_traitors = Randomat:BalanceTeams()
     -- Send message to the traitor team if new traitors joined
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-    SendFullStateUpdate()
 
-    self:AddHook("PlayerDeath", function(victim, entity, killer)
+    self:AddHook("PlayerDeath", function(victim, _, killer)
         if not IsValid(victim) then return end
         local pos = victim:GetPos()
 
@@ -80,8 +68,8 @@ function EVENT:Begin(filter_class)
 end
 
 function EVENT:End()
-    for _, v in ipairs(player.GetAll()) do
-        timer.Remove(v:SteamID64() .. "RdmtJesterTimer")
+    for _, ply in player.Iterator() do
+        timer.Remove(ply:SteamID64() .. "RdmtJesterTimer")
     end
 end
 

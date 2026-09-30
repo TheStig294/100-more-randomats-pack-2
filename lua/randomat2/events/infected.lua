@@ -66,7 +66,7 @@ function EVENT:Begin()
     local alivePlys = self:GetAlivePlayers(true)
     local firstInfectedPlayer = alivePlys[1]
 
-    for i, ply in pairs(alivePlys) do
+    for _, ply in ipairs(alivePlys) do
         -- Set the chosen player to be the first zombie,
         if ply == firstInfectedPlayer then
             Randomat:SetRole(ply, ROLE_ZOMBIE)

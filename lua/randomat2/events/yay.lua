@@ -10,9 +10,10 @@ util.AddNetworkString("YayRandomatActivate")
 function EVENT:Begin()
     local clown = false
     local jester = false
+    local alivePlys = self:GetAlivePlayers(true)
 
     -- If there is a clown or jester already then there is no need to turn someone into one
-    for k, ply in pairs(self:GetAlivePlayers()) do
+    for _, ply in ipairs(alivePlys) do
         if ply:GetRole() == ROLE_CLOWN then
             clown = ply
         elseif ply:GetRole() == ROLE_JESTER then
@@ -22,7 +23,7 @@ function EVENT:Begin()
 
     -- Else, turn someone into either a jester or clown
     if not clown then
-        for i, ply in ipairs(self:GetAlivePlayers(true)) do
+        for _, ply in ipairs(alivePlys) do
             if ply:GetRole() ~= ROLE_JESTER and not Randomat:IsTraitorTeam(ply) then
                 Randomat:SetRole(ply, ROLE_CLOWN)
                 ply:SetCredits(GetConVar("ttt_clown_credits_starting"):GetInt())
@@ -32,7 +33,7 @@ function EVENT:Begin()
     end
 
     if not jester then
-        for i, ply in ipairs(self:GetAlivePlayers(true)) do
+        for _, ply in ipairs(alivePlys) do
             if ply:GetRole() ~= ROLE_CLOWN and not Randomat:IsTraitorTeam(ply) then
                 Randomat:SetRole(ply, ROLE_JESTER)
                 break
@@ -53,13 +54,13 @@ end
 function EVENT:Condition()
     local nonTraitorCount = 0
 
-    for i, ply in ipairs(self:GetAlivePlayers()) do
-        if not Randomat:IsTraitorTeam(ply) then
+    for _, ply in player.Iterator() do
+        if ply:Alive() and not ply:IsSpec() and not Randomat:IsTraitorTeam(ply) then
             nonTraitorCount = nonTraitorCount + 1
         end
     end
 
-    return CR_VERSION and CRVersion("1.3.1") and GetConVar("ttt_clown_enabled"):GetBool() and GetConVar("ttt_jester_enabled"):GetBool() and nonTraitorCount >= 3
+    return cvars.Bool("ttt_clown_enabled", false) and cvars.Bool("ttt_jester_enabled", false) and nonTraitorCount >= 3
 end
 
 Randomat:register(EVENT)

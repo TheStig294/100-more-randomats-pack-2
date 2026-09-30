@@ -6,7 +6,9 @@ EVENT.id = "deputies"
 EVENT.Categories = {"biased_innocent", "biased", "rolechange", "largeimpact"}
 
 function EVENT:Begin()
-    for k, ply in pairs(self:GetAlivePlayers()) do
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
+
         -- True argument is to skip the detective
         if Randomat:IsInnocentTeam(ply, true) then
             Randomat:SetRole(ply, ROLE_DEPUTY)
@@ -25,7 +27,9 @@ function EVENT:Condition()
     local innocentCount = 0
     local traitorCount = 0
 
-    for i, ply in ipairs(self:GetAlivePlayers()) do
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
+
         if Randomat:IsInnocentTeam(ply, true) then
             innocentCount = innocentCount + 1
         end

@@ -1,30 +1,18 @@
 local EVENT = {}
-local strip = CreateConVar("randomat_jetgun_strip", 1, FCVAR_NONE, "The event strips your other weapons", 0, 1)
-CreateConVar("randomat_jetgun_overheat_delay", 10, FCVAR_NONE, "Seconds until given a new jetgun after overheating", 1, 30)
 EVENT.Title = "Suck it!"
 EVENT.Description = "Jetguns for all!"
 EVENT.id = "jetgun"
 
 EVENT.Categories = {"item", "largeimpact"}
 
-strip = strip:GetBool()
+local stripCvar = CreateConVar("randomat_jetgun_strip", 1, FCVAR_NONE, "The event strips your other weapons", 0, 1)
+local overheatDelayCvar = CreateConVar("randomat_jetgun_overheat_delay", 10, FCVAR_NONE, "Seconds until given a new jetgun after overheating", 1, 30)
+local strip = stripCvar:GetBool()
 
 if strip then
     EVENT.Description = "Jetguns only!"
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")
-end
-
-function EVENT:HandleRoleWeapons(ply)
-    if not strip then return end
-
-    -- Convert all zombie-like roles to innocents so we don't have to worry about fighting with special weapon replacement logic
-    if Randomat:IsMeleeDamageRole(ply) then
-        Randomat:SetRole(ply, ROLE_INNOCENT)
-        ply:ChatPrint("Your role was incompatible with the \"" .. self.Title .. "\" randomat as was changed")
-
-        return true
-    end
 end
 
 function EVENT:GiveJetgun(ply)
@@ -45,7 +33,7 @@ function EVENT:GiveJetgun(ply)
 end
 
 function EVENT:Begin()
-    strip = GetConVar("randomat_jetgun_strip"):GetBool()
+    strip = stripCvar:GetBool()
 
     if strip then
         self.Description = "Jetguns only!"
@@ -54,28 +42,13 @@ function EVENT:Begin()
     end
 
     -- Removing role weapons and changing problematic roles to basic ones
-    for _, v in ipairs(self:GetAlivePlayers()) do
-        self:HandleRoleWeapons(v)
-        self:GiveJetgun(v)
+    local _, _, new_traitors = Randomat:BalanceTeams()
+    self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
+
+    for _, ply in player.Iterator() do
+        if not ply:Alive() or ply:IsSpec() then continue end
+        self:GiveJetgun(ply)
     end
-
-    SendFullStateUpdate()
-
-    timer.Create("jetgunRoleChangeTimer", 1, 0, function()
-        local updated = false
-
-        for _, ply in ipairs(self:GetAlivePlayers()) do
-            -- Workaround the case where people can respawn as Zombies while this is running
-            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
-            updated = updated or updatedPly
-        end
-
-        -- If anyone's role changed, send the update
-        -- If anyone became a traitor, notify all other traitors
-        if updated then
-            SendFullStateUpdate()
-        end
-    end)
 
     self:AddHook("PlayerDroppedWeapon", function(owner, wep)
         if not owner:Alive() or owner:IsSpec() then return end
@@ -91,7 +64,7 @@ function EVENT:Begin()
             end
 
             -- Else, give them back a jetgun after a delay
-            timer.Create(owner:SteamID64() .. "RandomatGiveJetgunTimer", 1, GetConVar("randomat_jetgun_overheat_delay"):GetInt(), function()
+            timer.Create(owner:SteamID64() .. "RandomatGiveJetgunTimer", 1, overheatDelayCvar:GetInt(), function()
                 if not IsPlayer(owner) then
                     timer.Remove(owner:SteamID64() .. "RandomatGiveJetgunTimer")
 
@@ -107,7 +80,7 @@ function EVENT:Begin()
         end
     end)
 
-    self:AddHook("PlayerCanPickupWeapon", function(ply, wep)
+    self:AddHook("PlayerCanPickupWeapon", function(_, wep)
         if not strip then return end
         if not IsValid(wep) then return false end
         local class = WEPS.GetClass(wep)
@@ -115,7 +88,7 @@ function EVENT:Begin()
         return class == "tfa_jetgun" or class == "weapon_ttt_unarmed"
     end)
 
-    self:AddHook("TTTCanOrderEquipment", function(ply, id, is_item)
+    self:AddHook("TTTCanOrderEquipment", function(ply, _, is_item)
         if not strip or not IsValid(ply) then return end
 
         if not is_item then
@@ -140,12 +113,13 @@ function EVENT:End()
         timer.Remove(ply:SteamID64() .. "RandomatGiveJetgunTimer")
     end
 
-    for i, ent in ipairs(ents.FindByClass("tfa_jetgun")) do
+    for _, ent in ipairs(ents.FindByClass("tfa_jetgun")) do
         ent:Remove()
     end
 
     if strip then
-        for i, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")
             ply:Give("weapon_ttt_unarmed")

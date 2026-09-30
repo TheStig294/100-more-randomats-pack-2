@@ -1,12 +1,12 @@
 local EVENT = {}
-local strip = CreateConVar("randomat_homerun_strip", 1, FCVAR_NONE, "The event strips your other weapons")
-CreateConVar("randomat_homerun_weaponid", "weapon_ttt_homebat", FCVAR_NONE, "Id of the weapon given")
 EVENT.Title = "Home Run!"
 EVENT.Description = "Homerun bats only!"
 EVENT.id = "homerun"
 
 EVENT.Categories = {"item", "biased_innocent", "biased", "largeimpact"}
 
+local stripCvar = CreateConVar("randomat_homerun_strip", 1, FCVAR_NONE, "The event strips your other weapons")
+local weaponidCvar = CreateConVar("randomat_homerun_weaponid", "weapon_ttt_homebat", FCVAR_NONE, "Id of the weapon given")
 local catModel1 = "models/Luria/Night_in_the_Woods/Playermodels/Mae.mdl"
 local catModel2 = "models/Luria/Night_in_the_Woods/Playermodels/Mae_Astral.mdl"
 local catModelInstalled = util.IsValidModel(catModel1) and util.IsValidModel(catModel2)
@@ -17,86 +17,37 @@ if catModelInstalled then
     table.insert(EVENT.Categories, "modelchange")
 end
 
-strip = strip:GetBool()
+local strip = stripCvar:GetBool()
 
 if strip then
     EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
     table.insert(EVENT.Categories, "rolechange")
 end
 
-function EVENT:HandleRoleWeapons(ply)
-    if not strip then return end
-    local updated = false
-    local changing_teams = Randomat:IsMonsterTeam(ply) or Randomat:IsIndependentTeam(ply)
-
-    -- Convert all bad guys to traitors so we don't have to worry about fighting with special weapon replacement logic
-    if (Randomat:IsTraitorTeam(ply) and ply:GetRole() ~= ROLE_TRAITOR) or changing_teams then
-        Randomat:SetRole(ply, ROLE_TRAITOR)
-        updated = true
-    elseif Randomat:IsJesterTeam(ply) then
-        Randomat:SetRole(ply, ROLE_INNOCENT)
-        updated = true
-    end
-
-    return updated, changing_teams
-end
-
 function EVENT:Begin()
-    strip = GetConVar("randomat_homerun_strip"):GetBool()
-    local new_traitors = {}
-
-    for _, v in ipairs(self:GetAlivePlayers()) do
-        local _, new_traitor = self:HandleRoleWeapons(v)
-
-        if new_traitor then
-            table.insert(new_traitors, v)
-        end
-    end
-
-    SendFullStateUpdate()
+    strip = stripCvar:GetBool()
+    local _, _, new_traitors = Randomat:BalanceTeams()
     self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-
-    timer.Create("HomerunRoleChangeTimer", 1, 0, function()
-        local updated = false
-        new_traitors = {}
-
-        for _, ply in ipairs(self:GetAlivePlayers()) do
-            -- Workaround the case where people can respawn as Zombies while this is running
-            updatedPly, new_traitor = self:HandleRoleWeapons(ply)
-            updated = updated or updatedPly
-
-            if new_traitor then
-                table.insert(new_traitors, ply)
-            end
-        end
-
-        -- If anyone's role changed, send the update
-        -- If anyone became a traitor, notify all other traitors
-        if updated then
-            SendFullStateUpdate()
-            self:NotifyTeamChange(new_traitors, ROLE_TEAM_TRAITOR)
-        end
-    end)
 
     -- Continually gives everyone bats
     self:AddHook("PlayerPostThink", function(ply)
         if not ply:Alive() or ply:IsSpec() then return end
         local activeWeapon = ply:GetActiveWeapon()
 
-        if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= GetConVar("randomat_homerun_weaponid"):GetString()) then
+        if #ply:GetWeapons() ~= 1 or (IsValid(activeWeapon) and activeWeapon:GetClass() ~= weaponidCvar:GetString()) then
             if strip then
                 ply:StripWeapons()
                 ply:SetFOV(0, 0.2)
             end
 
-            local givenBat = ply:Give(GetConVar("randomat_homerun_weaponid"):GetString())
+            local givenBat = ply:Give(weaponidCvar:GetString())
 
             if givenBat then
                 givenBat.AllowDrop = false
             end
         end
 
-        if IsValid(activeWeapon) and activeWeapon:GetClass() == GetConVar("randomat_homerun_weaponid"):GetString() then
+        if IsValid(activeWeapon) and activeWeapon:GetClass() == weaponidCvar:GetString() then
             activeWeapon:SetClip1(activeWeapon.Primary.ClipSize)
         end
     end)
@@ -105,7 +56,7 @@ function EVENT:Begin()
     self:AddHook("PlayerCanPickupWeapon", function(_, wep)
         if not strip then return end
 
-        return IsValid(wep) and WEPS.GetClass(wep) == GetConVar("randomat_homerun_weaponid"):GetString()
+        return IsValid(wep) and WEPS.GetClass(wep) == weaponidCvar:GetString()
     end)
 
     -- Prevents players from buying non-passive items
@@ -271,12 +222,13 @@ end
 function EVENT:End()
     timer.Remove("HomerunRoleChangeTimer")
 
-    for _, ent in ipairs(ents.FindByClass(GetConVar("randomat_homerun_weaponid"):GetString())) do
+    for _, ent in ipairs(ents.FindByClass(weaponidCvar:GetString())) do
         ent:Remove()
     end
 
     if strip then
-        for _, ply in ipairs(self:GetAlivePlayers()) do
+        for _, ply in player.Iterator() do
+            if not ply:Alive() or ply:IsSpec() then continue end
             ply:Give("weapon_zm_improvised")
             ply:Give("weapon_zm_carry")
             ply:Give("weapon_ttt_unarmed")
@@ -294,7 +246,7 @@ function EVENT:Condition()
         if ply.IsFaker and ply:IsFaker() then return false end
     end
 
-    return weapons.Get(GetConVar("randomat_homerun_weaponid"):GetString()) ~= nil
+    return weapons.Get(weaponidCvar:GetString()) ~= nil
 end
 
 function EVENT:GetConVars()

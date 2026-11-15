@@ -12,9 +12,6 @@ util.AddNetworkString("YogsMurderRandomatEnd")
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
-    -- Trigger the murder randomat
-    Randomat:SilentTriggerEvent("murder", self.owner)
-
     -- After 1 second, start the special popup and sound for all players
     timer.Simple(1, function()
         net.Start("YogsMurderRandomat")
@@ -30,14 +27,8 @@ function EVENT:Begin()
         net.Start("YogsMurderRandomatEnd")
         net.Broadcast()
 
-        -- And give a hint to all players on what to do during the murder randomat
-        for i, ply in pairs(self:GetPlayers()) do
-            if Randomat:IsTraitorTeam(ply) then
-                ply:ChatPrint("Kill innocents quickly before they start getting guns! \nDetectives start with one...")
-            else
-                ply:ChatPrint("Gather guns for a revolver! \nAll traitors have knives...")
-            end
-        end
+        -- Trigger the murder randomat
+        Randomat:SilentTriggerEvent("murder", self.owner)
     end)
 end
 
